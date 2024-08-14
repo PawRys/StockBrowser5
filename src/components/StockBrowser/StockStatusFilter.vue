@@ -19,7 +19,7 @@ function toggleInventoryFilter(item: string) {
 </script>
 
 <template>
-  <section class="status-filter-panel">
+  <section class="product-status-filter">
     <button
       class="button switch tight"
       :class="{ active: isActive.match(/brak|nadmiar/) }"
@@ -50,7 +50,7 @@ function toggleInventoryFilter(item: string) {
 </template>
 
 <style scoped>
-.status-filter-panel {
+.product-status-filter {
   display: flex;
   gap: 0.5ch;
 }

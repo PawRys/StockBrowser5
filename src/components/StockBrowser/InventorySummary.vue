@@ -60,7 +60,7 @@ const isActive = computed(() => useFilterStore().inventoryFilter)
 </script>
 
 <template>
-  <section>
+  <section class="product-summary">
     <hr />
     <ul>
       <li class="summary">

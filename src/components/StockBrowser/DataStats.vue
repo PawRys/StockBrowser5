@@ -17,7 +17,7 @@ function daysDiffWord() {
 </script>
 
 <template>
-  <section>
+  <section class="data-status">
     <span>Magazyn: </span>
     <span :class="{ 'red-bg': useStockStore().warehause === 'Wszystkie' }">
       {{ `${useStockStore().warehause || 'null'}` }}

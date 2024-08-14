@@ -2,6 +2,7 @@
   font-family: Rajdhani, sans-serif;
 
   --main-color: cornflowerblue;
+  --main-color: steelblue;
   --toned-color: lightsteelblue;
   --light-color: aliceblue;
 
@@ -90,7 +91,7 @@ hr {
   background-color: var(--light-color);
   border: none;
   border-block: solid 2px var(--toned-color);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 :is(button, .button):hover:not(:disabled) {

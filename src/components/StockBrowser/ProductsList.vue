@@ -15,7 +15,7 @@ const reactiveItems = computed(() =>
 )
 </script>
 <template>
-  <ul>
+  <ul class="product-list">
     <ListItem
       v-for="(item, index) in reactiveItems"
       :key="escapeNonword(item.value.id)"

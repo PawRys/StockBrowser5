@@ -25,7 +25,7 @@ function sortuj(param: string): void {
 </script>
 
 <template>
-  <section>
+  <section class="product-sorting">
     <h3>Sortowanie</h3>
     <template v-for="st in sortingTable" :key="st.column">
       <button @click="sortuj(st.column)">

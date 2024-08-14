@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useStockStore } from '@/stores/stockStore'
 import { useFilterStore } from '@/stores/filterStore'
@@ -104,11 +104,19 @@ function checkSibling(ev: Event): void {
     prevSibling.checked = true
   }
 }
+
+const appliedFiltersCount = computed(() => {
+  return Object.keys(filterStore.attrFilter ?? {}).reduce((acc, item) => {
+    return (
+      acc + (filterStore.attrFilter?.[item as keyof typeof filterStore.attrFilter]?.length ?? 0)
+    )
+  }, 0)
+})
 </script>
 
 <template>
-  <section class="filter" :key="refreshComponent">
-    <section class="window__controls">
+  <section class="product-filter" :key="refreshComponent">
+    <section class="filter-window__controls">
       <button class="button cta" @click="toggleCheck('filter__toggle')">
         <i class="bi bi-search"></i>
         <span>Filtry</span>
@@ -123,10 +131,10 @@ function checkSibling(ev: Event): void {
       <span class="filter-count">{{ `Wyników: ${stockItems.length}` }}</span>
     </section>
 
-    <section class="filter__window">
+    <section class="filter-window">
       <input id="filter__toggle" type="checkbox" hidden />
 
-      <header class="window__header">
+      <header class="filter-window__header">
         <div>
           <!-- empty div -->
         </div>
@@ -191,11 +199,12 @@ function checkSibling(ev: Event): void {
         </fieldset>
       </form>
 
-      <footer class="window__footer">
+      <footer class="filter-window__footer">
         <button @click="filterStore.prevFilter" :disabled="filterStore.currentFilterIndex <= 0">
           <i class="bi bi-arrow-counterclockwise"></i>
           <span>{{ filterStore.currentFilterIndex }}</span>
         </button>
+
         <button
           @click="filterStore.nextFilter"
           :disabled="filterStore.currentFilterIndex >= filterStore.filterHistory.length - 1"
@@ -203,8 +212,13 @@ function checkSibling(ev: Event): void {
           <i class="bi bi-arrow-clockwise"></i>
           <span>{{ filterStore.filterHistory.length - 1 - filterStore.currentFilterIndex }}</span>
         </button>
+
         <button type="reset" @click="filterStore.resetAllFilters">
-          <i class="bi bi-trash3"></i><span>Usuń wszystkie</span>
+          <i class="bi bi-trash3"></i>
+          <!-- <span>{{ `(${filterStore.attrFilter})` }}</span> -->
+          <span>{{ `(${appliedFiltersCount})` }}</span>
+          <!-- <span>{{ `(${Object.keys(filterStore.attrFilter).length})` }}</span> -->
+          <!-- <span>Usuń wszystkie</span> -->
         </button>
 
         <button
@@ -224,20 +238,44 @@ function checkSibling(ev: Event): void {
 body:has(#filter__toggle:checked) {
   overflow: hidden;
 }
+body:has(#filter__toggle:checked) .product-filter ~ * {
+  display: none;
+}
 </style>
 
 <style scoped>
-.window__controls {
+.filter-window {
+  display: none;
+}
+
+.filter-window:has(#filter__toggle:checked) {
+  position: fixed;
+  z-index: 999999;
+  inset: 0;
+  overflow: auto;
+
+  display: grid;
+  justify-items: center;
+  place-content: center;
+  /* grid-template-rows: auto auto 1fr auto; */
+
+  padding: 1ch;
+  max-height: 100vh;
+  max-height: 100svh;
+  background-color: var(--bg-color);
+}
+
+.filter-window__controls {
   display: flex;
   align-items: center;
   gap: 0.5ch;
 }
 
-.window__controls .filter-count {
+.filter-window__controls .filter-count {
   font-weight: 700;
 }
 
-.window__header {
+.filter-window__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -245,38 +283,18 @@ body:has(#filter__toggle:checked) {
   width: 100%;
 }
 
-.window__header .close-button {
+.filter-window__header .close-button {
   font-size: 1.5rem;
   cursor: pointer;
 }
 
-.window__footer {
+.filter-window__footer {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 1ch;
+  gap: 0.4ch;
 
-  margin-block: 1rem;
-}
-
-.filter__window {
-  display: none;
-}
-
-.filter__window:has(#filter__toggle:checked) {
-  position: fixed;
-  z-index: 999999;
-  inset: 0;
-
-  display: grid;
-  justify-items: center;
-  place-content: center;
-  /* grid-template-rows: auto auto 1fr auto; */
-
-  padding: 1rem;
-  max-height: 100vh;
-  max-height: 100svh;
-  background-color: var(--bg-color);
+  margin-block: 1rem 1rem;
 }
 
 .filter__text-filter--wrapper {
@@ -293,7 +311,7 @@ body:has(#filter__toggle:checked) {
 .filter__attr-list {
   display: flex;
   width: 100%;
-  overflow-x: auto;
+  overflow-x: scroll;
 }
 
 .scroll-track {

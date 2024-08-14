@@ -18,7 +18,14 @@ function condition(): string {
   if (useStockStore().items.length < 1 && useFilterStore().statusFilter >= 2) return 'trymore'
   if (useStockStore().items.length < 1 && useFilterStore().statusFilter === 1) return 'tryzero'
   if (useStockStore().items.length < 1 && useFilterStore().statusFilter === 0) return 'notexist'
-  return ''
+  return 'data'
+}
+
+function hasReservations() {
+  const x = JSON.parse(localStorage.SB5_stockList).reduce((acc: number, item: Plywood) => {
+    return acc + item.aviableStock ? 1 : 0
+  }, 0)
+  return x ? true : false
 }
 </script>
 
@@ -26,11 +33,16 @@ function condition(): string {
   <section>
     <div class="notdata" v-if="condition() === 'nodatabase'">
       <h3>Baza danych jest pusta.</h3>
-      <p><button @click="usePreferencesStore().activeWindow = 'StockUpdate'">Dodaj ></button></p>
+      <p>
+        <button class="toned" @click="usePreferencesStore().activeWindow = 'StockUpdate'">
+          <i class="bi bi-download"></i><span>Dodaj ></span>
+        </button>
+      </p>
     </div>
 
-    <div class="notdata" v-else-if="condition() === 'trymore'">
-      <h3>Nie znaleziono takiego produktu.</h3>
+    <div class="notdata" v-if="condition() === 'trymore'">
+      <h3 v-if="hasReservations()">Nie znaleziono takiego produktu.</h3>
+      <h3 v-else>!!!Nie znaleziono takiego produktu.</h3>
       <button @click="useFilterStore().prevFilter">
         <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij</span>
       </button>
@@ -45,7 +57,7 @@ function condition(): string {
       </button>
     </div>
 
-    <div class="notdata" v-else-if="condition() === 'tryzero'">
+    <div class="notdata" v-if="condition() === 'tryzero'">
       <h3>Nie znaleziono takiego produktu.</h3>
       <button @click="useFilterStore().prevFilter">
         <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij</span>
@@ -58,7 +70,7 @@ function condition(): string {
       </button>
     </div>
 
-    <div class="notdata" v-else-if="condition() === 'notexist'">
+    <div class="notdata notexist" v-if="condition() === 'notexist'">
       <h3>Wygląda na to, że taka sklejka nie istnieje 🤔</h3>
       <button class="toned" @click="useFilterStore().prevFilter">
         <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij</span>
@@ -68,7 +80,7 @@ function condition(): string {
       </button>
     </div>
 
-    <div v-else>
+    <div v-show="condition() === 'data'">
       <Filter />
       <Sorting />
       <VatSwitch />
@@ -103,5 +115,9 @@ function condition(): string {
 }
 .notdata .toned {
   margin-inline: 2rem;
+}
+
+.notexist {
+  display: block;
 }
 </style>

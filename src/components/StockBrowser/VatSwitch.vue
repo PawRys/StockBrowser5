@@ -7,7 +7,7 @@ function formatSuper(text: string): string {
 }
 </script>
 <template>
-  <section class="vat-switch-panel">
+  <section class="product-vat-switch">
     <h4>Vat:</h4>
     <label v-for="unit in vatUnits" :key="unit" class="button switch" tabindex="0">
       <span v-html="formatSuper(unit)"></span>
