@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useStockStore } from '@/stores/stockStore'
+import { hasPrices, hasReservations } from '@/exports/common_functions'
 
 function daysDiff() {
   const today = new Date(new Date().toJSON().split('T')[0])
@@ -18,17 +19,37 @@ function daysDiffWord() {
 
 <template>
   <section class="data-status">
-    <span>Magazyn: </span>
-    <span :class="{ 'red-bg': useStockStore().warehause === 'Wszystkie' }">
-      {{ `${useStockStore().warehause || 'null'}` }}
+    <span :class="{ 'red-font': useStockStore().warehause === 'Wszystkie' }">
+      {{ `${useStockStore().warehause || ''}` }}
     </span>
     <span :class="{ 'rainbow-text': daysDiff() < 0, 'red-font': daysDiff() >= 2 }">
-      {{ `${useStockStore().date || 'null'} ${daysDiffWord() || 'null'}` }}
+      {{ `${useStockStore().date || '0000-00-00'} ${daysDiffWord() || '0'}` }}
     </span>
+    <span class="overlap" v-if="!hasPrices()" title="Brak danych o cenach">
+      <span>❌</span>
+      <span>💵</span>
+    </span>
+    <!-- <span class="overlap" v-if="!hasReservations()" title="Brak danych o rezerwacjach">
+      <span>❌</span>
+      <sapn>📦</sapn>
+    </span> -->
   </section>
 </template>
 
 <style scoped>
+.data-status {
+  display: flex;
+  gap: 1ch;
+}
+
+.overlap > *:nth-child(1) {
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  right: 0;
+  font-size: 0.64em;
+}
+
 .red-font {
   color: crimson;
 }

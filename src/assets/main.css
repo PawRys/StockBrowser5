@@ -8,5 +8,5 @@
 @import './base.css';
 
 .bi {
-  display: flex;
+  display: inline-flex;
 }

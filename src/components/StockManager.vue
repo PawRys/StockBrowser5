@@ -5,6 +5,18 @@
     <h2>StockManager</h2>
 
     <section>
+      <label class="button switch text-btn">
+        <span>m<sup>3</sup></span>
+        <input type="checkbox" hidden="" />
+      </label>
+      <label class="button switch text-btn">
+        <span>m<sup>2</sup></span>
+        <input type="checkbox" hidden="" />
+      </label>
+      <label class="button switch text-btn">
+        <span>szt</span>
+        <input type="checkbox" hidden="" />
+      </label>
       <label class="button switch">
         <span>m<sup>3</sup></span>
         <input type="checkbox" hidden="" />
@@ -21,6 +33,9 @@
       <button class="active">Button</button>
       <button class="">Button</button>
       <button class="">Button</button>
+      <button class="light active">Button</button>
+      <button class="light">Button</button>
+      <button class="light">Button</button>
       <button class="toned active">Button</button>
       <button class="toned">Button</button>
       <button class="toned">Button</button>

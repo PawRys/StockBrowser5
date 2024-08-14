@@ -112,10 +112,16 @@ export function evalMath(expr: string): number {
   return Number(finalResult)
 }
 
-export function plural(one: string, two: string, tre: string, val: number): String {
-  let result = ''
-  if (val === 1) result = one
-  else if (val % 10 > 1 && val % 10 < 5 && (val % 100 < 10 || val % 100 > 20)) result = two
-  else if (val >= 5) result = tre
-  return result
+export function hasPrices(): Boolean {
+  const x = JSON.parse(localStorage.SB5_stockList || '[]').reduce((acc: number, item: Plywood) => {
+    return acc + (item.price ? 1 : 0)
+  }, 0)
+  return x ? true : false
+}
+
+export function hasReservations(): Boolean {
+  const x = JSON.parse(localStorage.SB5_stockList || '[]').reduce((acc: number, item: Plywood) => {
+    return acc + (item.aviableStock ? 1 : 0)
+  }, 0)
+  return x ? true : false
 }

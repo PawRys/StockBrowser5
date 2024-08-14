@@ -21,20 +21,10 @@ onMounted(() => {
 })
 
 const appWindowsList = {
-  StockBrowser: { component: StockBrowser, label: 'Lista', icon: '', intro: 'Lista produktów' },
-  StockUpdate: { component: StockUpdate, label: 'Wczytaj', icon: '', intro: 'Wczytaj bazę danych' },
-  StockShare: {
-    component: StockShare,
-    label: 'Udostępnij',
-    icon: '',
-    intro: 'Udostępnij bazę danych'
-  },
-  StockManager: {
-    component: StockManager,
-    label: 'Zarządzaj',
-    icon: '',
-    intro: 'Zarządzaj bazą danych'
-  }
+  StockBrowser: { component: StockBrowser, label: 'Lista', icon: '' },
+  StockUpdate: { component: StockUpdate, label: 'Wczytaj', icon: '' },
+  StockShare: { component: StockShare, label: 'Udostępnij', icon: '' },
+  StockManager: { component: StockManager, label: 'Zarządzaj', icon: '' }
 }
 
 const activeWindow = computed(() => {
@@ -48,22 +38,26 @@ const activeWindow = computed(() => {
 
 <template>
   <header>
-    <h1>Przeglądarka Stanów 5</h1>
-    <DataStats />
+    <div class="top-header">
+      <h1>Przeglądarka Stanów 5</h1>
+      <DataStats />
+    </div>
 
-    <button
-      v-for="(tab, id) in appWindowsList"
-      class="switch"
-      :class="{ active: usePreferencesStore().activeWindow === id }"
-      :key="id"
-      @click="usePreferencesStore().activeWindow = id"
-    >
-      {{ tab.label }}
-    </button>
+    <div class="menu-bar">
+      <button
+        v-for="(tab, id) in appWindowsList"
+        class="switch"
+        :class="{ active: usePreferencesStore().activeWindow === id }"
+        :key="id"
+        @click="usePreferencesStore().activeWindow = id"
+      >
+        {{ tab.label }}
+      </button>
+    </div>
   </header>
 
   <main>
-    <h2>{{ activeWindow.intro }}</h2>
+    <!-- <h2>{{ activeWindow.intro }}</h2> -->
     <Suspense>
       <component :is="activeWindow.component"></component>
     </Suspense>
@@ -76,6 +70,23 @@ const activeWindow = computed(() => {
 </template>
 
 <style scoped>
+.top-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 1ch;
+}
+.top-header h1 {
+  font-size: 1rem;
+  margin: 0 1ch;
+}
+
+.menu-bar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 .switch {
   font-size: 1.1rem;
   /* text-transform: uppercase; */

@@ -167,7 +167,7 @@ const appliedFiltersCount = computed(() => {
               v-for="item of Array.from(attrSets[attrKey]).sort(collator.compare)"
               :key="`${attrKey}-${escapeNonword(item)}`"
             >
-              <label class="button">
+              <label class="button text-btn">
                 <input
                   type="checkbox"
                   :value="item"
@@ -176,7 +176,7 @@ const appliedFiltersCount = computed(() => {
                   :id="`${attrKey}-${escapeNonword(item)}`"
                 />
               </label>
-              <button class="tight" @click="checkSibling">
+              <button class="text-btn" @click="checkSibling">
                 <span>{{ item }}</span>
                 <!-- <i class="bi bi-chevron-compact-left"></i> -->
               </button>
@@ -185,12 +185,12 @@ const appliedFiltersCount = computed(() => {
 
           <hr />
 
-          <button type="submit">
+          <button class="text-btn" type="submit">
             <i class="bi bi-funnel"></i><span>Filtruj</span>
-            <!-- <i class="bi bi-chevron-compact-left"></i> -->
           </button>
 
           <button
+            class="text-btn"
             v-if="filterStore.attrFilter[attrKey]"
             @click="[filterStore.resetAttrFilter(attrKey)]"
           >
@@ -200,12 +200,17 @@ const appliedFiltersCount = computed(() => {
       </form>
 
       <footer class="filter-window__footer">
-        <button @click="filterStore.prevFilter" :disabled="filterStore.currentFilterIndex <= 0">
+        <button
+          class="light"
+          @click="filterStore.prevFilter"
+          :disabled="filterStore.currentFilterIndex <= 0"
+        >
           <i class="bi bi-arrow-counterclockwise"></i>
           <span>{{ filterStore.currentFilterIndex }}</span>
         </button>
 
         <button
+          class="light"
           @click="filterStore.nextFilter"
           :disabled="filterStore.currentFilterIndex >= filterStore.filterHistory.length - 1"
         >
@@ -213,12 +218,14 @@ const appliedFiltersCount = computed(() => {
           <span>{{ filterStore.filterHistory.length - 1 - filterStore.currentFilterIndex }}</span>
         </button>
 
-        <button type="reset" @click="filterStore.resetAllFilters">
+        <button
+          class="light"
+          type="reset"
+          @click="filterStore.resetAllFilters"
+          :disabled="!appliedFiltersCount"
+        >
           <i class="bi bi-trash3"></i>
-          <!-- <span>{{ `(${filterStore.attrFilter})` }}</span> -->
           <span>{{ `(${appliedFiltersCount})` }}</span>
-          <!-- <span>{{ `(${Object.keys(filterStore.attrFilter).length})` }}</span> -->
-          <!-- <span>Usuń wszystkie</span> -->
         </button>
 
         <button

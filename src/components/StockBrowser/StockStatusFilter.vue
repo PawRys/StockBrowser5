@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useFilterStore } from '@/stores/filterStore'
+import { hasReservations } from '@/exports/common_functions'
 
 const statusList = [
-  { label: 'Zerowy', icon: 'bi bi-0-circle' },
-  { label: 'Całkowity', icon: 'bi bi-boxes' },
-  { label: 'Handlowy', icon: 'bi bi-box' }
+  { label: 'Zerowy', icon: 'bi bi-0-circle', show: true },
+  { label: 'Całkowity', icon: 'bi bi-boxes', show: true },
+  { label: 'Handlowy', icon: 'bi bi-box', show: hasReservations() }
 ]
 
 const isActive = computed(() => useFilterStore().inventoryFilter)
@@ -21,7 +22,7 @@ function toggleInventoryFilter(item: string) {
 <template>
   <section class="product-status-filter">
     <button
-      class="button switch tight"
+      class="button switch text-btn"
       :class="{ active: isActive.match(/brak|nadmiar/) }"
       @click="toggleInventoryFilter('brak nadmiar')"
     >
@@ -29,23 +30,20 @@ function toggleInventoryFilter(item: string) {
       <small>różnice</small>
     </button>
 
-    <label
-      v-for="(item, index) in statusList"
-      :key="`status-${index}`"
-      class="button switch tight"
-      tabindex="0"
-    >
-      <input
-        :id="`status-${index}`"
-        :type="'radio'"
-        :value="index"
-        name="statusFilter"
-        v-model="useFilterStore().statusFilter"
-        hidden
-      />
-      <i :class="item.icon" :title="`Stan ${item.label.toLowerCase()}`"></i>
-      <small>{{ item.label.toLowerCase() }}</small>
-    </label>
+    <template v-for="(item, index) in statusList" :key="`status-${index}`">
+      <label v-if="item.show" class="button switch text-btn" tabindex="0">
+        <input
+          :id="`status-${index}`"
+          :type="'radio'"
+          :value="index"
+          name="statusFilter"
+          v-model="useFilterStore().statusFilter"
+          hidden
+        />
+        <i :class="item.icon" :title="`Stan ${item.label.toLowerCase()}`"></i>
+        <small>{{ item.label.toLowerCase() }}</small>
+      </label>
+    </template>
   </section>
 </template>
 
