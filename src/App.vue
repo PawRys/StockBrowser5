@@ -1,47 +1,83 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { computed, onMounted } from 'vue'
+import { usePreferencesStore } from '@/stores/preferencesStore'
+import { container as WidgetContainerModal } from 'jenesius-vue-modal'
+
+import StockBrowser from '@/components/StockBrowser.vue'
+import StockUpdate from '@/components/StockUpdate.vue'
+import StockShare from '@/components/StockShare.vue'
+import StockManager from '@/components/StockManager.vue'
+import DataStats from '@/components/StockBrowser/DataStats.vue'
+
+onMounted(() => {
+  document.querySelectorAll('[tabindex]').forEach((item) => {
+    ;(item as HTMLElement).addEventListener('keydown', (ev: KeyboardEvent) => {
+      if (ev.key === 'Enter' || ev.key === ' ') {
+        ev.preventDefault()
+        ;(ev.target as HTMLElement).click()
+      }
+    })
+  })
+})
+
+const appWindowsList = {
+  StockBrowser: { component: StockBrowser, label: 'Lista', icon: '', intro: 'Lista produktów' },
+  StockUpdate: { component: StockUpdate, label: 'Wczytaj', icon: '', intro: 'Wczytaj bazę danych' },
+  StockShare: {
+    component: StockShare,
+    label: 'Udostępnij',
+    icon: '',
+    intro: 'Udostępnij bazę danych'
+  },
+  StockManager: {
+    component: StockManager,
+    label: 'Zarządzaj',
+    icon: '',
+    intro: 'Zarządzaj bazą danych'
+  }
+}
+
+const activeWindow = computed(() => {
+  const activeWindowIndex =
+    usePreferencesStore().activeWindow in appWindowsList
+      ? usePreferencesStore().activeWindow
+      : Object.keys(appWindowsList)[0]
+  return appWindowsList[activeWindowIndex as keyof typeof appWindowsList]
+})
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+    <h1>Przeglądarka Stanów 5</h1>
+    <DataStats />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
+    <button
+      v-for="(tab, id) in appWindowsList"
+      class="switch"
+      :class="{ active: usePreferencesStore().activeWindow === id }"
+      :key="id"
+      @click="usePreferencesStore().activeWindow = id"
+    >
+      {{ tab.label }}
+    </button>
   </header>
 
   <main>
-    <TheWelcome />
+    <h2>{{ activeWindow.intro }}</h2>
+    <Suspense>
+      <component :is="activeWindow.component"></component>
+    </Suspense>
   </main>
+
+  <footer>
+    <p>Wszelkie prawa zastrzeżone.</p>
+  </footer>
+  <widget-container-modal />
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.switch {
+  font-size: 1.1rem;
+  /* text-transform: uppercase; */
 }
 </style>
