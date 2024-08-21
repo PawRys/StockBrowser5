@@ -27,7 +27,21 @@ function setPageNum(e: Event) {
 
 <template>
   <section class="product-pagination">
-    <button class="setPrevPage" @click="setPrevPage">prev</button>
+    <i class="bi bi-book"></i>
+    <select class="setPageSize" v-model="usePageStore().pageSize">
+      <option
+        v-for="size of pageSizeOptions"
+        :key="`pageSize-${size}`"
+        :value="size"
+        :selected="size === usePageStore().pageSize"
+      >
+        {{ size }}
+      </option>
+    </select>
+
+    <button class="setPrevPage compact" @click="setPrevPage">
+      <i class="bi bi-chevron-compact-left"></i>
+    </button>
 
     <select class="setPageNum" @change="setPageNum">
       <option
@@ -39,21 +53,38 @@ function setPageNum(e: Event) {
         {{ page }}
       </option>
     </select>
-    / {{ usePageStore().pageCount }}
+    <span>{{ ` /${usePageStore().pageCount}` }}</span>
 
-    <button class="setNextPage" @click="setNextPage">next</button>
-
-    <select class="setPageSize" v-model="usePageStore().pageSize">
-      <option
-        v-for="size of pageSizeOptions"
-        :key="`pageSize-${size}`"
-        :value="size"
-        :selected="size === usePageStore().pageSize"
-      >
-        {{ size }}
-      </option>
-    </select>
+    <button class="setNextPage compact" @click="setNextPage">
+      <i class="bi bi-chevron-compact-right"></i>
+    </button>
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* .product-pagination {
+  gap: 0.8ch;
+} */
+
+i {
+  font-size: 1.3rem;
+}
+
+.bi-book {
+  margin-right: 0.8ch;
+}
+
+i,
+span {
+  place-self: center;
+}
+
+:is(#fakeid, button) {
+  padding-inline: 0.6ch;
+  /* border-radius: 0; */
+}
+
+/* i {
+  font-size: 1.3rem;
+} */
+</style>

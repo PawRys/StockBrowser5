@@ -67,6 +67,7 @@ async function submit(e: Event): Promise<void> {
     incomingData = convertToArray(formData)
     incomingData = removeGarbage(incomingData, datatype.value)
     incomingData = convertToObject(incomingData, datatype.value)
+
     const today = new Date().toJSON().split('T')[0]
     const data: DBSchema = {
       stockList: await mergeStocks(incomingData, localData, datatype.value),

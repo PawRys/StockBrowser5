@@ -22,14 +22,15 @@ const attrSets = {
   sizeB: new Set() as Set<string>,
   sizeAB: new Set() as Set<string>,
   color: new Set() as Set<string>,
-  faceType: new Set() as Set<string>,
   footSize: new Set() as Set<string>,
   glueType: new Set() as Set<string>,
   woodType: new Set() as Set<string>,
-  invStatus: new Set() as Set<string>
+  faceType: new Set() as Set<string>,
+  faceGroup: new Set() as Set<string>
 }
 
 const attrLabels = {
+  faceGroup: 'Grupa',
   faceType: 'Klasa',
   sizeT: 'Grubość',
   footSize: 'Rozmiar',
@@ -47,23 +48,25 @@ watch(
     attrSets.sizeT.clear()
     attrSets.sizeA.clear()
     attrSets.sizeB.clear()
-    attrSets.sizeAB.clear()
     attrSets.color.clear()
-    attrSets.faceType.clear()
+    attrSets.sizeAB.clear()
     attrSets.footSize.clear()
     attrSets.glueType.clear()
     attrSets.woodType.clear()
+    attrSets.faceType.clear()
+    attrSets.faceGroup.clear()
 
     stockItems.value.forEach((el: Plywood) => {
-      attrSets.sizeT.add(el.attr?.sizeT as string)
-      attrSets.sizeA.add(el.attr?.sizeA as string)
-      attrSets.sizeB.add(el.attr?.sizeB as string)
-      attrSets.sizeAB.add(el.attr?.sizeAB as string)
-      attrSets.faceType.add(el.attr?.faceType as string)
-      attrSets.footSize.add(el.attr?.footSize as string)
-      attrSets.glueType.add(el.attr?.glueType as string)
+      el.attr?.sizeT?.split(' ').map((el) => attrSets.sizeT.add(el))
+      el.attr?.sizeA?.split(' ').map((el) => attrSets.sizeA.add(el))
+      el.attr?.sizeB?.split(' ').map((el) => attrSets.sizeB.add(el))
       el.attr?.color?.split(' ').map((el) => attrSets.color.add(el))
+      el.attr?.sizeAB?.split(' ').map((el) => attrSets.sizeAB.add(el))
+      el.attr?.footSize?.split(' ').map((el) => attrSets.footSize.add(el))
+      el.attr?.glueType?.split(' ').map((el) => attrSets.glueType.add(el))
       el.attr?.woodType?.split(' ').map((el) => attrSets.woodType.add(el))
+      el.attr?.faceType?.split(' ').map((el) => attrSets.faceType.add(el))
+      el.attr?.faceGroup?.split(' ').map((el) => attrSets.faceGroup.add(el))
     })
   },
   { immediate: true }
@@ -98,11 +101,11 @@ function checkSibling(ev: Event): void {
   const target = ev.currentTarget as HTMLInputElement
   const prevSibling = target?.previousElementSibling as HTMLFormElement
   const firstChild = prevSibling.firstElementChild as HTMLInputElement
-  if (!firstChild?.checked) {
-    firstChild.checked = true
-  } else if (!prevSibling?.checked) {
-    prevSibling.checked = true
-  }
+  // if (!firstChild?.checked) {
+  // } else if (!prevSibling?.checked) {
+  // }
+  firstChild.checked = !firstChild.checked
+  prevSibling.checked = !prevSibling.checked
 }
 
 const appliedFiltersCount = computed(() => {
@@ -117,7 +120,7 @@ const appliedFiltersCount = computed(() => {
 <template>
   <section class="product-filter" :key="refreshComponent">
     <section class="filter-window__controls">
-      <button class="button cta" @click="toggleCheck('filter__toggle')">
+      <button class="cta" @click="toggleCheck('filter__toggle')">
         <i class="bi bi-search"></i>
         <span>Filtry</span>
       </button>
@@ -139,7 +142,7 @@ const appliedFiltersCount = computed(() => {
           <!-- empty div -->
         </div>
         <StockStatus />
-        <button class="tight">
+        <button class="compact">
           <i class="close-button bi bi-x-square-fill" @click="toggleCheck('filter__toggle')"></i>
         </button>
       </header>
@@ -167,7 +170,7 @@ const appliedFiltersCount = computed(() => {
               v-for="item of Array.from(attrSets[attrKey]).sort(collator.compare)"
               :key="`${attrKey}-${escapeNonword(item)}`"
             >
-              <label class="button text-btn">
+              <label class="button compact">
                 <input
                   type="checkbox"
                   :value="item"
@@ -176,21 +179,21 @@ const appliedFiltersCount = computed(() => {
                   :id="`${attrKey}-${escapeNonword(item)}`"
                 />
               </label>
-              <button class="text-btn" @click="checkSibling">
+              <button class="compact" @click="checkSibling">
                 <span>{{ item }}</span>
                 <!-- <i class="bi bi-chevron-compact-left"></i> -->
               </button>
             </div>
           </div>
 
-          <hr />
+          <!-- <hr /> -->
 
-          <button class="text-btn" type="submit">
+          <!-- <button class="transparent" type="submit">
             <i class="bi bi-funnel"></i><span>Filtruj</span>
-          </button>
+          </button> -->
 
           <button
-            class="text-btn"
+            class="transparent"
             v-if="filterStore.attrFilter[attrKey]"
             @click="[filterStore.resetAttrFilter(attrKey)]"
           >
@@ -264,7 +267,7 @@ body:has(#filter__toggle:checked) .product-filter ~ * {
   display: grid;
   justify-items: center;
   place-content: center;
-  /* grid-template-rows: auto auto 1fr auto; */
+  grid-template-rows: auto auto 1fr auto;
 
   padding: 1ch;
   max-height: 100vh;
@@ -275,7 +278,10 @@ body:has(#filter__toggle:checked) .product-filter ~ * {
 .filter-window__controls {
   display: flex;
   align-items: center;
-  gap: 0.5ch;
+  justify-content: center;
+  gap: 1ch;
+  margin: 2rem;
+  font-size: 1.1rem;
 }
 
 .filter-window__controls .filter-count {

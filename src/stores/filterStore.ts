@@ -1,17 +1,5 @@
 import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
-
-interface AttributeFilter {
-  sizeT?: string[]
-  sizeA?: string[]
-  sizeB?: string[]
-  color?: string[]
-  faceType?: string[]
-  footSize?: string[]
-  glueType?: string[]
-  woodType?: string[]
-}
-
 export const useFilterStore = defineStore(
   'SB5_filterStore',
   () => {

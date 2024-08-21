@@ -84,6 +84,7 @@ export function convertToObject(data: string[][], datatype: string): Plywood[] {
     const [sizeT = null, sizeA = null, sizeB = null] = plywoodSize?.split('x') || []
     const plywoodVolumeUnit = getVolumeUnit(row[2])
     const searchString = `${row[1]} ${row[0]} `
+    const faceGroup_val = getFaceGroup(searchString)
     const faceType_val = getFaceType(searchString)
     const glueType_val = getGlueType(searchString)
     const woodType_val = getWoodType(searchString)
@@ -99,6 +100,7 @@ export function convertToObject(data: string[][], datatype: string): Plywood[] {
     plywood.attr.sizeAB = `${sizeA}x${sizeB}` || '(???)'
     plywood.attr.footSize = getFootSize(plywoodSize) || '(???)'
     plywood.attr.faceType = faceType_val || '(???)'
+    plywood.attr.faceGroup = faceGroup_val || '(???)'
     plywood.attr.glueType = glueType_val || '(???)'
     plywood.attr.woodType = woodType_val || '(???)'
     plywood.attr.color = color_val || '(???)'
@@ -143,8 +145,7 @@ function getFootSize(input: string | undefined): string | undefined {
   const B = Math.round(Number(numbers[2]) / ratio)
   const lo = A < B ? A : B
   const hi = A > B ? A : B
-  // return `${A}x?'`
-  if (lo == hi) return `5x5'`
+  if (lo == hi) return `${lo}x${lo}'`
   if (lo < 4) return `3x~'`
   if (lo == 4 && hi == 8) return `4x8'`
   if (lo == 4) return `4x~'`
@@ -171,27 +172,38 @@ function getGlueType(text: string): string | undefined {
 
 function getFaceType(text: string): string | undefined {
   let result = undefined
+
   /*!!! Keep order. Any order if equal number. !!! */
+
+  /*1*/ if (/s01/gi.test(text)) result = 'B/B'
+  /*1*/ if (/s02/gi.test(text)) result = 'B/BB'
+  /*1*/ if (/s03/gi.test(text)) result = 'S/BB'
+  /*1*/ if (/s04/gi.test(text)) result = 'BB/BB'
+  /*1*/ if (/s05/gi.test(text)) result = 'BB/CP'
+  /*1*/ if (/s06/gi.test(text)) result = 'BB/WG'
+  /*1*/ if (/s07/gi.test(text)) result = 'CP/CP'
+  /*1*/ if (/s08/gi.test(text)) result = 'WGE/WGE'
+  /*1*/ if (/s09/gi.test(text)) result = 'WG/WG'
+  /*1*/ if (/s10/gi.test(text)) result = 'C/C'
   /*1*/ if (/s11\/|kilo/gi.test(text)) result = 'Kilo'
-  /*2*/ if (/\bPQ\b/gi.test(text)) result = 'PQ'
-  /*3*/ if (/\bPQ\W?F\b/gi.test(text)) result = 'PQF'
-
-  /*4*/ if (/s12|s13/gi.test(text)) result = 'F/F'
-  /*4*/ if (/s14|s15/gi.test(text)) result = 'F/W'
-  /*4*/ if (/s16|s17/gi.test(text)) result = 'W/W'
-
-  /*5*/ if (/\bF\/W\W?H\b|Heksa/gi.test(text)) result = 'Heksa'
-  /*5*/ if (/\bhoney\b/gi.test(text)) result = 'Honey'
-  /*5*/ if (/\bM\/M\b|mel/gi.test(text)) result = 'M/M'
-  /*5*/ if (/\bopal\b/gi.test(text)) result = 'Opal'
-  /*5*/ if (/\bopal white\b/gi.test(text)) result = 'Opal White'
-  /*5*/ if (/\bPF\b|poliform/gi.test(text)) result = 'Poliform'
-  /*5*/ if (/\bPPL\b/gi.test(text)) result = 'PPL'
-  /*5*/ if (/OSB/gi.test(text)) result = 'OSB'
-
-  // /*5*/ if (/s12|s13|\bF\/F\b|lamin|folio/gi.test(text)) result = 'F/F'
-  // /*5*/ if (/s14|s15|\bF\/W\b|anty/gi.test(text)) result = 'F/W'
-  // /*5*/ if (/s16|s17|\bW\/W\b/gi.test(text)) result = 'W/W'
+  /*1*/ if (/s12|s13/gi.test(text)) result = 'F/F'
+  /*1*/ if (/s14|s15/gi.test(text)) result = 'F/W'
+  /*1*/ if (/s16|s17/gi.test(text)) result = 'W/W'
+  /*1*/ if (/s18/gi.test(text)) result = 'CP/C'
+  /*1*/ if (/s19/gi.test(text)) result = 'M/WG'
+  /*1*/ if (/s20/gi.test(text)) result = 'F/BB'
+  /*1*/ if (/s20/gi.test(text)) result = 'F/WG'
+  /*1*/ if (/s24/gi.test(text)) result = 'W/WG'
+  /*1*/ if (/s25/gi.test(text)) result = 'B/WG'
+  /*1*/ if (/s26/gi.test(text)) result = 'F/WH'
+  /*1*/ if (/s27/gi.test(text)) result = 'W/CP'
+  /*1*/ if (/s22/gi.test(text)) result = 'BB/C'
+  /*1*/ if (/s28/gi.test(text)) result = 'S/WG'
+  /*1*/ if (/s29/gi.test(text)) result = 'S/CP'
+  /*1*/ if (/s30/gi.test(text)) result = 'V/V'
+  /*1*/ if (/s31/gi.test(text)) result = 'OSB3'
+  /*1*/ if (/s32/gi.test(text)) result = 'OSB T&G'
+  /*1*/ if (/s35/gi.test(text)) result = 'BB/CC'
 
   const regexpGrade = /\b(S|B|BB|CP|WG|WGE|C|CC|V|M|F|W)\b/
   const expression = new RegExp(`${regexpGrade.source}/${regexpGrade.source}`, 'gi')
@@ -199,7 +211,44 @@ function getFaceType(text: string): string | undefined {
     const grade = text.match(expression)
     result = grade ? grade[0] : '??/??'
   }
+
+  /*2.1*/ if (/\bPQ\b/gi.test(text)) result = 'PQ'
+  /*2.2*/ if (/\bPQ\W?F\b/gi.test(text)) result = 'PQF'
+  /*3*/ if (/\bF\/W\W?H\b|Heksa/gi.test(text)) result = 'Heksa'
+  /*3*/ if (/\bhoney\b/gi.test(text)) result = 'Honey'
+  /*3*/ if (/\bM\/M\b|mel/gi.test(text)) result = 'M/M'
+  /*3*/ if (/\bopal\b/gi.test(text)) result = 'Opal'
+  /*3*/ if (/\bopal white\b/gi.test(text)) result = 'Opal White'
+  /*3*/ if (/\bPF\b|poliform/gi.test(text)) result = 'Poliform'
+  /*3*/ if (/\bPPL\b/gi.test(text)) result = 'PPL'
+  /*3*/ if (/OSB/gi.test(text)) result = 'OSB'
+
+  // /*5*/ if (/s12|s13|\bF\/F\b|lamin|folio/gi.test(text)) result = 'F/F'
+  // /*5*/ if (/s14|s15|\bF\/W\b|anty/gi.test(text)) result = 'F/W'
+  // /*5*/ if (/s16|s17|\bW\/W\b/gi.test(text)) result = 'W/W'
+
   return result
+}
+
+function getFaceGroup(text: string): string | undefined {
+  const regexpNatural = /\b(S|B|BB|CP|WG|WGE|C|CC|V)\b/
+  const regexpLaminate = /\b(M|F|W)\b/
+  let result = ''
+
+  if (
+    /s01|s02|s03|s04|s05|s06|s07|s08|s09|s10/gi.test(text) ||
+    /s11|s18|s22|s25|s28|s29|s30|s31|s32|s35/gi.test(text) ||
+    new RegExp(`${regexpNatural.source}/${regexpNatural.source}`, 'gi').test(text)
+  )
+    result = 'surowa'
+  if (
+    /s12|s13|s14|s15|s16|s17|s19|s20|s21|s23|s24|s26|s27/gi.test(text) ||
+    new RegExp(`${regexpLaminate.source}/${regexpLaminate.source}`, 'gi').test(text) ||
+    /\bPQ\W?F\b/gi.test(text)
+  )
+    result = 'laminat'
+
+  return result || undefined
 }
 
 function getWoodType(text: string): string | undefined {
@@ -246,9 +295,10 @@ function getColor(text: string, faceType: string | undefined): string | undefine
     if (faceType === 'PPL') results.add('(nieznany)')
     if (faceType === 'PQF') results.add('(nieznany)')
   }
-  if (results.size === 0 && faceType) results.add('(surowa)')
-  else results.add('(laminat)')
-  if (results.size === 0) return undefined
+
+  // if (results.size === 0 && faceType) results.add('(surowa)')
+  // else results.add('(laminat)')
+  // if (results.size === 0) results.add('(---)')
   return Array.from(results).join(' ')
 }
 

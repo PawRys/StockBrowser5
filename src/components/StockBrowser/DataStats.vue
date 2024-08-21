@@ -50,10 +50,6 @@ function daysDiffWord() {
   font-size: 0.64em;
 }
 
-.red-font {
-  color: crimson;
-}
-
 .rainbow-text {
   background-image: linear-gradient(
     to left,

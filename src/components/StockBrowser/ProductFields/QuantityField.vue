@@ -5,12 +5,13 @@ import { calcQuant } from '@/exports/common_functions'
 const props = defineProps<{
   item: Plywood
   unit: string
+  stockName: 'totalStock' | 'aviableStock'
 }>()
 const { item } = toRefs(props)
-const { unit } = props
+const { unit, stockName } = props
 
-const symfoInventory = computed(() => {
-  return calcQuant(item.value.size, item.value.totalStock, 'm3', unit) * -1
+const quantity = computed(() => {
+  return calcQuant(item.value.size, item.value[stockName], 'm3', unit) * -1
 })
 
 const zeroFix = computed(() => {
@@ -20,12 +21,17 @@ const zeroFix = computed(() => {
   if (unit === 'szt') result = 1
   return result
 })
+
+const unitLabel = computed(() => {
+  if (unit.match(/m3/)) return `m<sup>3</sup>`
+  if (unit.match(/m2/)) return `m<sup>2</sup>`
+  if (unit.match(/szt/)) return `szt`
+  return ``
+})
 </script>
 
 <template>
-  <span>
-    {{ symfoInventory.toFixed(zeroFix) }}
-  </span>
+  <span> {{ quantity.toFixed(zeroFix) }}<small v-html="unitLabel"></small> </span>
 </template>
 
 <style scoped></style>

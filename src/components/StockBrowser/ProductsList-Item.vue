@@ -5,7 +5,7 @@ import { ref, defineProps, provide, toRefs } from 'vue'
 import Price from '@/components/StockBrowser/ProductFields/PriceField.vue'
 import InventoryDiff from '@/components/StockBrowser/ProductFields/Inventory-Diff.vue'
 import InventoryInput from '@/components/StockBrowser/ProductFields/Inventory-Input.vue'
-import InventorySymfo from '@/components/StockBrowser/ProductFields/Inventory-Symfo.vue'
+import Quantity from '@/components/StockBrowser/ProductFields/QuantityField.vue'
 
 const props = defineProps<{
   item: Ref<Plywood>
@@ -18,64 +18,85 @@ provide('basePrice', basePrice)
 
 <template>
   <li class="listItem" :title="item.name">
-    <span>{{ index }}</span>
-    <span>{{ item.id }}</span>
-    <span>{{ item.size }}</span>
+    <!-- <header>
+      <span class="item-index">{{ `${index}.` }}</span>
+      <span class="item-id">{{ item.id }}</span>
+    </header>
 
-    <section>
-      <Price :item="item" :unit="'purchase'" />
-      <Price :item="item" :unit="'marg'" />
-      <Price :item="item" :unit="'perc'" />
-      <Price :item="item" :unit="'m3'" />
-      <Price :item="item" :unit="'m2'" />
-      <Price :item="item" :unit="'szt'" />
-    </section>
+    <div class="item-name">{{ item.name }}</div>
 
-    <section>
-      <div class="quant">
-        <InventorySymfo :item="item" :unit="'m3'" />
-        <InventorySymfo :item="item" :unit="'m2'" />
-        <InventorySymfo :item="item" :unit="'szt'" />
-      </div>
-      <div class="quant">
-        <InventoryInput :item="item" :unit="'m3'" />
-        <InventoryInput :item="item" :unit="'m2'" />
-        <InventoryInput :item="item" :unit="'szt'" />
-      </div>
-      <div class="quant">
-        <InventoryDiff :item="item" :unit="'m3'" />
-        <InventoryDiff :item="item" :unit="'m2'" />
-        <InventoryDiff :item="item" :unit="'szt'" />
-      </div>
+    <section class="item-info">
+      <div>{{ `${item.size} (${item.attr.footSize}) ` }}</div>
+      <div>{{ `${item.attr.faceGroup} ${item.attr.faceType} ${item.attr.color}` }}</div>
+      <div>{{ `${item.attr.woodType} ${item.attr.glueType}` }}</div>
+    </section> -->
+
+    <!-- <section class="prices">
+      <Price class="price m3" :item="item" :unit="'m3'" />
+      <Price class="price m2" :item="item" :unit="'m2'" />
+      <Price class="price szt" :item="item" :unit="'szt'" />
+      <Price class="price purchase" :item="item" :unit="'purchase'" />
+      <Price class="price marg" :item="item" :unit="'marg'" />
+      <Price class="price perc" :item="item" :unit="'perc'" />
+    </section> -->
+
+    <section class="inventory">
+      <Quantity :stockName="'totalStock'" :item="item" :unit="'m3'" />
+      <Quantity :stockName="'totalStock'" :item="item" :unit="'m2'" />
+      <Quantity :stockName="'totalStock'" :item="item" :unit="'szt'" />
+      <InventoryInput :item="item" :unit="'m3'" />
+      <InventoryInput :item="item" :unit="'m2'" />
+      <InventoryInput :item="item" :unit="'szt'" />
+      <InventoryDiff :item="item" :unit="'m3'" />
+      <InventoryDiff :item="item" :unit="'m2'" />
+      <InventoryDiff :item="item" :unit="'szt'" />
     </section>
-    <span>{{ item.inventoryStatus }}</span>
   </li>
 </template>
 
 <style scoped>
 li {
   display: grid;
-  gap: 2ch;
-  grid-template-columns: repeat(6, minmax(0, auto));
-}
-li:hover {
-  box-shadow: 0 0 0 2px rgb(100 100 100 /0.2);
+  /* grid-template-columns: 25% 1fr 1fr; */
+  gap: 0 2ch;
+  /* margin: 5px; */
+  padding: 0;
+  list-style: none;
 }
 
-.quant {
+header {
+  display: inline-flex;
+  justify-content: space-between;
+  gap: 1ch;
+  /* grid-column: 1 / span 3; */
+}
+
+.item-id {
+  font-weight: 700;
+}
+
+.item-name {
+  grid-column: 2 / span 2;
+}
+
+.item-info {
+  text-align: end;
+}
+
+.prices,
+.inventory {
   display: grid;
-  gap: 0.5ch;
+  justify-items: end;
   grid-template-columns: 1fr 1fr 1fr;
-  text-align: right;
 }
 </style>
 
 <style>
 [contenteditable='true'] {
   cursor: pointer;
-  color: navy;
+  /* color: navy; */
   font-style: italic;
-  border: dotted 1px lightblue;
+  border: dotted 1px var(--accent-color-normal);
   padding-inline: 1ch;
 }
 </style>

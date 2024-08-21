@@ -26,9 +26,9 @@ const reactiveItems = computed(() =>
 </template>
 
 <style scoped>
-li {
-  display: grid;
-  gap: 2ch;
-  grid-template-columns: repeat(6, minmax(0, auto));
+ul {
+  margin-inline: auto;
+  padding: 0;
+  width: fit-content;
 }
 </style>

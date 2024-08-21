@@ -72,9 +72,11 @@ function condition(): string {
 
     <div v-show="condition() === 'data'">
       <Filter />
-      <Sorting />
-      <VatSwitch />
-      <Paginate id="main-pagination" />
+      <div class="top-toolbar">
+        <Sorting />
+        <VatSwitch />
+        <Paginate id="main-pagination" />
+      </div>
       <ProductsList :key="refreshComponent" />
       <Paginate />
       <InventorySummary @refresh="refreshComponent++" />
@@ -109,5 +111,17 @@ function condition(): string {
 
 .notexist {
   display: block;
+}
+
+.top-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5ch;
+}
+
+.top-toolbar > * {
+  display: inline-flex;
+  margin-inline: 1ch;
 }
 </style>

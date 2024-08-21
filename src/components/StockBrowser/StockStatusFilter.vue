@@ -22,7 +22,7 @@ function toggleInventoryFilter(item: string) {
 <template>
   <section class="product-status-filter">
     <button
-      class="button switch text-btn"
+      class="button switch compact"
       :class="{ active: isActive.match(/brak|nadmiar/) }"
       @click="toggleInventoryFilter('brak nadmiar')"
     >
@@ -31,7 +31,7 @@ function toggleInventoryFilter(item: string) {
     </button>
 
     <template v-for="(item, index) in statusList" :key="`status-${index}`">
-      <label v-if="item.show" class="button switch text-btn" tabindex="0">
+      <label v-if="item.show" class="button switch compact" tabindex="0">
         <input
           :id="`status-${index}`"
           :type="'radio'"

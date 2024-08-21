@@ -87,8 +87,8 @@ const activeWindow = computed(() => {
   flex-wrap: wrap;
 }
 
-.switch {
-  font-size: 1.1rem;
-  /* text-transform: uppercase; */
-}
+/* .switch { */
+/* font-size: 1.1rem; */
+/* text-transform: uppercase; */
+/* } */
 </style>

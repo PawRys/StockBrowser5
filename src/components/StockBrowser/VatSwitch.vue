@@ -9,7 +9,7 @@ function formatSuper(text: string): string {
 <template>
   <section class="product-vat-switch">
     <h4>Vat:</h4>
-    <label v-for="unit in vatUnits" :key="unit" class="button switch" tabindex="0">
+    <label v-for="unit in vatUnits" :key="unit" class="button switch compact" tabindex="0">
       <span v-html="formatSuper(unit)"></span>
       <input
         type="checkbox"
@@ -23,11 +23,9 @@ function formatSuper(text: string): string {
 </template>
 
 <style scoped>
-section {
-  display: flex;
-}
 h4 {
   place-self: center;
-  margin: 1ch;
+  margin: 0;
+  margin-right: 0.6ch;
 }
 </style>

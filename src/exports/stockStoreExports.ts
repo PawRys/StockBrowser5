@@ -51,17 +51,17 @@ export function applySort(a: Plywood, b: Plywood) {
     numeric: true
   })
 
-  let lo = aValue
-  let hi = bValue
+  let A = aValue
+  let B = bValue
   if (sortCol.match(/price/i)) {
-    lo = calcPrice(a.size, Number(aValue), sortUnit, 'm3')
-    hi = calcPrice(b.size, Number(bValue), sortUnit, 'm3')
+    A = calcPrice(a.size, Number(aValue), 'm3', sortUnit)
+    B = calcPrice(b.size, Number(bValue), 'm3', sortUnit)
   }
   if (sortCol.match(/Stock/i)) {
-    lo = calcQuant(a.size, Number(aValue), sortUnit, 'm3')
-    hi = calcQuant(b.size, Number(bValue), sortUnit, 'm3')
+    A = calcQuant(a.size, Number(aValue), 'm3', sortUnit)
+    B = calcQuant(b.size, Number(bValue), 'm3', sortUnit)
   }
-  if (sortDir > 0) return collator.compare(lo.toString(), hi.toString())
-  if (sortDir < 0) return collator.compare(hi.toString(), lo.toString())
+  if (sortDir > 0) return collator.compare(A.toString(), B.toString())
+  if (sortDir < 0) return collator.compare(B.toString(), A.toString())
   return 0
 }

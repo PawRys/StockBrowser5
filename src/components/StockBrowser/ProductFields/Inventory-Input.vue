@@ -36,17 +36,24 @@ const zeroFix = computed(() => {
   return result
 })
 
+const unitLabel = computed(() => {
+  if (unit.match(/m3/)) return `m<sup>3</sup>`
+  if (unit.match(/m2/)) return `m<sup>2</sup>`
+  if (unit.match(/szt/)) return `szt`
+  return ``
+})
+
 const cssClassList = () => {
-  return { written: item.value.inventory?.[unit as keyof typeof item.value.inventory] }
+  return { 'bi written': item.value.inventory?.[unit as keyof typeof item.value.inventory] }
 }
 </script>
 
 <template>
-  <span class="inventoryField" :class="{ isEdited: isEdited }">
+  <span class="inventory-input" :class="{ isEdited: isEdited }">
     <span v-if="!isEdited" :class="cssClassList()" @focus="isEdited = true" contenteditable="true">
-      {{ itemInvSumAll.toFixed(zeroFix) }}
+      {{ itemInvSumAll.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
     </span>
-    <span v-else>
+    <span class="input-wrap" v-else>
       <input
         type="text"
         v-model="userInput"
@@ -56,30 +63,45 @@ const cssClassList = () => {
         @keydown.enter="($event.target as HTMLInputElement).select()"
         @vue:mounted="$el.querySelector('input')?.focus()"
       />
-      <span> = {{ evalMath(userInput).toFixed(zeroFix) }}</span>
+      <span class="subSum">
+        {{ ` = ${evalMath(userInput).toFixed(zeroFix)}` }}<small v-html="unitLabel"></small>
+      </span>
     </span>
   </span>
 </template>
 
 <style scoped>
-/* .inventoryField {
-  display: flex;
-  flex-wrap: nowrap;
-} */
+.inventory-input {
+  grid-row: 2 / 3;
+}
 
 .isEdited {
   position: absolute;
   z-index: 1;
-  inset: 0;
-  background: white;
+  grid-column: 1 / -1;
+  width: 100%;
+  background-color: var(--bg-color);
 }
 
-input {
-  width: 100%;
-  text-align: right;
+.input-wrap {
+  display: flex;
+}
+
+.input-wrap input {
+  flex-grow: 1;
+  padding: 0;
+  min-width: 10ch;
+}
+.subSum {
+  text-wrap: nowrap;
+}
+
+.written {
+  align-items: baseline;
 }
 
 .written::before {
-  content: '*';
+  content: '\F72D';
+  color: var(--accent-color-normal);
 }
 </style>

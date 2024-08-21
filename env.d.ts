@@ -16,10 +16,11 @@ type Plywood = {
     sizeB: string
     sizeAB: string
     color: string
-    faceType: string
     footSize: string
     glueType: string
     woodType: string
+    faceType: string
+    faceGroup: string
   }
   price?: number
   totalStock: number
@@ -31,4 +32,17 @@ type Plywood = {
     m2?: string
     szt?: string
   }
+}
+
+interface AttributeFilter {
+  sizeT?: string
+  sizeA?: string
+  sizeB?: string
+  sizeAB?: string
+  color?: string
+  footSize?: string
+  glueType?: string
+  woodType?: string
+  faceType?: string
+  faceGroup?: string
 }

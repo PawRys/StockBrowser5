@@ -49,6 +49,15 @@ const preFix = computed(() => {
   return result
 })
 
+const unitLabel = computed(() => {
+  if (unit.match(/m3|purchase/)) return `zł/m<sup>3</sup>`
+  if (unit.match(/m2/)) return `zł/m<sup>2</sup>`
+  if (unit.match(/szt/)) return `zł/szt`
+  if (unit.match(/marg/)) return `zł`
+  if (unit.match(/perc/)) return `%`
+  return ``
+})
+
 const zeroFix = computed(() => {
   let result = 2
   if (unit.match(/perc/)) result = 1
@@ -84,7 +93,7 @@ function vatApplied(): string {
       :class="[fontColor(), vatApplied()]"
       @focus="isEdited = true"
     >
-      {{ preFix }}{{ computedPrice.toFixed(zeroFix) }}
+      {{ preFix }}{{ computedPrice.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
     </span>
     <input
       v-else

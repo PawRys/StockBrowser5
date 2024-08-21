@@ -2,23 +2,26 @@
 import { useSortingStore } from '@/stores/sortingStore'
 
 const sortingTable = [
-  { column: 'id', label: 'Kod' },
+  { column: 'id', label: 'Kod towaru' },
   { column: 'size', label: 'Wymiar' },
   { column: 'price_m3', label: 'Zakup m3' },
   { column: 'price_m2', label: 'Zakup m2' },
-  { column: 'price_pcs', label: 'Zakup szt' },
+  { column: 'price_szt', label: 'Zakup szt' },
   { column: 'totalStock_m3', label: 'Całkowity m3' },
   { column: 'totalStock_m2', label: 'Całkowity m2' },
-  { column: 'totalStock_pcs', label: 'Całkowity szt' },
+  { column: 'totalStock_szt', label: 'Całkowity szt' },
   { column: 'aviableStock_m3', label: 'Handlowy m3' },
   { column: 'aviableStock_m2', label: 'Handlowy m2' },
-  { column: 'aviableStock_pcs', label: 'Handlowy szt' }
+  { column: 'aviableStock_szt', label: 'Handlowy szt' }
 ]
 
-function sortuj(param: string): void {
-  useSortingStore().sortParam = param
+function sortData(ev: Event) {
+  const target = ev.target as HTMLSelectElement
+  const value = target.value
+
+  useSortingStore().sortParam = value
   useSortingStore().sortDir *= -1
-  const [col, unit] = param.split('_')
+  const [col, unit] = value.split('_')
   useSortingStore().sortCol = col
   useSortingStore().sortUnit = unit || ''
 }
@@ -26,13 +29,20 @@ function sortuj(param: string): void {
 
 <template>
   <section class="product-sorting">
-    <h3>Sortowanie</h3>
-    <template v-for="st in sortingTable" :key="st.column">
-      <button @click="sortuj(st.column)">
-        {{ st.label }}
-      </button>
-    </template>
+    <select @change="sortData">
+      <template v-for="st in sortingTable" :key="st.column">
+        <option :value="st.column">{{ st.label }}</option>
+      </template>
+    </select>
+    <button @click="useSortingStore().sortDir *= -1" class="compact">
+      <i v-if="useSortingStore().sortDir > 0" class="bi bi-sort-down-alt"></i>
+      <i v-if="useSortingStore().sortDir < 0" class="bi bi-sort-down"></i>
+    </button>
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+i {
+  font-size: 1.3rem;
+}
+</style>

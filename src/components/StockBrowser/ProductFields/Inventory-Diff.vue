@@ -24,6 +24,17 @@ const zeroFix = computed(() => {
   return result
 })
 
+const preFix = computed(() => {
+  if (diff.value > 0) return '+'
+  return ''
+})
+const unitLabel = computed(() => {
+  if (unit.match(/m3/)) return `m<sup>3</sup>`
+  if (unit.match(/m2/)) return `m<sup>2</sup>`
+  if (unit.match(/szt/)) return `szt`
+  return ``
+})
+
 const fontColor = computed(() => {
   const color = {
     OK: 'blue-font',
@@ -36,22 +47,13 @@ const fontColor = computed(() => {
 </script>
 
 <template>
-  <span :class="fontColor">
-    {{ diff.toFixed(zeroFix) }}
+  <span class="inventory-diff" :class="fontColor">
+    {{ `${preFix}${diff.toFixed(zeroFix)}` }}<small v-html="unitLabel"></small>
   </span>
 </template>
 
 <style scoped>
-.grey-font {
-  color: darkslategray;
-}
-.blue-font {
-  color: dodgerblue;
-}
-.red-font {
-  color: crimson;
-}
-.green-font {
-  color: limegreen;
+.inventory-diff {
+  grid-row: 3/4;
 }
 </style>
