@@ -15,7 +15,7 @@ type Plywood = {
     sizeA: string
     sizeB: string
     sizeAB: string
-    color: string
+    color?: string
     footSize: string
     glueType: string
     woodType: string

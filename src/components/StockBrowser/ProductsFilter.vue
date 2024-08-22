@@ -57,16 +57,16 @@ watch(
     attrSets.faceGroup.clear()
 
     stockItems.value.forEach((el: Plywood) => {
-      el.attr?.sizeT?.split(' ').map((el) => attrSets.sizeT.add(el))
-      el.attr?.sizeA?.split(' ').map((el) => attrSets.sizeA.add(el))
-      el.attr?.sizeB?.split(' ').map((el) => attrSets.sizeB.add(el))
-      el.attr?.color?.split(' ').map((el) => attrSets.color.add(el))
-      el.attr?.sizeAB?.split(' ').map((el) => attrSets.sizeAB.add(el))
-      el.attr?.footSize?.split(' ').map((el) => attrSets.footSize.add(el))
-      el.attr?.glueType?.split(' ').map((el) => attrSets.glueType.add(el))
-      el.attr?.woodType?.split(' ').map((el) => attrSets.woodType.add(el))
-      el.attr?.faceType?.split(' ').map((el) => attrSets.faceType.add(el))
-      el.attr?.faceGroup?.split(' ').map((el) => attrSets.faceGroup.add(el))
+      if (el.attr.sizeT) el.attr.sizeT.split(' ').map((el) => attrSets.sizeT.add(el))
+      if (el.attr.sizeA) el.attr.sizeA.split(' ').map((el) => attrSets.sizeA.add(el))
+      if (el.attr.sizeB) el.attr.sizeB.split(' ').map((el) => attrSets.sizeB.add(el))
+      if (el.attr.color) el.attr.color.split(' ').map((el) => attrSets.color.add(el))
+      if (el.attr.sizeAB) el.attr.sizeAB.split(' ').map((el) => attrSets.sizeAB.add(el))
+      if (el.attr.footSize) el.attr.footSize.split(' ').map((el) => attrSets.footSize.add(el))
+      if (el.attr.glueType) el.attr.glueType.split(' ').map((el) => attrSets.glueType.add(el))
+      if (el.attr.woodType) el.attr.woodType.split(' ').map((el) => attrSets.woodType.add(el))
+      if (el.attr.faceType) el.attr.faceType.split(' ').map((el) => attrSets.faceType.add(el))
+      if (el.attr.faceGroup) el.attr.faceGroup.split(' ').map((el) => attrSets.faceGroup.add(el))
     })
   },
   { immediate: true }

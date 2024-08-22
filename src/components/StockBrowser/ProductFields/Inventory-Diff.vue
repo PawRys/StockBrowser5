@@ -47,9 +47,9 @@ const fontColor = computed(() => {
 </script>
 
 <template>
-  <span class="inventory-diff" :class="fontColor">
+  <div class="inventory-diff" :class="fontColor">
     {{ `${preFix}${diff.toFixed(zeroFix)}` }}<small v-html="unitLabel"></small>
-  </span>
+  </div>
 </template>
 
 <style scoped>

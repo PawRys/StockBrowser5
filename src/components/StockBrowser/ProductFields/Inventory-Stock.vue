@@ -31,7 +31,14 @@ const unitLabel = computed(() => {
 </script>
 
 <template>
-  <span> {{ quantity.toFixed(zeroFix) }}<small v-html="unitLabel"></small> </span>
+  <div class="inventory-stock">
+    {{ quantity.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.inventory-stock {
+  grid-row: 1/2;
+  color: var(--grey-color);
+}
+</style>

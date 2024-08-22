@@ -28,7 +28,8 @@ const reactiveItems = computed(() =>
 <style scoped>
 ul {
   margin-inline: auto;
-  padding: 0;
+  padding-inline: 1ch;
   width: fit-content;
+  width: min(100%, 65ch);
 }
 </style>

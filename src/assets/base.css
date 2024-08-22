@@ -52,7 +52,7 @@
   --red-color: crimson;
   --green-color: limegreen;
   --blue-color: dodgerblue;
-  --grey-color: darkslategray;
+  --grey-color: darkgray;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -65,9 +65,9 @@
     --accent-color-bold: var(--accent-color-350);
     --cta-color: var(--accent-color-450);
 
-    --red-color: coral;
+    --red-color: tomato;
     --green-color: lawngreen;
-    --blue-color: aqua;
+    --blue-color: dodgerblue;
     --grey-color: darkgray;
   }
 }
@@ -77,11 +77,17 @@
 *::before {
   box-sizing: border-box;
   position: relative;
+  line-height: inherit;
+  /* font: inherit; */
 }
 
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--accent-color-normal) var(--accent-color-light);
+}
+
+:focus {
+  outline-color: orange;
 }
 
 #app {
@@ -95,6 +101,7 @@
 body {
   color: var(--font-color);
   background-color: var(--bg-color);
+  font-size: 112.5%;
   color-scheme: light dark;
 }
 
@@ -189,4 +196,8 @@ option {
 }
 .green-font {
   color: var(--green-color);
+}
+
+.bold {
+  font-weight: 600;
 }

@@ -20,7 +20,7 @@ function daysDiffWord() {
 <template>
   <section class="data-status">
     <span :class="{ 'red-font': useStockStore().warehause === 'Wszystkie' }">
-      {{ `${useStockStore().warehause || ''}` }}
+      {{ `Magazyn: ${useStockStore().warehause || ''}` }}
     </span>
     <span :class="{ 'rainbow-text': daysDiff() < 0, 'red-font': daysDiff() >= 2 }">
       {{ `${useStockStore().date || '0000-00-00'} ${daysDiffWord() || '0'}` }}

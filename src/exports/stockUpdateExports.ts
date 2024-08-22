@@ -173,6 +173,12 @@ function getGlueType(text: string): string | undefined {
 function getFaceType(text: string): string | undefined {
   let result = undefined
 
+  const regexpGrade = /\b(S|B|BB|CP|WG|WGE|C|CC|V|M|F|W)\b/
+  const expression = new RegExp(`${regexpGrade.source}/${regexpGrade.source}`, 'gi')
+  if (expression.test(text)) {
+    const grade = text.match(expression)
+    result = grade ? grade[0] : '??/??'
+  }
   /*!!! Keep order. Any order if equal number. !!! */
 
   /*1*/ if (/s01/gi.test(text)) result = 'B/B'
@@ -186,9 +192,12 @@ function getFaceType(text: string): string | undefined {
   /*1*/ if (/s09/gi.test(text)) result = 'WG/WG'
   /*1*/ if (/s10/gi.test(text)) result = 'C/C'
   /*1*/ if (/s11\/|kilo/gi.test(text)) result = 'Kilo'
-  /*1*/ if (/s12|s13/gi.test(text)) result = 'F/F'
-  /*1*/ if (/s14|s15/gi.test(text)) result = 'F/W'
-  /*1*/ if (/s16|s17/gi.test(text)) result = 'W/W'
+  /*1*/ if (/s12/gi.test(text)) result = 'F/F'
+  /*1*/ if (/s13/gi.test(text)) result = 'F/F II'
+  /*1*/ if (/s14/gi.test(text)) result = 'F/W'
+  /*1*/ if (/s15/gi.test(text)) result = 'F/W II'
+  /*1*/ if (/s16/gi.test(text)) result = 'W/W'
+  /*1*/ if (/s17/gi.test(text)) result = 'W/W II'
   /*1*/ if (/s18/gi.test(text)) result = 'CP/C'
   /*1*/ if (/s19/gi.test(text)) result = 'M/WG'
   /*1*/ if (/s20/gi.test(text)) result = 'F/BB'
@@ -204,13 +213,6 @@ function getFaceType(text: string): string | undefined {
   /*1*/ if (/s31/gi.test(text)) result = 'OSB3'
   /*1*/ if (/s32/gi.test(text)) result = 'OSB T&G'
   /*1*/ if (/s35/gi.test(text)) result = 'BB/CC'
-
-  const regexpGrade = /\b(S|B|BB|CP|WG|WGE|C|CC|V|M|F|W)\b/
-  const expression = new RegExp(`${regexpGrade.source}/${regexpGrade.source}`, 'gi')
-  if (expression.test(text)) {
-    const grade = text.match(expression)
-    result = grade ? grade[0] : '??/??'
-  }
 
   /*2.1*/ if (/\bPQ\b/gi.test(text)) result = 'PQ'
   /*2.2*/ if (/\bPQ\W?F\b/gi.test(text)) result = 'PQF'
@@ -246,7 +248,7 @@ function getFaceGroup(text: string): string | undefined {
     new RegExp(`${regexpLaminate.source}/${regexpLaminate.source}`, 'gi').test(text) ||
     /\bPQ\W?F\b/gi.test(text)
   )
-    result = 'laminat'
+    result = 'laminowana'
 
   return result || undefined
 }
@@ -287,6 +289,9 @@ function getColor(text: string, faceType: string | undefined): string | undefine
     if (faceType === 'F/F') results.add('d.brown')
     if (faceType === 'F/W') results.add('d.brown')
     if (faceType === 'W/W') results.add('d.brown')
+    if (faceType === 'F/F II') results.add('d.brown')
+    if (faceType === 'F/W II') results.add('d.brown')
+    if (faceType === 'W/W II') results.add('d.brown')
     if (faceType === 'Heksa') results.add('d.brown')
     if (faceType === 'Honey') results.add('honey')
     if (faceType === 'M/M') results.add('white')
@@ -296,7 +301,7 @@ function getColor(text: string, faceType: string | undefined): string | undefine
     if (faceType === 'PQF') results.add('(nieznany)')
   }
 
-  // if (results.size === 0 && faceType) results.add('(surowa)')
+  // if (results.size === 0 && faceType) results.add('(brak)')
   // else results.add('(laminat)')
   // if (results.size === 0) results.add('(---)')
   return Array.from(results).join(' ')

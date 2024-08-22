@@ -43,17 +43,88 @@ const unitLabel = computed(() => {
   return ``
 })
 
-const cssClassList = () => {
-  return { 'bi written': item.value.inventory?.[unit as keyof typeof item.value.inventory] }
+const notNull = () => {
+  return item.value.inventory?.[unit as keyof typeof item.value.inventory] ? true : false
 }
 </script>
 
 <template>
-  <span class="inventory-input" :class="{ isEdited: isEdited }">
-    <span v-if="!isEdited" :class="cssClassList()" @focus="isEdited = true" contenteditable="true">
-      {{ itemInvSumAll.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
+  <div class="inventory-display" v-if="!isEdited" @focus="isEdited = true" contenteditable="true">
+    <i class="bi bi-pencil-square" :class="{ 'not-null': notNull() }"></i>
+    <!-- <i class="bi bi-clipboard-plus-fill" :class="{ 'not-null': notNull() }"></i> -->
+    {{ itemInvSumAll.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
+  </div>
+
+  <div class="inventory-input" v-else>
+    <input
+      type="text"
+      v-model="userInput"
+      @blur="isEdited = false"
+      @focus="($event.target as HTMLInputElement).select()"
+      @keydown.esc="($event.target as HTMLInputElement).blur()"
+      @keydown.enter="($event.target as HTMLInputElement).select()"
+      @vue:mounted="$el.querySelector('input')?.focus()"
+    />
+    <span class="input-summary">
+      {{ `= ${evalMath(userInput).toFixed(zeroFix)}` }}<small v-html="unitLabel"></small>
     </span>
-    <span class="input-wrap" v-else>
+  </div>
+</template>
+
+<style scoped>
+:is(.inventory-display, .inventory-input) {
+  grid-row: 2/3;
+}
+
+.inventory-display {
+  cursor: pointer;
+  /* font-style: italic; */
+  /* color: var(--accent-color-500); */
+  border-bottom: dotted 1px var(--accent-color-normal);
+
+  display: flex;
+  align-items: baseline;
+  width: 100%;
+}
+
+.inventory-display .bi {
+  margin-right: auto;
+  font-size: 0.9em;
+  color: var(--neutral-color-150);
+}
+
+.inventory-display .bi.not-null {
+  color: var(--accent-color-bold);
+  /* text-shadow: 0 0 0px var(--accent-color-bold); */
+}
+
+.inventory-input input {
+  text-align: right;
+}
+
+.inventory-input {
+  grid-column: 1 / -1;
+  position: absolute;
+  z-index: 1;
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1ch;
+  width: 100%;
+
+  background-color: var(--bg-color);
+}
+
+.input-summary {
+  text-wrap: nowrap;
+  font-weight: 600;
+}
+</style>
+<!-- <div class="inventory-input" :class="{ isEdited: isEdited }">
+    <div v-if="!isEdited" :class="cssClassList()" @focus="isEdited = true" contenteditable="true">
+      {{ itemInvSumAll.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
+    </div>
+    <div class="input-wrap" v-else>
       <input
         type="text"
         v-model="userInput"
@@ -63,45 +134,8 @@ const cssClassList = () => {
         @keydown.enter="($event.target as HTMLInputElement).select()"
         @vue:mounted="$el.querySelector('input')?.focus()"
       />
-      <span class="subSum">
+      <span class="input-summary">
         {{ ` = ${evalMath(userInput).toFixed(zeroFix)}` }}<small v-html="unitLabel"></small>
       </span>
-    </span>
-  </span>
-</template>
-
-<style scoped>
-.inventory-input {
-  grid-row: 2 / 3;
-}
-
-.isEdited {
-  position: absolute;
-  z-index: 1;
-  grid-column: 1 / -1;
-  width: 100%;
-  background-color: var(--bg-color);
-}
-
-.input-wrap {
-  display: flex;
-}
-
-.input-wrap input {
-  flex-grow: 1;
-  padding: 0;
-  min-width: 10ch;
-}
-.subSum {
-  text-wrap: nowrap;
-}
-
-.written {
-  align-items: baseline;
-}
-
-.written::before {
-  content: '\F72D';
-  color: var(--accent-color-normal);
-}
-</style>
+    </div>
+  </div> -->

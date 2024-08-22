@@ -38,11 +38,6 @@ const activeWindow = computed(() => {
 
 <template>
   <header>
-    <div class="top-header">
-      <h1>Przeglądarka Stanów 5</h1>
-      <DataStats />
-    </div>
-
     <div class="menu-bar">
       <button
         v-for="(tab, id) in appWindowsList"
@@ -53,6 +48,10 @@ const activeWindow = computed(() => {
       >
         {{ tab.label }}
       </button>
+    </div>
+    <div class="top-header">
+      <!-- <h1>Przeglądarka Stanów 5</h1> -->
+      <DataStats />
     </div>
   </header>
 
