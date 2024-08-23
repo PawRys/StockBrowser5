@@ -79,8 +79,7 @@ const notNull = () => {
 .inventory-display {
   cursor: pointer;
   /* font-style: italic; */
-  /* color: var(--accent-color-500); */
-  border-bottom: dotted 1px var(--accent-color-normal);
+  border-bottom: solid 1px var(--accent-lightest);
 
   display: flex;
   align-items: baseline;
@@ -90,12 +89,11 @@ const notNull = () => {
 .inventory-display .bi {
   margin-right: auto;
   font-size: 0.9em;
-  color: var(--neutral-color-150);
+  color: var(--accent-lightest);
 }
 
 .inventory-display .bi.not-null {
-  color: var(--accent-color-bold);
-  /* text-shadow: 0 0 0px var(--accent-color-bold); */
+  color: var(--accent-light);
 }
 
 .inventory-input input {

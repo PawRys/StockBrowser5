@@ -15,11 +15,10 @@ const quantity = computed(() => {
 })
 
 const zeroFix = computed(() => {
-  let result = 2
-  if (unit === 'm3') result = 3
-  if (unit === 'm2') result = 2
-  if (unit === 'szt') result = 1
-  return result
+  if (unit === 'm3') return 3
+  if (unit === 'm2') return 2
+  if (unit === 'szt') return 1
+  return 2
 })
 
 const unitLabel = computed(() => {

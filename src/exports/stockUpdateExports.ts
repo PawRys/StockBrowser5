@@ -91,19 +91,19 @@ export function convertToObject(data: string[][], datatype: string): Plywood[] {
     const color_val = getColor(searchString, faceType_val)
 
     plywood.id = row[0]
-    plywood.name = row[1] || '(???)'
-    plywood.size = plywoodSize || '(???)'
+    plywood.name = row[1] || '(?)'
+    plywood.size = plywoodSize || '(?)'
     plywood.attr = plywood.attr || {}
-    plywood.attr.sizeT = sizeT || '(???)'
-    plywood.attr.sizeA = sizeA || '(???)'
-    plywood.attr.sizeB = sizeB || '(???)'
-    plywood.attr.sizeAB = `${sizeA}x${sizeB}` || '(???)'
-    plywood.attr.footSize = getFootSize(plywoodSize) || '(???)'
-    plywood.attr.faceType = faceType_val || '(???)'
-    plywood.attr.faceGroup = faceGroup_val || '(???)'
-    plywood.attr.glueType = glueType_val || '(???)'
-    plywood.attr.woodType = woodType_val || '(???)'
-    plywood.attr.color = color_val || '(???)'
+    plywood.attr.sizeT = sizeT || '(?)'
+    plywood.attr.sizeA = sizeA || '(?)'
+    plywood.attr.sizeB = sizeB || '(?)'
+    plywood.attr.sizeAB = `${sizeA}x${sizeB}` || '(?)'
+    plywood.attr.footSize = getFootSize(plywoodSize) || '(?)'
+    plywood.attr.faceType = faceType_val || '(?)'
+    plywood.attr.faceGroup = faceGroup_val || '(?)'
+    plywood.attr.glueType = glueType_val || '(?)'
+    plywood.attr.woodType = woodType_val || '(?)'
+    plywood.attr.color = color_val
     // plywood.inventory = {}
 
     if (datatype === 'stocks') {
@@ -146,7 +146,7 @@ function getFootSize(input: string | undefined): string | undefined {
   const lo = A < B ? A : B
   const hi = A > B ? A : B
   if (lo == hi) return `${lo}x${lo}'`
-  if (lo < 4) return `3x~'`
+  if (lo <= 3) return `3x~'`
   if (lo == 4 && hi == 8) return `4x8'`
   if (lo == 4) return `4x~'`
   if (lo == 5 && hi == 8) return `5x8'`
@@ -181,41 +181,42 @@ function getFaceType(text: string): string | undefined {
   }
   /*!!! Keep order. Any order if equal number. !!! */
 
-  /*1*/ if (/s01/gi.test(text)) result = 'B/B'
-  /*1*/ if (/s02/gi.test(text)) result = 'B/BB'
-  /*1*/ if (/s03/gi.test(text)) result = 'S/BB'
-  /*1*/ if (/s04/gi.test(text)) result = 'BB/BB'
-  /*1*/ if (/s05/gi.test(text)) result = 'BB/CP'
-  /*1*/ if (/s06/gi.test(text)) result = 'BB/WG'
-  /*1*/ if (/s07/gi.test(text)) result = 'CP/CP'
-  /*1*/ if (/s08/gi.test(text)) result = 'WGE/WGE'
-  /*1*/ if (/s09/gi.test(text)) result = 'WG/WG'
-  /*1*/ if (/s10/gi.test(text)) result = 'C/C'
-  /*1*/ if (/s11\/|kilo/gi.test(text)) result = 'Kilo'
-  /*1*/ if (/s12/gi.test(text)) result = 'F/F'
-  /*1*/ if (/s13/gi.test(text)) result = 'F/F II'
-  /*1*/ if (/s14/gi.test(text)) result = 'F/W'
-  /*1*/ if (/s15/gi.test(text)) result = 'F/W II'
-  /*1*/ if (/s16/gi.test(text)) result = 'W/W'
-  /*1*/ if (/s17/gi.test(text)) result = 'W/W II'
-  /*1*/ if (/s18/gi.test(text)) result = 'CP/C'
-  /*1*/ if (/s19/gi.test(text)) result = 'M/WG'
-  /*1*/ if (/s20/gi.test(text)) result = 'F/BB'
-  /*1*/ if (/s20/gi.test(text)) result = 'F/WG'
-  /*1*/ if (/s24/gi.test(text)) result = 'W/WG'
-  /*1*/ if (/s25/gi.test(text)) result = 'B/WG'
-  /*1*/ if (/s26/gi.test(text)) result = 'F/WH'
-  /*1*/ if (/s27/gi.test(text)) result = 'W/CP'
-  /*1*/ if (/s22/gi.test(text)) result = 'BB/C'
-  /*1*/ if (/s28/gi.test(text)) result = 'S/WG'
-  /*1*/ if (/s29/gi.test(text)) result = 'S/CP'
-  /*1*/ if (/s30/gi.test(text)) result = 'V/V'
-  /*1*/ if (/s31/gi.test(text)) result = 'OSB3'
-  /*1*/ if (/s32/gi.test(text)) result = 'OSB T&G'
-  /*1*/ if (/s35/gi.test(text)) result = 'BB/CC'
+  /*1*/ if (/s01\//gi.test(text)) result = 'B/B'
+  /*1*/ if (/s02\//gi.test(text)) result = 'B/BB'
+  /*1*/ if (/s03\//gi.test(text)) result = 'S/BB'
+  /*1*/ if (/s04\//gi.test(text)) result = 'BB/BB'
+  /*1*/ if (/s05\//gi.test(text)) result = 'BB/CP'
+  /*1*/ if (/s06\//gi.test(text)) result = 'BB/WG'
+  /*1*/ if (/s07\//gi.test(text)) result = 'CP/CP'
+  /*1*/ if (/s08\//gi.test(text)) result = 'WGE/WGE'
+  /*1*/ if (/s09\//gi.test(text)) result = 'WG/WG'
+  /*1*/ if (/s10\//gi.test(text)) result = 'C/C'
+  /*1*/ if (/s11\//gi.test(text)) result = 'Kilo'
+  /*1*/ if (/s12\//gi.test(text)) result = 'F/F'
+  /*1*/ if (/s13\//gi.test(text)) result = 'F/F II'
+  /*1*/ if (/s14\//gi.test(text)) result = 'F/W'
+  /*1*/ if (/s15\//gi.test(text)) result = 'F/W II'
+  /*1*/ if (/s16\//gi.test(text)) result = 'W/W'
+  /*1*/ if (/s17\//gi.test(text)) result = 'W/W II'
+  /*1*/ if (/s18\//gi.test(text)) result = 'CP/C'
+  /*1*/ if (/s19\//gi.test(text)) result = 'M/WG'
+  /*1*/ if (/s20\//gi.test(text)) result = 'F/BB'
+  /*1*/ if (/s20\//gi.test(text)) result = 'F/WG'
+  /*1*/ if (/s24\//gi.test(text)) result = 'W/WG'
+  /*1*/ if (/s25\//gi.test(text)) result = 'B/WG'
+  /*1*/ if (/s26\//gi.test(text)) result = 'F/WH'
+  /*1*/ if (/s27\//gi.test(text)) result = 'W/CP'
+  /*1*/ if (/s22\//gi.test(text)) result = 'BB/C'
+  /*1*/ if (/s28\//gi.test(text)) result = 'S/WG'
+  /*1*/ if (/s29\//gi.test(text)) result = 'S/CP'
+  /*1*/ if (/s30\//gi.test(text)) result = 'V/V'
+  /*1*/ if (/s31\//gi.test(text)) result = 'OSB3'
+  /*1*/ if (/s32\//gi.test(text)) result = 'OSB T&G'
+  /*1*/ if (/s35\//gi.test(text)) result = 'BB/CC'
 
-  /*2.1*/ if (/\bPQ\b/gi.test(text)) result = 'PQ'
-  /*2.2*/ if (/\bPQ\W?F\b/gi.test(text)) result = 'PQF'
+  /*2.1*/ if (/\bkilo\b/gi.test(text)) result = 'Kilo'
+  /*2.2*/ if (/\bPQ\b/gi.test(text)) result = 'PQ'
+  /*2.3*/ if (/\bPQ\W?F\b/gi.test(text)) result = 'PQF'
   /*3*/ if (/\bF\/W\W?H\b|Heksa/gi.test(text)) result = 'Heksa'
   /*3*/ if (/\bhoney\b/gi.test(text)) result = 'Honey'
   /*3*/ if (/\bM\/M\b|mel/gi.test(text)) result = 'M/M'
@@ -392,7 +393,6 @@ export async function mergeStocks(
 
   for (const incomingItem of incomingData) {
     const localItemIndex = localData.findIndex((localItem) => localItem.id === incomingItem.id)
-    incomingItem.inventoryStatus = setInventoryStatus(incomingItem)
 
     if (localItemIndex < 0) {
       localData.push(incomingItem)
@@ -409,6 +409,7 @@ export async function mergeStocks(
         })
       }
       _.merge(localData[localItemIndex], incomingItem) // Object.assign but better
+      localData[localItemIndex].inventoryStatus = setInventoryStatus(localData[localItemIndex])
     }
   }
   return localData

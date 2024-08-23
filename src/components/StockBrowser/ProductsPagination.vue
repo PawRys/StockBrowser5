@@ -40,7 +40,7 @@ function setPageNum(e: Event) {
     </select>
 
     <button class="setPrevPage compact" @click="setPrevPage">
-      <i class="bi bi-chevron-compact-left"></i>
+      <i class="bi bi-chevron-left"></i>
     </button>
 
     <select class="setPageNum" @change="setPageNum">
@@ -53,38 +53,30 @@ function setPageNum(e: Event) {
         {{ page }}
       </option>
     </select>
-    <span>{{ ` /${usePageStore().pageCount}` }}</span>
+    <span>{{ ` / ${usePageStore().pageCount}` }}</span>
 
     <button class="setNextPage compact" @click="setNextPage">
-      <i class="bi bi-chevron-compact-right"></i>
+      <i class="bi bi-chevron-right"></i>
     </button>
   </section>
 </template>
 
 <style scoped>
-/* .product-pagination {
-  gap: 0.8ch;
-} */
-
 i {
   font-size: 1.3rem;
+  place-self: center;
+}
+
+span {
+  margin-left: 1ch;
+  place-self: center;
 }
 
 .bi-book {
   margin-right: 0.8ch;
 }
 
-i,
-span {
-  place-self: center;
-}
-
 :is(#fakeid, button) {
   padding-inline: 0.6ch;
-  /* border-radius: 0; */
 }
-
-/* i {
-  font-size: 1.3rem;
-} */
 </style>
