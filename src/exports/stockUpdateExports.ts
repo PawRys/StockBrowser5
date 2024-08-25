@@ -249,7 +249,7 @@ function getFaceGroup(text: string): string | undefined {
     new RegExp(`${regexpLaminate.source}/${regexpLaminate.source}`, 'gi').test(text) ||
     /\bPQ\W?F\b/gi.test(text)
   )
-    result = 'laminowana'
+    result = 'laminat'
 
   return result || undefined
 }

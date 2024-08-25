@@ -20,24 +20,16 @@ provide('basePrice', basePrice)
   <li class="listItem" :title="item.name">
     <header>
       <span class="item-index">{{ `${index}. ` }}</span>
-      <div class="item-id">
+
+      <div class="item-info" :title="item.name">
         <span class="bold">{{ `${item.id}` }}</span>
         <span>{{ `${item.attr.glueType}` }}</span>
         <span>{{ `${item.attr.footSize}` }}</span>
-        <span>{{ `${item.attr.faceType} ${item.attr.color}` }}</span>
-      </div>
-      <div class="item-attr">
-        <span>{{ `${item.attr.woodType}` }}</span>
         <span>{{ `${item.attr.faceGroup}` }}</span>
-        <span class="bold">{{ `${item.size}` }}</span>
-        <span>{{ `${item.attr.faceType}` }}</span>
-        <span>{{ `${item.attr.color}` }}</span>
       </div>
-      <!-- <span class="item-name">{{ item.name }}</span> -->
-    </header>
 
-    <!--
-    -->
+      <div class="item-name">{{ item.name }}</div>
+    </header>
 
     <!-- <section class="prices">
       <Price class="price m3" :item="item" :unit="'m3'" />
@@ -65,65 +57,59 @@ provide('basePrice', basePrice)
 <style scoped>
 li {
   list-style: none;
-  margin-block: 2rem;
+  margin-block: 1ch;
+  background-color: var(--bg-color);
+  padding: 1ch 1.6ch;
+  border-radius: 1ch;
 }
 
-.item-attr {
+.item-info {
   display: flex;
   flex-wrap: wrap;
-  gap: 1ch;
+  gap: 0.6ch;
 }
 
-.item-id span::before {
+.item-info span {
+  text-wrap: nowrap;
+}
+.item-info span:not(:first-child)::before {
   content: ' - ';
 }
 
-.item-id span:first-child:before {
-  content: '';
+:is(.item-name, .item-attr) {
+  font-size: 0.9em;
+  color: var(--grey-color);
 }
 
-.item-index {
-  grid-area: indx;
-}
-
-.item-id {
-  grid-area: id--;
-}
-
-.item-attr {
-  grid-area: attr;
-}
-
-.item-name {
-  grid-area: name;
-}
 header {
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-areas:
-    'indx id--'
-    'indx attr'
+    'indx info'
+    /* 'indx attr' */
     'indx name';
   gap: 0.1ch 1ch;
 
   margin-bottom: 1ex;
 }
-
-/*
-
-.item-name {
-  grid-column: 2 / span 2;
+.item-index {
+  grid-area: indx;
 }
-
 .item-info {
-  text-align: end;
-} */
+  grid-area: info;
+}
+.item-attr {
+  grid-area: attr;
+}
+.item-name {
+  grid-area: name;
+}
 
 .prices,
 .inventory {
   display: grid;
   justify-items: end;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.5ch 2ch;
+  gap: 0.5ch 1ch;
 }
 </style>

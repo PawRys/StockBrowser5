@@ -33,7 +33,6 @@
   --neutral-palette-850: rgb(15, 16, 18);
   --neutral-palette-900: rgb(0, 0, 0);
 
-  font-family: Rajdhani, sans-serif;
   --radius-full: 100vmax;
   --radius-big: 1.5ch;
   --radius-mid: 1ch;
@@ -42,6 +41,7 @@
   --fast: 250ms;
 
   --bg-color: var(--neutral-palette-100);
+  --bg2-color: var(--accent-palette-100);
   --font-color: var(--neutral-palette-800);
   --font-color-inv: var(--accent-palette-100);
   --accent-lightest: var(--accent-palette-100);
@@ -57,7 +57,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     font-weight: 500;
-    --bg-color: var(--neutral-palette-700);
+    --bg-color: var(--neutral-palette-750);
+    --bg2-color: var(--neutral-palette-800);
     --font-color: var(--neutral-palette-100);
     --font-color-inv: var(--accent-palette-100);
     --accent-lightest: var(--neutral-palette-550);
@@ -101,6 +102,10 @@
 body {
   color: var(--font-color);
   background-color: var(--bg-color);
+  font-family: 'Rajdhani', sans-serif;
+  /* font-family: 'Barlow', sans-serif; */
+  /* font-family: 'Barlow Semi Condensed', sans-serif; */
+
   font-size: 112.5%;
   color-scheme: light dark;
 }

@@ -50,7 +50,7 @@ const notNull = () => {
 
 <template>
   <div class="inventory-display" v-if="!isEdited" @focus="isEdited = true" contenteditable="true">
-    <i class="bi bi-pencil-square" :class="{ 'not-null': notNull() }"></i>
+    <i class="bi bi-pencil-square" v-if="notNull()"></i>
     <!-- <i class="bi bi-clipboard-plus-fill" :class="{ 'not-null': notNull() }"></i> -->
     {{ itemInvSumAll.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
   </div>
@@ -77,22 +77,20 @@ const notNull = () => {
 }
 
 .inventory-display {
-  cursor: pointer;
-  /* font-style: italic; */
-  border-bottom: solid 1px var(--accent-lightest);
-
   display: flex;
   align-items: baseline;
+  justify-content: flex-end;
+  padding-inline: 0.4ch;
+  border: dotted 1px var(--accent-lighter);
   width: 100%;
+  cursor: pointer;
 }
 
 .inventory-display .bi {
   margin-right: auto;
+  padding-right: 0.4ch;
+  place-self: center;
   font-size: 0.9em;
-  color: var(--accent-lightest);
-}
-
-.inventory-display .bi.not-null {
   color: var(--accent-light);
 }
 
@@ -116,24 +114,6 @@ const notNull = () => {
 .input-summary {
   text-wrap: nowrap;
   font-weight: 600;
+  padding-right: 0.4ch;
 }
 </style>
-<!-- <div class="inventory-input" :class="{ isEdited: isEdited }">
-    <div v-if="!isEdited" :class="cssClassList()" @focus="isEdited = true" contenteditable="true">
-      {{ itemInvSumAll.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
-    </div>
-    <div class="input-wrap" v-else>
-      <input
-        type="text"
-        v-model="userInput"
-        @blur="isEdited = false"
-        @focus="($event.target as HTMLInputElement).select()"
-        @keydown.esc="($event.target as HTMLInputElement).blur()"
-        @keydown.enter="($event.target as HTMLInputElement).select()"
-        @vue:mounted="$el.querySelector('input')?.focus()"
-      />
-      <span class="input-summary">
-        {{ ` = ${evalMath(userInput).toFixed(zeroFix)}` }}<small v-html="unitLabel"></small>
-      </span>
-    </div>
-  </div> -->

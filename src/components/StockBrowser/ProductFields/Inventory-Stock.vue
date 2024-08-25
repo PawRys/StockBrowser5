@@ -38,6 +38,5 @@ const unitLabel = computed(() => {
 <style scoped>
 .inventory-stock {
   grid-row: 1/2;
-  color: var(--grey-color);
 }
 </style>
