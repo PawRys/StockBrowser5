@@ -80,7 +80,7 @@ const notNull = () => {
   display: flex;
   align-items: baseline;
   justify-content: flex-end;
-  padding-inline: 0.4ch;
+  padding: 0.4ch 0.8ch;
   border: dotted 1px var(--accent-lighter);
   width: 100%;
   cursor: pointer;

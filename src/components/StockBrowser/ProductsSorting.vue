@@ -42,6 +42,10 @@ function sortData(ev: Event) {
 </template>
 
 <style scoped>
+.product-sorting {
+  display: inline-flex;
+}
+
 i {
   font-size: 1.3rem;
 }

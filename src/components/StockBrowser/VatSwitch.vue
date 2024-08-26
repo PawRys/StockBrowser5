@@ -8,21 +8,24 @@ function formatSuper(text: string): string {
 </script>
 <template>
   <section class="product-vat-switch">
-    <h4>Vat:</h4>
-    <label v-for="unit in vatUnits" :key="unit" class="button switch compact" tabindex="0">
-      <span v-html="formatSuper(unit)"></span>
+    <!-- <h4>Vat:</h4> -->
+    <label v-for="unit in vatUnits" :key="unit" class="button compact" tabindex="0">
       <input
         type="checkbox"
         name="vat-switch"
         :checked="useVatStore()[unit]"
         @click="useVatStore()[unit] = !useVatStore()[unit]"
-        hidden
       />
+      <span v-html="formatSuper(unit)"></span>
     </label>
   </section>
 </template>
 
 <style scoped>
+.product-vat-switch {
+  display: inline-flex;
+}
+
 h4 {
   place-self: center;
   margin: 0;

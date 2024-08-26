@@ -20,6 +20,21 @@ function condition(): string {
   if (useStockStore().items.length < 1 && useFilterStore().statusFilter === 0) return 'notexist'
   return 'data'
 }
+
+function openDialogByID(id: string): void {
+  const dialog = document.getElementById(id) as HTMLDialogElement
+  if (dialog) {
+    dialog.showModal()
+  }
+}
+
+function closeDialog(ev: Event) {
+  const button = ev.target as HTMLElement
+  const closestDialog = button.closest('dialog')
+  if (closestDialog) {
+    closestDialog.close()
+  }
+}
 </script>
 
 <template>
@@ -72,13 +87,31 @@ function condition(): string {
 
     <div v-show="condition() === 'data'">
       <Filter />
-      <div class="top-toolbar">
-        <Sorting />
-        <VatSwitch />
-        <Paginate id="main-pagination" />
+      <dialog id="listSettings">
+        <header>
+          <button @click="closeDialog"><i class="bi bi-x-square-fill"></i></button>
+        </header>
+        <section>
+          <h4>Ilość wyników</h4>
+          <span> <Paginate :show="['setPageSize']" /> na stronę </span>
+
+          <h4>Sortowanie</h4>
+          <Sorting />
+
+          <h4>Doliczanie VATu</h4>
+          <VatSwitch />
+        </section>
+      </dialog>
+      <div class="toolbar">
+        <Paginate id="main-pagination" :show="['setPage']" />
+        <button @click="openDialogByID('listSettings')" class="compact">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
       </div>
       <ProductsList :key="refreshComponent" />
-      <Paginate />
+      <div class="toolbar">
+        <Paginate :show="['setPage']" />
+      </div>
       <InventorySummary @refresh="refreshComponent++" />
     </div>
   </section>
@@ -113,15 +146,39 @@ function condition(): string {
   display: block;
 }
 
-.top-toolbar {
+.toolbar {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5ch;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1ch;
+  margin-inline: auto;
+  width: min(100%, 65ch);
+  background: var(--bg2-color);
 }
 
-.top-toolbar > * {
+.toolbar:first-of-type {
+  padding: 1ch 1ch 0 1ch;
+  border-radius: 1.5ch 1.5ch 0 0;
+}
+
+.toolbar:last-of-type {
+  padding: 0 1ch 1ch 1ch;
+  border-radius: 0 0 1.5ch 1.5ch;
+}
+
+.toolbar > * {
   display: inline-flex;
-  margin-inline: 1ch;
+  /* margin-inline: 1ch; */
+}
+
+#listSettings > section {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0 1ch;
+}
+#listSettings > section > h4::after {
+  content: ':';
 }
 </style>

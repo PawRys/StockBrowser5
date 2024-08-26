@@ -101,11 +101,13 @@ function checkSibling(ev: Event): void {
   const target = ev.currentTarget as HTMLInputElement
   const prevSibling = target?.previousElementSibling as HTMLFormElement
   const firstChild = prevSibling.firstElementChild as HTMLInputElement
-  // if (!firstChild?.checked) {
-  // } else if (!prevSibling?.checked) {
-  // }
-  firstChild.checked = !firstChild.checked
-  prevSibling.checked = !prevSibling.checked
+  if (!firstChild?.checked) {
+    firstChild.checked = !firstChild.checked
+  } else if (!prevSibling?.checked) {
+    prevSibling.checked = !prevSibling.checked
+  }
+  // firstChild.checked = !firstChild.checked
+  // prevSibling.checked = !prevSibling.checked
 }
 
 const appliedFiltersCount = computed(() => {
@@ -254,6 +256,19 @@ body:has(#filter__toggle:checked) .product-filter ~ * {
 </style>
 
 <style scoped>
+section.product-filter {
+  position: sticky;
+  z-index: 1;
+  top: 0ch;
+
+  margin: auto;
+  padding: 1ch;
+  width: fit-content;
+
+  background-color: var(--bg-color);
+  border-radius: 0 0 1ch 1ch;
+}
+
 .filter-window {
   display: none;
 }
@@ -280,7 +295,6 @@ body:has(#filter__toggle:checked) .product-filter ~ * {
   align-items: center;
   justify-content: center;
   gap: 1ch;
-  margin: 2rem;
   font-size: 1.1rem;
 }
 
