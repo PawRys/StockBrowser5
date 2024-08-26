@@ -75,7 +75,7 @@ function setPageNum(e: Event) {
 }
 
 i {
-  font-size: 1.3rem;
+  /* font-size: 1.3rem; */
   place-self: center;
 }
 

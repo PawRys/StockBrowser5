@@ -189,7 +189,7 @@ const appliedFiltersCount = computed(() => {
 
     <footer class="filter-window__footer">
       <button
-        class="light"
+        class=""
         @click="filterStore.prevFilter"
         :disabled="filterStore.currentFilterIndex <= 0"
       >
@@ -198,7 +198,7 @@ const appliedFiltersCount = computed(() => {
       </button>
 
       <button
-        class="light"
+        class=""
         @click="filterStore.nextFilter"
         :disabled="filterStore.currentFilterIndex >= filterStore.filterHistory.length - 1"
       >
@@ -207,7 +207,7 @@ const appliedFiltersCount = computed(() => {
       </button>
 
       <button
-        class="light"
+        class=""
         type="reset"
         @click="filterStore.resetAllFilters"
         :disabled="!appliedFiltersCount"
@@ -216,7 +216,11 @@ const appliedFiltersCount = computed(() => {
         <span>{{ `(${appliedFiltersCount})` }}</span>
       </button>
 
-      <button class="cta" type="submit" @click="[formSubmit('filter__attr-list'), closeDialog]">
+      <button
+        class="cta"
+        type="submit"
+        @click="[formSubmit('filter__attr-list'), closeDialog($event)]"
+      >
         <i class="bi bi-search"></i>
         <span>Pokaż wyniki ({{ stockItems.length }})</span>
       </button>

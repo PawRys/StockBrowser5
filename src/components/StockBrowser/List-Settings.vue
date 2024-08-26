@@ -3,6 +3,7 @@ import { openDialogByID, closeDialog } from '@/exports/dialogsExports'
 
 import VatSwitch from '@/components/StockBrowser/VatSwitch.vue'
 import Sorting from '@/components/StockBrowser/List-Sorting.vue'
+import Paginate from '@/components/StockBrowser/List-Pagination.vue'
 </script>
 
 <template>
