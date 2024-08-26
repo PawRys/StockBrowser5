@@ -58,6 +58,7 @@ const notNull = () => {
   <div class="inventory-input" v-else>
     <input
       type="text"
+      class="user-input"
       v-model="userInput"
       @blur="isEdited = false"
       @focus="($event.target as HTMLInputElement).select()"
@@ -94,10 +95,6 @@ const notNull = () => {
   color: var(--accent-light);
 }
 
-.inventory-input input {
-  text-align: right;
-}
-
 .inventory-input {
   grid-column: 1 / -1;
   position: absolute;
@@ -109,6 +106,10 @@ const notNull = () => {
   width: 100%;
 
   background-color: var(--bg-color);
+}
+
+.user-input {
+  text-align: right;
 }
 
 .input-summary {

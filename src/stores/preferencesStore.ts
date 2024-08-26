@@ -5,7 +5,8 @@ export const usePreferencesStore = defineStore(
   'SB5_preferences',
   () => {
     const activeWindow = ref('')
-    return { activeWindow }
+    const listView = ref('inventory')
+    return { activeWindow, listView }
   },
   { persist: true }
 )

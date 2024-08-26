@@ -3,9 +3,10 @@ import { ref, watch, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useStockStore } from '@/stores/stockStore'
 import { useFilterStore } from '@/stores/filterStore'
+import { closeDialog } from '@/exports/dialogsExports'
 import { escapeNonword } from '@/exports/common_functions'
 
-import StockStatus from '@/components/StockBrowser/StockStatusFilter.vue'
+import StockStatus from '@/components/StockBrowser/StockStatus-Filter.vue'
 
 const refreshComponent = ref(0)
 const filterStore = useFilterStore()
@@ -120,177 +121,136 @@ const appliedFiltersCount = computed(() => {
 </script>
 
 <template>
-  <section class="product-filter" :key="refreshComponent">
-    <section class="filter-window__controls">
-      <button class="cta" @click="toggleCheck('filter__toggle')">
-        <i class="bi bi-search"></i>
-        <span>Filtry</span>
+  <dialog id="list-filter" class="filter-window" :key="refreshComponent">
+    <header class="filter-window__header">
+      <div>
+        <!-- empty div -->
+      </div>
+      <StockStatus />
+      <button class="compact" @click="closeDialog">
+        <i class="close-button bi bi-x-square-fill"></i>
+      </button>
+    </header>
+
+    <div class="filter__text-filter--wrapper">
+      <input
+        class="filter__text-filter"
+        type="search"
+        name="textSearch"
+        placeholder="Szukane słowo"
+        v-model="filterStore.textFilter"
+      />
+    </div>
+
+    <form id="filter__attr-list" class="filter__attr-list" @submit.prevent="getAttrFilterList">
+      <fieldset
+        class="filter__attr-set"
+        v-for="(attrLabel, attrKey) in attrLabels"
+        :key="`setKey-${attrKey}`"
+      >
+        <h4>{{ attrLabel }}</h4>
+        <div class="scroll-track">
+          <div
+            class="filter__attr-item"
+            v-for="item of Array.from(attrSets[attrKey]).sort(collator.compare)"
+            :key="`${attrKey}-${escapeNonword(item)}`"
+          >
+            <label class="button compact">
+              <input
+                type="checkbox"
+                :value="item"
+                :name="attrKey"
+                :checked="isChecked(attrKey, item)"
+                :id="`${attrKey}-${escapeNonword(item)}`"
+              />
+            </label>
+            <button class="compact" @click="checkSibling">
+              <span>{{ item }}</span>
+              <!-- <i class="bi bi-chevron-compact-left"></i> -->
+            </button>
+          </div>
+        </div>
+
+        <!-- <hr /> -->
+
+        <!-- <button class="transparent" type="submit">
+          <i class="bi bi-funnel"></i><span>Filtruj</span>
+        </button> -->
+
+        <button
+          class="transparent"
+          v-if="filterStore.attrFilter[attrKey]"
+          @click="[filterStore.resetAttrFilter(attrKey)]"
+        >
+          <i class="bi bi-trash3"></i><span>Usuń</span>
+        </button>
+      </fieldset>
+    </form>
+
+    <footer class="filter-window__footer">
+      <button
+        class="light"
+        @click="filterStore.prevFilter"
+        :disabled="filterStore.currentFilterIndex <= 0"
+      >
+        <i class="bi bi-arrow-counterclockwise"></i>
+        <span>{{ filterStore.currentFilterIndex }}</span>
       </button>
 
       <button
-        v-if="Object.keys(filterStore.attrFilter).length || filterStore.textFilter"
+        class="light"
+        @click="filterStore.nextFilter"
+        :disabled="filterStore.currentFilterIndex >= filterStore.filterHistory.length - 1"
+      >
+        <i class="bi bi-arrow-clockwise"></i>
+        <span>{{ filterStore.filterHistory.length - 1 - filterStore.currentFilterIndex }}</span>
+      </button>
+
+      <button
+        class="light"
+        type="reset"
         @click="filterStore.resetAllFilters"
+        :disabled="!appliedFiltersCount"
       >
         <i class="bi bi-trash3"></i>
+        <span>{{ `(${appliedFiltersCount})` }}</span>
       </button>
-      <span class="filter-count">{{ `Wyników: ${stockItems.length}` }}</span>
-    </section>
 
-    <section class="filter-window">
-      <input id="filter__toggle" type="checkbox" hidden />
-
-      <header class="filter-window__header">
-        <div>
-          <!-- empty div -->
-        </div>
-        <StockStatus />
-        <button class="compact">
-          <i class="close-button bi bi-x-square-fill" @click="toggleCheck('filter__toggle')"></i>
-        </button>
-      </header>
-
-      <div class="filter__text-filter--wrapper">
-        <input
-          class="filter__text-filter"
-          type="search"
-          name="textSearch"
-          placeholder="Szukane słowo"
-          v-model="filterStore.textFilter"
-        />
-      </div>
-
-      <form id="filter__attr-list" class="filter__attr-list" @submit.prevent="getAttrFilterList">
-        <fieldset
-          class="filter__attr-set"
-          v-for="(attrLabel, attrKey) in attrLabels"
-          :key="`setKey-${attrKey}`"
-        >
-          <h4>{{ attrLabel }}</h4>
-          <div class="scroll-track">
-            <div
-              class="filter__attr-item"
-              v-for="item of Array.from(attrSets[attrKey]).sort(collator.compare)"
-              :key="`${attrKey}-${escapeNonword(item)}`"
-            >
-              <label class="button compact">
-                <input
-                  type="checkbox"
-                  :value="item"
-                  :name="attrKey"
-                  :checked="isChecked(attrKey, item)"
-                  :id="`${attrKey}-${escapeNonword(item)}`"
-                />
-              </label>
-              <button class="compact" @click="checkSibling">
-                <span>{{ item }}</span>
-                <!-- <i class="bi bi-chevron-compact-left"></i> -->
-              </button>
-            </div>
-          </div>
-
-          <!-- <hr /> -->
-
-          <!-- <button class="transparent" type="submit">
-            <i class="bi bi-funnel"></i><span>Filtruj</span>
-          </button> -->
-
-          <button
-            class="transparent"
-            v-if="filterStore.attrFilter[attrKey]"
-            @click="[filterStore.resetAttrFilter(attrKey)]"
-          >
-            <i class="bi bi-trash3"></i><span>Usuń</span>
-          </button>
-        </fieldset>
-      </form>
-
-      <footer class="filter-window__footer">
-        <button
-          class="light"
-          @click="filterStore.prevFilter"
-          :disabled="filterStore.currentFilterIndex <= 0"
-        >
-          <i class="bi bi-arrow-counterclockwise"></i>
-          <span>{{ filterStore.currentFilterIndex }}</span>
-        </button>
-
-        <button
-          class="light"
-          @click="filterStore.nextFilter"
-          :disabled="filterStore.currentFilterIndex >= filterStore.filterHistory.length - 1"
-        >
-          <i class="bi bi-arrow-clockwise"></i>
-          <span>{{ filterStore.filterHistory.length - 1 - filterStore.currentFilterIndex }}</span>
-        </button>
-
-        <button
-          class="light"
-          type="reset"
-          @click="filterStore.resetAllFilters"
-          :disabled="!appliedFiltersCount"
-        >
-          <i class="bi bi-trash3"></i>
-          <span>{{ `(${appliedFiltersCount})` }}</span>
-        </button>
-
-        <button
-          class="cta"
-          type="submit"
-          @click="[formSubmit('filter__attr-list'), toggleCheck('filter__toggle')]"
-        >
-          <i class="bi bi-search"></i>
-          <span>Pokaż wyniki ({{ stockItems.length }})</span>
-        </button>
-      </footer>
-    </section>
-  </section>
+      <button class="cta" type="submit" @click="[formSubmit('filter__attr-list'), closeDialog]">
+        <i class="bi bi-search"></i>
+        <span>Pokaż wyniki ({{ stockItems.length }})</span>
+      </button>
+    </footer>
+  </dialog>
 </template>
 
 <style>
-body:has(#filter__toggle:checked) {
+body:has(dialog[open]) {
   overflow: hidden;
 }
-body:has(#filter__toggle:checked) .product-filter ~ * {
+/* body:has(#filter__toggle:checked) .product-filter ~ * {
   display: none;
-}
+} */
 </style>
 
 <style scoped>
-section.product-filter {
-  position: sticky;
-  z-index: 1;
-  top: 0ch;
-
-  margin: auto;
-  padding: 1ch;
-  width: fit-content;
-
-  background-color: var(--bg-color);
-  border-radius: 0 0 1ch 1ch;
-}
-
-.filter-window {
-  display: none;
-}
-
-.filter-window:has(#filter__toggle:checked) {
-  position: fixed;
-  z-index: 999999;
-  inset: 0;
-  overflow: auto;
-
+dialog[open] {
   display: grid;
   justify-items: center;
   place-content: center;
   grid-template-rows: auto auto 1fr auto;
 
+  inset: 0;
+  margin: 0;
   padding: 1ch;
-  max-height: 100vh;
+  width: 100svw;
+  height: 100svh;
+  max-width: 100svw;
   max-height: 100svh;
   background-color: var(--bg-color);
 }
 
-.filter-window__controls {
+/* .filter-window__controls {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -300,7 +260,7 @@ section.product-filter {
 
 .filter-window__controls .filter-count {
   font-weight: 700;
-}
+} */
 
 .filter-window__header {
   display: flex;

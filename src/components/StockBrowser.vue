@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import { useStockStore } from '@/stores/stockStore'
 import { useFilterStore } from '@/stores/filterStore'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
-import InventorySummary from '@/components/StockBrowser/InventorySummary.vue'
-import ProductsList from '@/components/StockBrowser/ProductsList.vue'
-import VatSwitch from '@/components/StockBrowser/VatSwitch.vue'
-import Paginate from '@/components/StockBrowser/ProductsPagination.vue'
-import Sorting from '@/components/StockBrowser/ProductsSorting.vue'
-import Filter from '@/components/StockBrowser/ProductsFilter.vue'
+import InventorySummary from '@/components/StockBrowser/Inventory-Summary.vue'
+import ListContainer from '@/components/StockBrowser/List-Container.vue'
+import Paginate from '@/components/StockBrowser/List-Pagination.vue'
+import Filter from '@/components/StockBrowser/List-Filter.vue'
+import ListSettings from '@/components/StockBrowser/List-Settings.vue'
+import FloatingToolbar from '@/components/StockBrowser/Floating-Toolbar.vue'
 
 const refreshComponent = ref(0)
 
@@ -19,21 +20,6 @@ function condition(): string {
   if (useStockStore().items.length < 1 && useFilterStore().statusFilter === 1) return 'tryzero'
   if (useStockStore().items.length < 1 && useFilterStore().statusFilter === 0) return 'notexist'
   return 'data'
-}
-
-function openDialogByID(id: string): void {
-  const dialog = document.getElementById(id) as HTMLDialogElement
-  if (dialog) {
-    dialog.showModal()
-  }
-}
-
-function closeDialog(ev: Event) {
-  const button = ev.target as HTMLElement
-  const closestDialog = button.closest('dialog')
-  if (closestDialog) {
-    closestDialog.close()
-  }
 }
 </script>
 
@@ -86,29 +72,13 @@ function closeDialog(ev: Event) {
     </div>
 
     <div v-show="condition() === 'data'">
+      <FloatingToolbar />
       <Filter />
-      <dialog id="listSettings">
-        <header>
-          <button @click="closeDialog"><i class="bi bi-x-square-fill"></i></button>
-        </header>
-        <section>
-          <h4>Ilość wyników</h4>
-          <span> <Paginate :show="['setPageSize']" /> na stronę </span>
-
-          <h4>Sortowanie</h4>
-          <Sorting />
-
-          <h4>Doliczanie VATu</h4>
-          <VatSwitch />
-        </section>
-      </dialog>
       <div class="toolbar">
         <Paginate id="main-pagination" :show="['setPage']" />
-        <button @click="openDialogByID('listSettings')" class="compact">
-          <i class="bi bi-three-dots-vertical"></i>
-        </button>
+        <ListSettings />
       </div>
-      <ProductsList :key="refreshComponent" />
+      <ListContainer :key="refreshComponent" />
       <div class="toolbar">
         <Paginate :show="['setPage']" />
       </div>
@@ -159,26 +129,11 @@ function closeDialog(ev: Event) {
 
 .toolbar:first-of-type {
   padding: 1ch 1ch 0 1ch;
-  border-radius: 1.5ch 1.5ch 0 0;
+  border-radius: 1ch 1ch 0 0;
 }
 
 .toolbar:last-of-type {
   padding: 0 1ch 1ch 1ch;
-  border-radius: 0 0 1.5ch 1.5ch;
-}
-
-.toolbar > * {
-  display: inline-flex;
-  /* margin-inline: 1ch; */
-}
-
-#listSettings > section {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 0 1ch;
-}
-#listSettings > section > h4::after {
-  content: ':';
+  border-radius: 0 0 1ch 1ch;
 }
 </style>

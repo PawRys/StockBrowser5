@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
 import { ref, defineProps, provide, toRefs } from 'vue'
+import { usePreferencesStore } from '@/stores/preferencesStore'
+import { storeToRefs } from 'pinia'
+
+const { listView } = storeToRefs(usePreferencesStore())
 
 import Price from '@/components/StockBrowser/ProductFields/PriceField.vue'
 import InventoryDiff from '@/components/StockBrowser/ProductFields/Inventory-Diff.vue'
@@ -31,16 +35,16 @@ provide('basePrice', basePrice)
       <div class="item-name">{{ item.name }}</div>
     </header>
 
-    <!-- <section class="prices">
+    <section class="prices" v-if="listView === 'prices'">
       <Price class="price m3" :item="item" :unit="'m3'" />
       <Price class="price m2" :item="item" :unit="'m2'" />
       <Price class="price szt" :item="item" :unit="'szt'" />
       <Price class="price purchase" :item="item" :unit="'purchase'" />
       <Price class="price marg" :item="item" :unit="'marg'" />
       <Price class="price perc" :item="item" :unit="'perc'" />
-    </section> -->
+    </section>
 
-    <section class="inventory">
+    <section class="inventory" v-if="listView === 'inventory'">
       <InventoryStock :item="item" :unit="'m3'" :stockName="'totalStock'" />
       <InventoryStock :item="item" :unit="'m2'" :stockName="'totalStock'" />
       <InventoryStock :item="item" :unit="'szt'" :stockName="'totalStock'" />
@@ -112,4 +116,15 @@ header {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 0.5ch 1ch;
 }
+
+/* .prices > div,
+.inventory > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  padding: 0.4ch 0.8ch;
+  border: dotted 1px var(--accent-lighter);
+  width: 100%;
+  cursor: pointer;
+} */
 </style>

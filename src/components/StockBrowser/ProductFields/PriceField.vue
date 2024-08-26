@@ -86,17 +86,16 @@ function vatApplied(): string {
 </script>
 
 <template>
-  <span>
-    <span
-      v-if="!isEdited || unit.match(/purchase/)"
-      :contenteditable="!unit.match(/purchase/)"
-      :class="[fontColor(), vatApplied()]"
-      @focus="isEdited = true"
-    >
-      {{ preFix }}{{ computedPrice.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
-    </span>
+  <div
+    v-if="!isEdited || unit.match(/purchase/)"
+    :contenteditable="!unit.match(/purchase/)"
+    :class="[fontColor(), vatApplied()]"
+    @focus="isEdited = true"
+  >
+    {{ preFix }}{{ computedPrice.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
+  </div>
+  <div v-else>
     <input
-      v-else
       type="text"
       :value="userInput ?? computedPrice.toFixed(zeroFix)"
       @input="updateBasePrice"
@@ -107,33 +106,11 @@ function vatApplied(): string {
       @keydown.enter="($event.target as HTMLInputElement).select()"
       @vue:mounted="$el.querySelector('input')?.focus()"
     />
-  </span>
+  </div>
 </template>
 
 <style scoped>
-div {
-  display: inline-flex;
-}
-input {
-  font-style: italic;
-  /* position: absolute;
-  inset: 0; */
-}
-
 .vat-applied {
   font-weight: 700;
-}
-
-.grey-font {
-  color: darkslategray;
-}
-.blue-font {
-  color: dodgerblue;
-}
-.red-font {
-  color: crimson;
-}
-.green-font {
-  color: limegreen;
 }
 </style>

@@ -4,7 +4,7 @@ import { ref, computed } from 'vue'
 import { usePageStore } from '@/stores/paginateStore'
 import { useStockStore } from '@/stores/stockStore'
 import { escapeNonword } from '@/exports/common_functions'
-import ListItem from '@/components/StockBrowser/ProductsList-Item.vue'
+import ListItem from '@/components/StockBrowser/List-Item.vue'
 
 const { pageStart, pageEnd } = storeToRefs(usePageStore())
 
