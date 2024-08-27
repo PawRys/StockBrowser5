@@ -5,8 +5,10 @@ import { usePageStore } from '@/stores/paginateStore'
 import { useStockStore } from '@/stores/stockStore'
 import { escapeNonword } from '@/exports/common_functions'
 import ListItem from '@/components/StockBrowser/List-Item.vue'
+import InventorySummary from '@/components/StockBrowser/Inventory-Summary.vue'
 
 const { pageStart, pageEnd } = storeToRefs(usePageStore())
+const refreshComponent = ref(0)
 
 const reactiveItems = computed(() =>
   (useStockStore().items as Plywood[])
@@ -15,13 +17,14 @@ const reactiveItems = computed(() =>
 )
 </script>
 <template>
-  <ul class="product-list">
+  <ul class="product-list" :key="refreshComponent">
     <ListItem
       v-for="(item, index) in reactiveItems"
       :key="escapeNonword(item.value.id)"
       :item="item"
       :index="index + pageStart + 1"
     />
+    <InventorySummary @refresh="refreshComponent++" />
   </ul>
 </template>
 
@@ -32,5 +35,43 @@ ul {
   padding: 0.1ch 1ch;
   width: min(100%, 65ch);
   background: var(--bg2-color);
+}
+
+li {
+  list-style: none;
+  margin-block: 1ch;
+  background-color: var(--bg-color);
+  padding: 1ch 1.6ch;
+  border-radius: 1ch;
+}
+
+li:hover {
+  box-shadow: inset 0 0 0 2px var(--cta-color);
+}
+</style>
+
+<style>
+:is(.prices, .inventory, .inventory-summary) {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5ch 0.5ch;
+}
+
+:is(.prices, .inventory, .inventory-summary) .field {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  padding: 0.2ch 0.6ch;
+  text-align: right;
+}
+
+:is(.prices, .inventory, .inventory-summary) .field[contenteditable='true'] {
+  border: dotted 1px var(--accent-lighter);
+}
+
+:is(.prices, .inventory, .inventory-summary) .field .bi {
+  place-self: center;
+  margin-right: auto;
+  padding-right: 0.4ch;
 }
 </style>

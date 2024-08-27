@@ -3,7 +3,7 @@ import { scrollTo } from '@/exports/common_functions'
 import { usePageStore } from '@/stores/paginateStore'
 
 const pageSizeOptions = [1, 10, 20, 50, 100]
-const scrollTarget = '#floating-toolbar'
+const scrollTarget = '#scrolltoptarget'
 const remOffset = -2
 
 const props = defineProps<{

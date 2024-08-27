@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import _ from 'lodash'
 import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
 
 import { useStockStore } from '@/stores/stockStore'
 import { useFilterStore } from '@/stores/filterStore'
+import { usePreferencesStore } from '@/stores/preferencesStore'
 
 import { calcQuant, evalMath } from '@/exports/common_functions'
 import { setInventoryStatus } from '@/exports/stockUpdateExports'
 
 const emit = defineEmits(['refresh'])
+const { listView } = storeToRefs(usePreferencesStore())
 
 const summaryDiff = (unit: string) => {
   return useStockStore().items.reduce((acc: number, item: Plywood) => {
@@ -64,70 +67,32 @@ const isActive = computed(() => useFilterStore().inventoryFilter)
 </script>
 
 <template>
-  <section class="product-summary">
-    <hr />
-    <!-- <button
-        class="switch"
-        :class="{ active: isActive.match(/brak|nadmiar/) }"
-        @click="toggleInventoryFilter('brak nadmiar')"
-      >
-        Różnice
-      </button>
-      <button
-        class="switch"
-        :class="{ active: isActive.includes('OK') }"
-        @click="toggleInventoryFilter('OK')"
-      >
-        OK
-      </button>
-          
+  <li class="list-summary" v-if="listView === 'inventory'">
+    <section class="inventory-summary">
+      <!-- <span class="field">{{ summarySymfo('m3').toFixed(3) }}</span>
+      <span class="field">{{ summarySymfo('m2').toFixed(2) }}</span>
+      <span class="field">{{ summarySymfo('szt').toFixed(1) }}</span>
 
-      <button @click="zeroOutFilteredInventory()" :disabled="summaryInput('m3') === 0">
-        Zeruj filtrowane
-      </button> -->
-    <section>
-      <div class="quant">
-        <span>{{ summarySymfo('m3').toFixed(3) }}</span>
-        <span>{{ summarySymfo('m2').toFixed(2) }}</span>
-        <span>{{ summarySymfo('szt').toFixed(1) }}</span>
-      </div>
-      <div class="quant">
-        <span>{{ summaryInput('m3').toFixed(3) }}</span>
-        <span>{{ summaryInput('m2').toFixed(2) }}</span>
-        <span>{{ summaryInput('szt').toFixed(1) }}</span>
-      </div>
+      <span class="field">{{ summaryInput('m3').toFixed(3) }}</span>
+      <span class="field">{{ summaryInput('m2').toFixed(2) }}</span>
+      <span class="field">{{ summaryInput('szt').toFixed(1) }}</span> -->
 
-      <div class="quant">
-        <span>
-          {{ summaryDiff('m3').toFixed(3) }}<small>m<sup>3</sup></small>
-        </span>
-        <span>
-          {{ summaryDiff('m2').toFixed(2) }}<small>m<sup>2</sup></small>
-        </span>
-        <span>{{ summaryDiff('szt').toFixed(1) }}<small>szt</small></span>
-      </div>
+      <span class="field">
+        {{ summaryDiff('m3').toFixed(3) }}<small>m<sup>3</sup></small>
+      </span>
+      <span class="field">
+        {{ summaryDiff('m2').toFixed(2) }}<small>m<sup>2</sup></small>
+      </span>
+      <span class="field">{{ summaryDiff('szt').toFixed(1) }}<small>szt</small></span>
     </section>
-    <span></span>
-  </section>
+    <button @click="zeroOutFilteredInventory()" :disabled="summaryInput('m3') === 0">
+      Zeruj filtrowane
+    </button>
+  </li>
 </template>
 
 <style scoped>
-.product-summary {
-  margin-inline: auto;
-  margin-block: 0;
-  padding: 0.1ch 1ch;
-  width: min(100%, 65ch);
+.list-summary {
   background: var(--bg2-color);
-}
-
-.quant {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.5ch;
-  /* padding-block: 1ch; */
-  text-align: right;
-}
-.quant > span {
-  padding: 0.4ch 0.8ch;
 }
 </style>

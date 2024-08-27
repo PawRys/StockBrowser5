@@ -1,18 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
 import { useStockStore } from '@/stores/stockStore'
 import { useFilterStore } from '@/stores/filterStore'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
-import InventorySummary from '@/components/StockBrowser/Inventory-Summary.vue'
 import ListContainer from '@/components/StockBrowser/List-Container.vue'
 import Paginate from '@/components/StockBrowser/List-Pagination.vue'
 import Filter from '@/components/StockBrowser/List-Filter.vue'
 import ListSettings from '@/components/StockBrowser/List-Settings.vue'
 import FloatingToolbar from '@/components/StockBrowser/Floating-Toolbar.vue'
-
-const refreshComponent = ref(0)
 
 function condition(): string {
   if (!localStorage.SB5_stockList || localStorage.SB5_stockList === '{}') return 'nodatabase'
@@ -71,18 +66,17 @@ function condition(): string {
       </button>
     </div>
 
-    <div v-show="condition() === 'data'">
+    <div v-show="condition() === 'data'" id="scrolltoptarget">
       <FloatingToolbar />
       <Filter />
       <div class="toolbar">
-        <Paginate id="main-pagination" :show="['setPage']" />
+        <Paginate :show="['setPage']" />
         <ListSettings />
       </div>
-      <ListContainer :key="refreshComponent" />
+      <ListContainer />
       <div class="toolbar">
         <Paginate :show="['setPage']" />
       </div>
-      <InventorySummary @refresh="refreshComponent++" />
     </div>
   </section>
 </template>

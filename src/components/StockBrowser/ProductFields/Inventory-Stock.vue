@@ -43,7 +43,7 @@ const unitLabel = computed(() => {
 </script>
 
 <template>
-  <div class="inventory-stock">
+  <div class="inventory-stock field">
     <i v-if="stockStatus === 0" class="bi bi-boxes"></i>
     <i v-if="stockStatus === 1" class="bi bi-boxes"></i>
     <i v-if="stockStatus === 2" class="bi bi-box"></i>
@@ -52,18 +52,9 @@ const unitLabel = computed(() => {
 </template>
 
 <style scoped>
-.inventory-stock {
-  grid-row: 1/2;
-  display: flex;
-  align-items: baseline;
-  padding: 0ch 0.8ch;
-  width: 100%;
-}
+/* styles in List-Container.vue */
 
-.inventory-stock .bi {
-  margin-right: auto;
-  padding-right: 0.4ch;
-  place-self: center;
-  color: var(--grey-color);
+.inventory-stock {
+  grid-row: 1 / 2;
 }
 </style>

@@ -47,14 +47,14 @@ const fontColor = computed(() => {
 </script>
 
 <template>
-  <div class="inventory-diff" :class="fontColor">
+  <div class="inventory-diff field" :class="fontColor">
     {{ `${preFix}${diff.toFixed(zeroFix)}` }}<small v-html="unitLabel"></small>
   </div>
 </template>
 
 <style scoped>
+/* styles in List-Container.vue */
 .inventory-diff {
-  grid-row: 3/4;
-  padding: 0ch 0.8ch;
+  grid-row: 3 / 4;
 }
 </style>

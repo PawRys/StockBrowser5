@@ -49,7 +49,12 @@ const notNull = () => {
 </script>
 
 <template>
-  <div class="inventory-display" v-if="!isEdited" @focus="isEdited = true" contenteditable="true">
+  <div
+    class="inventory-display field"
+    v-if="!isEdited"
+    @focus="isEdited = true"
+    contenteditable="true"
+  >
     <i class="bi bi-pencil-square" v-if="notNull()"></i>
     <!-- <i class="bi bi-clipboard-plus-fill" :class="{ 'not-null': notNull() }"></i> -->
     {{ itemInvSumAll.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
@@ -73,25 +78,13 @@ const notNull = () => {
 </template>
 
 <style scoped>
+/* styles in List-Container.vue */
+
 :is(.inventory-display, .inventory-input) {
   grid-row: 2/3;
 }
 
-.inventory-display {
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-end;
-  padding: 0.4ch 0.8ch;
-  border: dotted 1px var(--accent-lighter);
-  width: 100%;
-  cursor: pointer;
-}
-
 .inventory-display .bi {
-  margin-right: auto;
-  padding-right: 0.4ch;
-  place-self: center;
-  font-size: 0.9em;
   color: var(--accent-light);
 }
 
@@ -104,6 +97,7 @@ const notNull = () => {
   grid-template-columns: 1fr auto;
   gap: 1ch;
   width: 100%;
+  height: 100%;
 
   background-color: var(--bg-color);
 }
@@ -114,7 +108,8 @@ const notNull = () => {
 
 .input-summary {
   text-wrap: nowrap;
-  font-weight: 600;
-  padding-right: 0.4ch;
+  font-weight: 500;
+  padding-right: 0.5ch;
+  place-self: center;
 }
 </style>
