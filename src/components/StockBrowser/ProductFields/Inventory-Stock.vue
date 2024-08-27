@@ -1,17 +1,30 @@
 <script setup lang="ts">
 import { computed, defineProps, toRefs } from 'vue'
+import { storeToRefs } from 'pinia'
+
 import { calcQuant } from '@/exports/common_functions'
+import { usePreferencesStore } from '@/stores/preferencesStore'
+
+const { listView } = storeToRefs(usePreferencesStore())
 
 const props = defineProps<{
   item: Plywood
   unit: string
-  stockName: 'totalStock' | 'aviableStock'
+  stockStatus: number
 }>()
-const { item } = toRefs(props)
-const { unit, stockName } = props
+const { item, stockStatus } = toRefs(props)
+const { unit } = props
+
+const stockNameList: { [key: number]: 'totalStock' | 'aviableStock' } = {
+  0: 'totalStock',
+  1: 'totalStock',
+  2: 'aviableStock'
+}
 
 const quantity = computed(() => {
-  return calcQuant(item.value.size, item.value[stockName], 'm3', unit) * -1
+  const whichStock = stockNameList[stockStatus.value]
+  const m = listView.value === 'prices' ? 1 : -1
+  return calcQuant(item.value.size, item.value[whichStock], 'm3', unit) * m
 })
 
 const zeroFix = computed(() => {
@@ -31,6 +44,9 @@ const unitLabel = computed(() => {
 
 <template>
   <div class="inventory-stock">
+    <i v-if="stockStatus === 0" class="bi bi-boxes"></i>
+    <i v-if="stockStatus === 1" class="bi bi-boxes"></i>
+    <i v-if="stockStatus === 2" class="bi bi-box"></i>
     {{ quantity.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
   </div>
 </template>
@@ -38,5 +54,16 @@ const unitLabel = computed(() => {
 <style scoped>
 .inventory-stock {
   grid-row: 1/2;
+  display: flex;
+  align-items: baseline;
+  padding: 0ch 0.8ch;
+  width: 100%;
+}
+
+.inventory-stock .bi {
+  margin-right: auto;
+  padding-right: 0.4ch;
+  place-self: center;
+  color: var(--grey-color);
 }
 </style>

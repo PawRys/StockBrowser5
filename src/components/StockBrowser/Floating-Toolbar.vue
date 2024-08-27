@@ -11,14 +11,7 @@ const { items: stockItems } = storeToRefs(useStockStore())
 </script>
 
 <template>
-  <section class="floating-toolbar">
-    <button v-if="listView === 'prices'" @click="listView = 'inventory'">
-      <i class="bi bi-coin"></i>
-    </button>
-    <button v-if="listView === 'inventory'" @click="listView = 'prices'">
-      <i class="bi bi-calculator"></i>
-    </button>
-
+  <section class="floating-toolbar" id="floating-toolbar">
     <button class="cta" @click="openDialogByID('list-filter')">
       <i class="bi bi-search"></i>
       <span>Filtry</span>
@@ -31,6 +24,13 @@ const { items: stockItems } = storeToRefs(useStockStore())
       <i class="bi bi-trash3"></i>
     </button>
     <span class="filter-count">{{ `Wyników: ${stockItems.length}` }}</span>
+
+    <button v-if="listView === 'prices'" @click="listView = 'inventory'">
+      <i class="bi bi-coin"></i>
+    </button>
+    <button v-if="listView === 'inventory'" @click="listView = 'prices'">
+      <i class="bi bi-calculator"></i>
+    </button>
   </section>
 </template>
 

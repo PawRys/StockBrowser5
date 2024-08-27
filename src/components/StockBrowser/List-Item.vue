@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
 import { ref, defineProps, provide, toRefs } from 'vue'
-import { usePreferencesStore } from '@/stores/preferencesStore'
 import { storeToRefs } from 'pinia'
+import { usePreferencesStore } from '@/stores/preferencesStore'
+import { useFilterStore } from '@/stores/filterStore'
 
 const { listView } = storeToRefs(usePreferencesStore())
+const { statusFilter } = storeToRefs(useFilterStore())
 
 import Price from '@/components/StockBrowser/ProductFields/PriceField.vue'
 import InventoryDiff from '@/components/StockBrowser/ProductFields/Inventory-Diff.vue'
@@ -21,7 +23,7 @@ provide('basePrice', basePrice)
 </script>
 
 <template>
-  <li class="listItem" :title="item.name">
+  <li class="listItem">
     <header>
       <span class="item-index">{{ `${index}. ` }}</span>
 
@@ -36,6 +38,9 @@ provide('basePrice', basePrice)
     </header>
 
     <section class="prices" v-if="listView === 'prices'">
+      <InventoryStock :item="item" :unit="'m3'" :stockStatus="statusFilter" />
+      <InventoryStock :item="item" :unit="'m2'" :stockStatus="statusFilter" />
+      <InventoryStock :item="item" :unit="'szt'" :stockStatus="statusFilter" />
       <Price class="price m3" :item="item" :unit="'m3'" />
       <Price class="price m2" :item="item" :unit="'m2'" />
       <Price class="price szt" :item="item" :unit="'szt'" />
@@ -45,9 +50,9 @@ provide('basePrice', basePrice)
     </section>
 
     <section class="inventory" v-if="listView === 'inventory'">
-      <InventoryStock :item="item" :unit="'m3'" :stockName="'totalStock'" />
-      <InventoryStock :item="item" :unit="'m2'" :stockName="'totalStock'" />
-      <InventoryStock :item="item" :unit="'szt'" :stockName="'totalStock'" />
+      <InventoryStock :item="item" :unit="'m3'" :stockStatus="1" />
+      <InventoryStock :item="item" :unit="'m2'" :stockStatus="1" />
+      <InventoryStock :item="item" :unit="'szt'" :stockStatus="1" />
       <InventoryInput :item="item" :unit="'m3'" />
       <InventoryInput :item="item" :unit="'m2'" />
       <InventoryInput :item="item" :unit="'szt'" />
@@ -90,7 +95,6 @@ header {
   grid-template-columns: auto 1fr;
   grid-template-areas:
     'indx info'
-    /* 'indx attr' */
     'indx name';
   gap: 0.1ch 1ch;
 
@@ -112,19 +116,9 @@ header {
 .prices,
 .inventory {
   display: grid;
+  align-items: baseline;
   justify-items: end;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.5ch 1ch;
+  gap: 0.5ch 0.5ch;
 }
-
-/* .prices > div,
-.inventory > div {
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-end;
-  padding: 0.4ch 0.8ch;
-  border: dotted 1px var(--accent-lighter);
-  width: 100%;
-  cursor: pointer;
-} */
 </style>

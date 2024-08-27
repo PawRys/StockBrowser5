@@ -73,11 +73,11 @@ function keyguard(event: KeyboardEvent): void {
 function fontColor(): string {
   const threshold = 1
   const priceDiff = basePrice.value - purchase
-  let color = 'grey-font'
-  if (priceDiff >= threshold) color = 'green-font'
-  if (priceDiff <= threshold * -1) color = 'red-font'
-  if (unit.match(/purchase/)) color = 'grey-font'
-  return color
+  if (unit.match(/purchase/)) return ''
+  if (priceDiff >= threshold) return 'green-font'
+  if (priceDiff <= threshold * -1) return 'red-font'
+  // if (unit.match(/purchase/)) return 'grey-font'
+  return ''
 }
 
 function vatApplied(): string {
@@ -87,6 +87,7 @@ function vatApplied(): string {
 
 <template>
   <div
+    class="price-display"
     v-if="!isEdited || unit.match(/purchase/)"
     :contenteditable="!unit.match(/purchase/)"
     :class="[fontColor(), vatApplied()]"
@@ -94,9 +95,10 @@ function vatApplied(): string {
   >
     {{ preFix }}{{ computedPrice.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
   </div>
-  <div v-else>
+  <div class="price-input" v-else>
     <input
-      type="text"
+      class="user-input"
+      type="number"
       :value="userInput ?? computedPrice.toFixed(zeroFix)"
       @input="updateBasePrice"
       @blur="[(isEdited = false), (userInput = null)]"
@@ -110,6 +112,53 @@ function vatApplied(): string {
 </template>
 
 <style scoped>
+.price-display.purchase {
+  text-align: right;
+  padding: 0.4ch 0.8ch;
+  border-radius: 0.6ch;
+  background-color: var(--bg2-color);
+}
+
+.price-display[contenteditable='true'] {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  padding: 0.4ch 0.8ch;
+  border: dotted 1px var(--accent-lighter);
+  width: 100%;
+  cursor: pointer;
+}
+
+.price-input {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1ch;
+  width: 100%;
+  height: 100%;
+
+  background-color: var(--bg-color);
+}
+
+.user-input {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  text-align: right;
+}
+
+/* Hide arrows in WebKit browsers (Chrome, Safari, Edge) */
+.user-input::-webkit-outer-spin-button,
+.user-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide arrows in Firefox */
+.user-input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 .vat-applied {
   font-weight: 700;
 }

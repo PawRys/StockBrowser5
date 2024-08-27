@@ -54,5 +54,6 @@ const fontColor = computed(() => {
 <style scoped>
 .inventory-diff {
   grid-row: 3/4;
+  padding: 0ch 0.8ch;
 }
 </style>
