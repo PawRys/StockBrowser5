@@ -72,6 +72,10 @@ li {
   border-radius: 1ch;
 }
 
+li:hover {
+  box-shadow: inset 0 0 0 2px var(--cta-color);
+}
+
 .item-info {
   display: flex;
   flex-wrap: wrap;
@@ -98,7 +102,7 @@ header {
     'indx name';
   gap: 0.1ch 1ch;
 
-  margin-bottom: 1ex;
+  margin-bottom: 2ch;
 }
 .item-index {
   grid-area: indx;

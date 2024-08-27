@@ -76,7 +76,6 @@ function fontColor(): string {
   if (unit.match(/purchase/)) return ''
   if (priceDiff >= threshold) return 'green-font'
   if (priceDiff <= threshold * -1) return 'red-font'
-  // if (unit.match(/purchase/)) return 'grey-font'
   return ''
 }
 

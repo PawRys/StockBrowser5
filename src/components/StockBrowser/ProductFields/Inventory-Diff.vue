@@ -27,6 +27,7 @@ const preFix = computed(() => {
   if (diff.value > 0) return '+'
   return ''
 })
+
 const unitLabel = computed(() => {
   if (unit.match(/m3/)) return `m<sup>3</sup>`
   if (unit.match(/m2/)) return `m<sup>2</sup>`
