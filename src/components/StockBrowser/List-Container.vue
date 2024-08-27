@@ -41,7 +41,7 @@ li {
   list-style: none;
   margin-block: 1ch;
   background-color: var(--bg-color);
-  padding: 1ch 1.6ch;
+  padding: 1ch 1ch;
   border-radius: 1ch;
 }
 
