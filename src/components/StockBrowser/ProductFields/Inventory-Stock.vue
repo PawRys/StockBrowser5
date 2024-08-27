@@ -57,4 +57,8 @@ const unitLabel = computed(() => {
 .inventory-stock {
   grid-row: 1 / 2;
 }
+
+.bi {
+  color: var(--grey-color);
+}
 </style>
