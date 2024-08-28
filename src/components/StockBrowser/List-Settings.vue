@@ -7,7 +7,7 @@ import Paginate from '@/components/StockBrowser/List-Pagination.vue'
 </script>
 
 <template>
-  <button @click="showModalByID('listSettings')" class="compact">
+  <button @click="showModalByID('listSettings')">
     <i class="bi bi-three-dots-vertical"></i>
   </button>
 

@@ -4,6 +4,8 @@ import { useFilterStore } from '@/stores/filterStore'
 import { openDialogByID } from '@/exports/dialogsExports'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
+import ListSettings from '@/components/StockBrowser/List-Settings.vue'
+
 const filterStore = useFilterStore()
 const { listView } = storeToRefs(usePreferencesStore())
 </script>
@@ -29,6 +31,8 @@ const { listView } = storeToRefs(usePreferencesStore())
     <button v-if="listView === 'inventory'" @click="listView = 'prices'">
       <i class="bi bi-calculator"></i>
     </button>
+
+    <ListSettings />
   </section>
 </template>
 

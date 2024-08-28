@@ -7,7 +7,6 @@ import { escapeNonword } from '@/exports/common_functions'
 
 import ListItem from '@/components/StockBrowser/List-Item.vue'
 import Paginate from '@/components/StockBrowser/List-Pagination.vue'
-import ListSettings from '@/components/StockBrowser/List-Settings.vue'
 import InventorySummary from '@/components/StockBrowser/List-Summary.vue'
 
 const { pageStart, pageEnd } = storeToRefs(usePageStore())
@@ -25,7 +24,6 @@ const reactiveItems = computed(() =>
   <div class="toolbar">
     <span class="filter-count">{{ `Wyników: ${stockItems.length}` }}</span>
     <Paginate :show="['setPage']" />
-    <ListSettings />
   </div>
 
   <ul class="product-list" :key="refreshComponent">
