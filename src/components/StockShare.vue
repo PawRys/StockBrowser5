@@ -52,7 +52,7 @@ async function shareData() {
     <div class="stock-share--window">
       <h2>Udostępnij</h2>
       <form action="javascript:void(0);">
-        <input type="password" placeholder="Sekretne hasło (opcjonalnie)" v-model="password" />
+        <input type="password" placeholder="Hasło (opcjonalnie)" v-model="password" />
         <button class="cta" @click="shareData">Generuj kod</button>
       </form>
       <p class="message-box">{{ messagebox }}</p>
@@ -68,8 +68,9 @@ async function shareData() {
 
 .share-code {
   margin-block: 1ch;
-  font-size: 3rem;
+  font-size: 5rem;
   font-weight: 500;
+  text-align: center;
 }
 
 form {
@@ -83,6 +84,6 @@ form {
 }
 
 input {
-  width: 25ch;
+  width: 20ch;
 }
 </style>
