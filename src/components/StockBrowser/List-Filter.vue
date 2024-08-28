@@ -146,9 +146,11 @@ const appliedFiltersCount = computed(() => {
       <fieldset
         class="filter__attr-set"
         v-for="(attrLabel, attrKey) in attrLabels"
+        :class="`setKey-${attrKey}`"
         :key="`setKey-${attrKey}`"
       >
-        <h4>{{ attrLabel }}</h4>
+        <!-- <h4>{{ attrLabel }}</h4> -->
+        <hr />
         <div class="scroll-track">
           <div
             class="filter__attr-item"
@@ -166,16 +168,9 @@ const appliedFiltersCount = computed(() => {
             </label>
             <button class="compact" @click="checkSibling">
               <span>{{ item }}</span>
-              <!-- <i class="bi bi-chevron-compact-left"></i> -->
             </button>
           </div>
         </div>
-
-        <!-- <hr /> -->
-
-        <!-- <button class="transparent" type="submit">
-          <i class="bi bi-funnel"></i><span>Filtruj</span>
-        </button> -->
 
         <button
           class="transparent"
@@ -222,7 +217,7 @@ const appliedFiltersCount = computed(() => {
         @click="[formSubmit('filter__attr-list'), closeDialog($event)]"
       >
         <i class="bi bi-search"></i>
-        <span>Pokaż wyniki ({{ stockItems.length }})</span>
+        <span>({{ stockItems.length }})</span>
       </button>
     </footer>
   </dialog>
@@ -232,9 +227,6 @@ const appliedFiltersCount = computed(() => {
 body:has(dialog[open]) {
   overflow: hidden;
 }
-/* body:has(#filter__toggle:checked) .product-filter ~ * {
-  display: none;
-} */
 </style>
 
 <style scoped>
@@ -253,18 +245,6 @@ dialog[open] {
   max-height: 100svh;
   background-color: var(--bg-color);
 }
-
-/* .filter-window__controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1ch;
-  font-size: 1.1rem;
-}
-
-.filter-window__controls .filter-count {
-  font-weight: 700;
-} */
 
 .filter-window__header {
   display: flex;
@@ -300,7 +280,9 @@ dialog[open] {
 }
 
 .filter__attr-list {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: auto auto 1fr;
   width: 100%;
   overflow-x: scroll;
 }
@@ -312,12 +294,26 @@ dialog[open] {
 }
 
 .filter__attr-set {
+  grid-row: 1 / 4;
   display: flex;
   flex-direction: column;
 
   margin: 0;
   border: none;
-  padding: 1ch;
+  padding: 0 1ch;
+}
+
+.setKey-faceGroup {
+  grid-row: 1 / 2;
+}
+.setKey-glueType {
+  grid-row: 2 / 3;
+  grid-column: 1 / 2;
+}
+.setKey-woodType {
+  grid-row: 3 / 4;
+  grid-column: 1 / 2;
+  overflow: auto;
 }
 
 .filter__attr-set h4 {
