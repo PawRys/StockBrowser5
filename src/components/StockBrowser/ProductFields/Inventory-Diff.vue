@@ -23,11 +23,6 @@ const zeroFix = computed(() => {
   return 2
 })
 
-const preFix = computed(() => {
-  if (diff.value > 0) return '+'
-  return ''
-})
-
 const unitLabel = computed(() => {
   if (unit.match(/m3/)) return `m<sup>3</sup>`
   if (unit.match(/m2/)) return `m<sup>2</sup>`
@@ -48,7 +43,7 @@ const fontColor = computed(() => {
 
 <template>
   <div class="inventory-diff field" :class="fontColor">
-    {{ `${preFix}${diff.toFixed(zeroFix)}` }}<small v-html="unitLabel"></small>
+    {{ `${diff.toFixed(zeroFix)}` }}<small v-html="unitLabel"></small>
   </div>
 </template>
 
@@ -56,5 +51,9 @@ const fontColor = computed(() => {
 /* styles in List-Container.vue */
 .inventory-diff {
   grid-row: 3 / 4;
+}
+
+.green-font::before {
+  content: '+';
 }
 </style>

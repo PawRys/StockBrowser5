@@ -1,7 +1,14 @@
-export function openDialogByID(id: string): void {
+export function showModalByID(id: string): void {
   const dialog = document.getElementById(id) as HTMLDialogElement
   if (dialog) {
     dialog.showModal()
+  }
+}
+
+export function openDialogByID(id: string): void {
+  const dialog = document.getElementById(id) as HTMLDialogElement
+  if (dialog) {
+    dialog.show()
   }
 }
 

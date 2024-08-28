@@ -100,6 +100,9 @@
 }
 
 body {
+  margin: auto;
+  width: min(65ch, 100%);
+
   color: var(--font-color);
   background-color: var(--bg-color);
   font-family: 'Rajdhani', sans-serif;

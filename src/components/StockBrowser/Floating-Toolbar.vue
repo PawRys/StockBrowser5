@@ -14,7 +14,7 @@ const { items: stockItems } = storeToRefs(useStockStore())
   <section class="floating-toolbar" id="floating-toolbar">
     <button class="cta" @click="openDialogByID('list-filter')">
       <i class="bi bi-search"></i>
-      <span>Filtry</span>
+      <span>Szukaj</span>
     </button>
 
     <button

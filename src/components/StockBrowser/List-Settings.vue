@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { openDialogByID, closeDialog } from '@/exports/dialogsExports'
+import { showModalByID, closeDialog } from '@/exports/dialogsExports'
 
 import VatSwitch from '@/components/StockBrowser/VatSwitch.vue'
 import Sorting from '@/components/StockBrowser/List-Sorting.vue'
@@ -7,7 +7,7 @@ import Paginate from '@/components/StockBrowser/List-Pagination.vue'
 </script>
 
 <template>
-  <button @click="openDialogByID('listSettings')" class="compact">
+  <button @click="showModalByID('listSettings')" class="compact">
     <i class="bi bi-three-dots-vertical"></i>
   </button>
 

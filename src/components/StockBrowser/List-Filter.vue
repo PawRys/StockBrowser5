@@ -236,6 +236,8 @@ dialog[open] {
   place-content: center;
   grid-template-rows: auto auto 1fr auto;
 
+  position: fixed;
+  z-index: 999;
   inset: 0;
   margin: 0;
   padding: 1ch;

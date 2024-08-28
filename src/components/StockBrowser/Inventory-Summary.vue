@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import _ from 'lodash'
-import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useStockStore } from '@/stores/stockStore'
-import { useFilterStore } from '@/stores/filterStore'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
 import { calcQuant, evalMath } from '@/exports/common_functions'
@@ -31,11 +29,11 @@ const summaryInput = (unit: string) => {
   }, 0)
 }
 
-const summarySymfo = (unit: string) => {
-  return useStockStore().items.reduce((acc: number, item: Plywood) => {
-    return acc + calcQuant(item.size, item.totalStock, 'm3', unit)
-  }, 0)
-}
+// const summarySymfo = (unit: string) => {
+//   return useStockStore().items.reduce((acc: number, item: Plywood) => {
+//     return acc + calcQuant(item.size, item.totalStock, 'm3', unit)
+//   }, 0)
+// }
 
 const zeroOutFilteredInventory = () => {
   const storedItems = JSON.parse(localStorage.SB5_stockList || '[]')
@@ -52,47 +50,73 @@ const zeroOutFilteredInventory = () => {
   emit('refresh')
 }
 
-function toggleInventoryFilter(item: string) {
-  let filter = useFilterStore().inventoryFilter
-  filter.match(item)
-    ? (useFilterStore().inventoryFilter = filter.replace(item, '').trim())
-    : (useFilterStore().inventoryFilter = `${filter} ${item}`.trim())
-}
+function setFontColor(unit: 'm3' | 'm2' | 'szt') {
+  const val = summaryDiff(unit)
+  let threshold = 0
 
-const isActive = computed(() => useFilterStore().inventoryFilter)
-// const preFix = computed(() => {
-//   if (diff.value > 0) return '+'
-//   return ''
-// })
+  if (unit === 'm3') threshold = 0.01
+  if (unit === 'm2') threshold = 0.1
+  if (unit === 'szt') threshold = 1
+
+  if (val > -1 * threshold && val < threshold) return 'blue-font'
+  if (val >= threshold) return 'green-font'
+  if (val <= threshold) return 'red-font'
+  return ''
+}
 </script>
 
 <template>
   <li class="list-summary" v-if="listView === 'inventory'">
     <section class="inventory-summary">
-      <!-- <span class="field">{{ summarySymfo('m3').toFixed(3) }}</span>
-      <span class="field">{{ summarySymfo('m2').toFixed(2) }}</span>
-      <span class="field">{{ summarySymfo('szt').toFixed(1) }}</span>
+      <h4>Sumy filtrowanych pozycji</h4>
 
-      <span class="field">{{ summaryInput('m3').toFixed(3) }}</span>
-      <span class="field">{{ summaryInput('m2').toFixed(2) }}</span>
-      <span class="field">{{ summaryInput('szt').toFixed(1) }}</span> -->
+      <button
+        class="compact"
+        @click="zeroOutFilteredInventory()"
+        :disabled="summaryInput('m3') === 0"
+      >
+        <i class="bi bi-trash3"></i>
+        Zeruj filtrowane
+      </button>
 
-      <span class="field">
+      <span class="field" :class="setFontColor('m3')">
         {{ summaryDiff('m3').toFixed(3) }}<small>m<sup>3</sup></small>
       </span>
-      <span class="field">
+
+      <span class="field" :class="setFontColor('m2')">
         {{ summaryDiff('m2').toFixed(2) }}<small>m<sup>2</sup></small>
       </span>
-      <span class="field">{{ summaryDiff('szt').toFixed(1) }}<small>szt</small></span>
+
+      <span class="field" :class="setFontColor('szt')">
+        {{ summaryDiff('szt').toFixed(1) }}<small>szt</small>
+      </span>
     </section>
-    <button @click="zeroOutFilteredInventory()" :disabled="summaryInput('m3') === 0">
-      Zeruj filtrowane
-    </button>
   </li>
 </template>
 
 <style scoped>
 .list-summary {
   background: var(--bg2-color);
+}
+
+.list-summary section {
+  gap: 1rem 0;
+}
+
+.list-summary h4 {
+  grid-column: 1 / 3;
+  margin: 0;
+}
+
+.list-summary button {
+  place-self: end;
+}
+
+.list-summary .field {
+  font-size: 1.2rem;
+}
+
+.list-summary .green-font::before {
+  content: '+';
 }
 </style>
