@@ -82,11 +82,6 @@ function getAttrFilterList(e: Event) {
   )
 }
 
-function toggleCheck(id: string) {
-  const toggler = document.getElementById(id) as HTMLInputElement
-  toggler.checked = !toggler.checked
-}
-
 function formSubmit(id: string) {
   const form = document.getElementById(id) as HTMLFormElement
   form.requestSubmit()
@@ -208,7 +203,7 @@ const appliedFiltersCount = computed(() => {
         :disabled="!appliedFiltersCount"
       >
         <i class="bi bi-trash3"></i>
-        <span>{{ `(${appliedFiltersCount})` }}</span>
+        <span>{{ appliedFiltersCount }}</span>
       </button>
 
       <button
@@ -217,7 +212,7 @@ const appliedFiltersCount = computed(() => {
         @click="[formSubmit('filter__attr-list'), closeDialog($event)]"
       >
         <i class="bi bi-search"></i>
-        <span>({{ stockItems.length }})</span>
+        <span>{{ stockItems.length }}</span>
       </button>
     </footer>
   </dialog>

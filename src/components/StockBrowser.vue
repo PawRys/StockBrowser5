@@ -4,9 +4,7 @@ import { useFilterStore } from '@/stores/filterStore'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
 import ListContainer from '@/components/StockBrowser/List-Container.vue'
-import Paginate from '@/components/StockBrowser/List-Pagination.vue'
 import Filter from '@/components/StockBrowser/List-Filter.vue'
-import ListSettings from '@/components/StockBrowser/List-Settings.vue'
 import FloatingToolbar from '@/components/StockBrowser/Floating-Toolbar.vue'
 
 function condition(): string {
@@ -69,14 +67,7 @@ function condition(): string {
     <div v-show="condition() === 'data'" id="scrolltoptarget">
       <FloatingToolbar />
       <Filter />
-      <div class="toolbar">
-        <Paginate :show="['setPage']" />
-        <ListSettings />
-      </div>
       <ListContainer />
-      <div class="toolbar">
-        <Paginate :show="['setPage']" />
-      </div>
     </div>
   </section>
 </template>
@@ -108,26 +99,5 @@ function condition(): string {
 
 .notexist {
   display: block;
-}
-
-.toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 1ch;
-  margin-inline: auto;
-  width: min(100%, 65ch);
-  background: var(--bg2-color);
-}
-
-.toolbar:first-of-type {
-  padding: 1ch 1ch 0 1ch;
-  border-radius: 1ch 1ch 0 0;
-}
-
-.toolbar:last-of-type {
-  padding: 0 1ch 1ch 1ch;
-  border-radius: 0 0 1ch 1ch;
 }
 </style>

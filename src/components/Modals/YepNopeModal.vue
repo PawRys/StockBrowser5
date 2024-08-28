@@ -3,14 +3,14 @@ import { Modal } from 'jenesius-vue-modal'
 </script>
 
 <template>
-  <div class="dialog">
-    <div class="center">
-      <h2>Czy jesteś pewien?</h2>
-      <button @click="$emit(Modal.EVENT_PROMPT, true)" class="btn">
+  <div class="dialog-backdrop">
+    <div class="dialog">
+      <h3>Czy jesteś pewien?</h3>
+      <button @click="$emit(Modal.EVENT_PROMPT, true)">
         <i class="bi bi-check-square"></i>
         <span>Tak</span>
       </button>
-      <button @click="$emit(Modal.EVENT_PROMPT, false)" class="btn">
+      <button @click="$emit(Modal.EVENT_PROMPT, false)">
         <i class="bi bi-x-square"></i>
         <span>Nie</span>
       </button>
@@ -19,23 +19,22 @@ import { Modal } from 'jenesius-vue-modal'
 </template>
 
 <style scoped>
-.dialog {
+.dialog-backdrop {
   position: fixed;
   z-index: 999999;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
+
+  display: grid;
+  place-items: center;
   backdrop-filter: blur(4px);
 }
 
-.center {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  padding: 20px;
+.dialog {
+  padding: 1rem;
+  width: min(35ch, 100%);
   border: solid 1px var(--bg2-color);
   background-color: var(--bg-color);
   text-align: center;

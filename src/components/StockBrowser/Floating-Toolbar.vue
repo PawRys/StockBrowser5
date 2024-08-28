@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useStockStore } from '@/stores/stockStore'
 import { useFilterStore } from '@/stores/filterStore'
 import { openDialogByID } from '@/exports/dialogsExports'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
 const filterStore = useFilterStore()
 const { listView } = storeToRefs(usePreferencesStore())
-const { items: stockItems } = storeToRefs(useStockStore())
 </script>
 
 <template>
@@ -23,7 +21,7 @@ const { items: stockItems } = storeToRefs(useStockStore())
     >
       <i class="bi bi-trash3"></i>
     </button>
-    <span class="filter-count">{{ `Wyników: ${stockItems.length}` }}</span>
+    <!-- <span class="filter-count">{{ `Wyników: ${stockItems.length}` }}</span> -->
 
     <button v-if="listView === 'prices'" @click="listView = 'inventory'">
       <i class="bi bi-coin"></i>
@@ -54,7 +52,7 @@ const { items: stockItems } = storeToRefs(useStockStore())
   font-size: 1.1rem;
 }
 
-.floating-toolbar .filter-count {
+.filter-count {
   font-weight: 700;
 }
 </style>
