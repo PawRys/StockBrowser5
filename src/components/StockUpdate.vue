@@ -10,10 +10,10 @@ import {
   mergeStocks
 } from '@/exports/stockUpdateExports'
 
-import { stany_magazynowe } from '@/utilities/_stany_magazynowe'
-import { stany_i_rezerwacje } from '@/utilities/_stany_i_rezerwacje'
-import { stany } from '@/utilities/Stany_2024-08-09'
-import { rezerwacje } from '@/utilities/Rezerwacje_2024-08-09'
+// import { stany_magazynowe } from '@/utilities/_stany_magazynowe'
+// import { stany_i_rezerwacje } from '@/utilities/_stany_i_rezerwacje'
+// import { stany } from '@/utilities/Stany_2024-08-09'
+// import { rezerwacje } from '@/utilities/Rezerwacje_2024-08-09'
 import PasteButton from '@/components/StockUpdate/PasteButton.vue'
 
 const messagebox = ref('')
@@ -107,19 +107,18 @@ async function submit(e: Event): Promise<void> {
           <i class="bi bi-check2"></i>
         </button>
       </div>
-
-      <h4>Template data</h4>
-      <div class="buttonbar">
-        <button class="toned" type="button" @click="textbox = stany_magazynowe">Stany stare</button>
-        <button class="toned" type="button" @click="textbox = stany_i_rezerwacje">
-          Rezerwacje stare
-        </button>
-        <button class="toned" type="button" @click="textbox = stany">Stany nowe</button>
-        <button class="toned" type="button" @click="textbox = rezerwacje">Rezerwacje nowe</button>
-      </div>
     </form>
   </section>
 </template>
+<!-- <h4>Template data</h4>
+<div class="buttonbar">
+  <button class="toned" type="button" @click="textbox = stany_magazynowe">Stany stare</button>
+  <button class="toned" type="button" @click="textbox = stany_i_rezerwacje">
+    Rezerwacje stare
+  </button>
+  <button class="toned" type="button" @click="textbox = stany">Stany nowe</button>
+  <button class="toned" type="button" @click="textbox = rezerwacje">Rezerwacje nowe</button>
+</div> -->
 
 <style scoped>
 form {
