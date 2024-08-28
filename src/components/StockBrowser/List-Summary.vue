@@ -86,30 +86,30 @@ function toggleInventoryFilter(item: string) {
       <header>
         <h4>Sumy filtrowanych pozycji</h4>
 
-        <button
-          class="button switch compact"
-          :class="{ active: isActive.match(/OK/) }"
-          @click="toggleInventoryFilter('OK')"
-        >
-          <i class="bi bi-check-lg"></i>
-        </button>
-
-        <button
-          class="button switch compact"
-          :class="{ active: isActive.match(/brak|nadmiar/) }"
-          @click="toggleInventoryFilter('brak nadmiar')"
-        >
-          <i class="bi bi-plus-slash-minus"></i>
-        </button>
-
-        <button
-          class="compact"
-          @click="zeroOutFilteredInventory()"
-          :disabled="summaryInput('m3') === 0"
-        >
-          <i class="bi bi-trash3"></i>
-          Zeruj filtrowane
-        </button>
+        <div>
+          <button
+            class="button switch compact"
+            :class="{ active: isActive.match(/OK/) }"
+            @click="toggleInventoryFilter('OK')"
+          >
+            <i class="bi bi-check-lg"></i>
+          </button>
+          <button
+            class="button switch compact"
+            :class="{ active: isActive.match(/brak|nadmiar/) }"
+            @click="toggleInventoryFilter('brak nadmiar')"
+          >
+            <i class="bi bi-plus-slash-minus"></i>
+          </button>
+          <button
+            class="compact"
+            @click="zeroOutFilteredInventory()"
+            :disabled="summaryInput('m3') === 0"
+          >
+            <i class="bi bi-trash3"></i>
+            Zeruj filtrowane
+          </button>
+        </div>
       </header>
 
       <span class="field" :class="setFontColor('m3')">
@@ -139,12 +139,22 @@ function toggleInventoryFilter(item: string) {
 .list-summary header {
   grid-column: 1 / 4;
   display: flex;
-  gap: 0.4ch;
+  flex-wrap: wrap;
+  gap: 1ch;
 }
 
-.list-summary h4 {
+.list-summary header h4 {
   margin: 0;
   margin-right: auto;
+  white-space: nowrap;
+}
+
+.list-summary header div {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.4ch;
+
+  margin-left: auto;
 }
 
 .list-summary .field {

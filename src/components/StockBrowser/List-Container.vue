@@ -5,7 +5,7 @@ import { usePageStore } from '@/stores/paginateStore'
 import { useStockStore } from '@/stores/stockStore'
 import { escapeNonword } from '@/exports/common_functions'
 import ListItem from '@/components/StockBrowser/List-Item.vue'
-import InventorySummary from '@/components/StockBrowser/Inventory-Summary.vue'
+import InventorySummary from '@/components/StockBrowser/List-Summary.vue'
 
 const { pageStart, pageEnd } = storeToRefs(usePageStore())
 const refreshComponent = ref(0)
