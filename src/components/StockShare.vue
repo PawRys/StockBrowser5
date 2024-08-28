@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { php_server_url } from '@/exports/urls'
 
 const messagebox = ref()
 const shareCode = ref()
@@ -23,10 +24,7 @@ async function shareData() {
     body: JSON.stringify(POST_data)
   }
 
-  const url = 'https://bossman.hekko24.pl/stock_browser_server/server.php'
-  // const url = 'http://localhost:3000/php_server/server.php'
-
-  const fetchResponse = await fetch(url, fetchSettings).catch((err) => {
+  const fetchResponse = await fetch(php_server_url, fetchSettings).catch((err) => {
     console.error('Error fetching data:', err)
     messagebox.value = 'Problem z połączeniem ❌'
     return
@@ -50,15 +48,41 @@ async function shareData() {
 </script>
 
 <template>
-  <section>
-    <h2>Udostępnij</h2>
-    <form action="javascript:void(0);">
-      <input type="password" placeholder="Sekretne hasło" v-model="password" />
-      <button class="cta" @click="shareData">Generuj kod</button>
-    </form>
-    <p>{{ shareCode }}</p>
-    <p>{{ messagebox }}</p>
+  <section id="stock-share" class="stock-shar--backdrop">
+    <div class="stock-share--window">
+      <h2>Udostępnij</h2>
+      <form action="javascript:void(0);">
+        <input type="password" placeholder="Sekretne hasło (opcjonalnie)" v-model="password" />
+        <button class="cta" @click="shareData">Generuj kod</button>
+      </form>
+      <p class="message-box">{{ messagebox }}</p>
+      <p class="share-code">{{ shareCode }}</p>
+    </div>
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+.stock-share--window {
+  padding: 1ch;
+}
+
+.share-code {
+  margin-block: 1ch;
+  font-size: 3rem;
+  font-weight: 500;
+}
+
+form {
+  display: flex;
+  gap: 1ch;
+
+  padding: 1ch;
+  border-radius: 1ch;
+  width: fit-content;
+  background-color: var(--bg2-color);
+}
+
+input {
+  width: 25ch;
+}
+</style>

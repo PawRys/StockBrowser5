@@ -1,6 +1,8 @@
 /* eslint-disable no-regex-spaces */
 /* eslint-disable no-control-regex */
 import _ from 'lodash'
+import { php_server_url } from '@/exports/urls'
+
 import { calcPrice, calcQuant, evalMath } from './common_functions'
 import { promptModal } from 'jenesius-vue-modal'
 import InventoryMerge from '@/components/Modals/InventoryMerge.vue'
@@ -427,11 +429,9 @@ export async function fetchRemoteData(pincode: string): Promise<{ message: strin
     body: JSON.stringify(POST_data)
   }
 
-  const url = 'https://bossman.hekko24.pl/stock_browser_server/server.php'
-  // const url = 'http://localhost:3000/php_server/server.php'
   const result = { message: '', data: '' }
 
-  const fetchResponse = await fetch(url, fetchSettings).catch((err) => {
+  const fetchResponse = await fetch(php_server_url, fetchSettings).catch((err) => {
     console.error('Error fetching data:', err)
     result.message = 'connection_error'
     return
