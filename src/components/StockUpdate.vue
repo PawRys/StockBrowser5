@@ -138,6 +138,7 @@ form {
   border: none;
   width: 100%;
   background-color: transparent;
+  cursor: default;
 
   display: grid;
   grid-template-rows: 0fr;
