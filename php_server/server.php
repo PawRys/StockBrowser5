@@ -1,6 +1,6 @@
 <?php
-// header('Access-Control-Allow-Origin: https://pawrys.github.io');
-header('Access-Control-Allow-Origin: http://localhost:5173');
+header('Access-Control-Allow-Origin: https://pawrys.github.io');
+// header('Access-Control-Allow-Origin: http://localhost:5173');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
@@ -44,7 +44,7 @@ $FILES = scandir($VAULT);
 for ($i = 2; $i < count($FILES); $i++) {
 	$fileage = time() - filemtime("$VAULT/$FILES[$i]");
 	if ($fileage > 120) {
-		// unlink("$VAULT/$FILES[$i]");
+		unlink("$VAULT/$FILES[$i]");
 	}
 }
 
@@ -80,7 +80,7 @@ if ($POST_data['action'] == 'request') {
 	if (file_exists($fileName)) {
     $response['message'] = 'data_transmitted';
     $response['data'] = file_get_contents($fileName);
-		// unlink($fileName);
+		unlink($fileName);
 	} else {
     $response['message'] = 'data_not_exist';
 	}

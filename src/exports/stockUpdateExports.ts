@@ -427,8 +427,8 @@ export async function fetchRemoteData(pincode: string): Promise<{ message: strin
     body: JSON.stringify(POST_data)
   }
 
-  // const url = 'https://bossman.hekko24.pl/stock_browser_server/server.php',
-  const url = 'http://localhost:3000/php_server/server.php'
+  const url = 'https://bossman.hekko24.pl/stock_browser_server/server.php'
+  // const url = 'http://localhost:3000/php_server/server.php'
   const result = { message: '', data: '' }
 
   const fetchResponse = await fetch(url, fetchSettings).catch((err) => {
