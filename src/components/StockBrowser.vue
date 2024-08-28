@@ -17,7 +17,7 @@ function condition(): string {
 </script>
 
 <template>
-  <section>
+  <section id="stock-list">
     <div class="notdata" v-if="condition() === 'nodatabase'">
       <h3>Baza danych jest pusta.</h3>
       <p>
