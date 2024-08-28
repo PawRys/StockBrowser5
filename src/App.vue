@@ -50,13 +50,11 @@ const activeWindow = computed(() => {
       </button>
     </div>
     <div class="top-header">
-      <!-- <h1>Przeglądarka Stanów 5</h1> -->
       <DataStats />
     </div>
   </header>
 
   <main>
-    <!-- <h2>{{ activeWindow.intro }}</h2> -->
     <Suspense>
       <component :is="activeWindow.component"></component>
     </Suspense>
