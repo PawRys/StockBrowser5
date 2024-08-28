@@ -84,30 +84,28 @@ async function submit(e: Event): Promise<void> {
 </script>
 
 <template>
-  <section id="stock-update">
-    <h2>Wczytywanie danych</h2>
-    <form id="myform" @submit.prevent="submit">
-      <textarea class="text-box" name="textBox" v-model="textbox"></textarea>
-
-      <input type="text" class="message-box" name="message-box" v-model="messagebox" disabled />
-
-      <div class="buttonbar">
-        <button type="button" @click="clear">
-          <span>Wyczyść</span>
-          <i class="bi bi-backspace"></i>
-        </button>
-
-        <PasteButton @clipboard-paste="paste">
-          <span>Wklej ze schowka</span>
-          <i class="bi bi-save"></i>
-        </PasteButton>
-
-        <button type="submit" class="cta" :disabled="!datatype">
-          <span>Zatwierdź</span>
-          <i class="bi bi-check2"></i>
-        </button>
-      </div>
-    </form>
+  <section id="stock-update" class="stock-update--backdrop">
+    <div class="stock-update--window">
+      <h2>Wczytywanie danych</h2>
+      <form id="myform" @submit.prevent="submit">
+        <textarea class="text-box" name="textBox" v-model="textbox"></textarea>
+        <input type="text" class="message-box" name="message-box" v-model="messagebox" disabled />
+        <div class="buttonbar">
+          <button type="button" @click="clear">
+            <span>Wyczyść</span>
+            <i class="bi bi-backspace"></i>
+          </button>
+          <PasteButton @clipboard-paste="paste">
+            <span>Wklej ze schowka</span>
+            <i class="bi bi-save"></i>
+          </PasteButton>
+          <button type="submit" class="cta" :disabled="!datatype">
+            <span>Zatwierdź</span>
+            <i class="bi bi-check2"></i>
+          </button>
+        </div>
+      </form>
+    </div>
   </section>
 </template>
 <!-- <h4>Template data</h4>
@@ -121,10 +119,15 @@ async function submit(e: Event): Promise<void> {
 </div> -->
 
 <style scoped>
+.stock-update--window {
+  padding: 1ch;
+}
+
 form {
   display: grid;
   gap: 1ch;
 }
+
 .text-box {
   padding: 0.6ch 1ch;
   width: 100%;
