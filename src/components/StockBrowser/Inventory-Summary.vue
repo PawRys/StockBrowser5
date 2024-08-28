@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import _ from 'lodash'
+import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useStockStore } from '@/stores/stockStore'
+import { useFilterStore } from '@/stores/filterStore'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
 import { calcQuant, evalMath } from '@/exports/common_functions'
 import { setInventoryStatus } from '@/exports/stockUpdateExports'
+
+import { promptModal } from 'jenesius-vue-modal'
+import YepNopeModal from '@/components/Modals/YepNopeModal.vue'
 
 const emit = defineEmits(['refresh'])
 const { listView } = storeToRefs(usePreferencesStore())
@@ -35,7 +40,8 @@ const summaryInput = (unit: string) => {
 //   }, 0)
 // }
 
-const zeroOutFilteredInventory = () => {
+const zeroOutFilteredInventory = async () => {
+  if (!(await promptModal(YepNopeModal))) return
   const storedItems = JSON.parse(localStorage.SB5_stockList || '[]')
   const filteredItems = useStockStore().items
   filteredItems.map((filteredItem: Plywood) => {
@@ -63,21 +69,48 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
   if (val <= threshold) return 'red-font'
   return ''
 }
+
+const isActive = computed(() => useFilterStore().inventoryFilter)
+
+function toggleInventoryFilter(item: string) {
+  let filter = useFilterStore().inventoryFilter
+  filter.match(item)
+    ? (useFilterStore().inventoryFilter = filter.replace(item, '').trim())
+    : (useFilterStore().inventoryFilter = `${filter} ${item}`.trim())
+}
 </script>
 
 <template>
   <li class="list-summary" v-if="listView === 'inventory'">
     <section class="inventory-summary">
-      <h4>Sumy filtrowanych pozycji</h4>
+      <header>
+        <h4>Sumy filtrowanych pozycji</h4>
 
-      <button
-        class="compact"
-        @click="zeroOutFilteredInventory()"
-        :disabled="summaryInput('m3') === 0"
-      >
-        <i class="bi bi-trash3"></i>
-        Zeruj filtrowane
-      </button>
+        <button
+          class="button switch compact"
+          :class="{ active: isActive.match(/OK/) }"
+          @click="toggleInventoryFilter('OK')"
+        >
+          <i class="bi bi-check-lg"></i>
+        </button>
+
+        <button
+          class="button switch compact"
+          :class="{ active: isActive.match(/brak|nadmiar/) }"
+          @click="toggleInventoryFilter('brak nadmiar')"
+        >
+          <i class="bi bi-plus-slash-minus"></i>
+        </button>
+
+        <button
+          class="compact"
+          @click="zeroOutFilteredInventory()"
+          :disabled="summaryInput('m3') === 0"
+        >
+          <i class="bi bi-trash3"></i>
+          Zeruj filtrowane
+        </button>
+      </header>
 
       <span class="field" :class="setFontColor('m3')">
         {{ summaryDiff('m3').toFixed(3) }}<small>m<sup>3</sup></small>
@@ -103,13 +136,15 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
   gap: 1rem 0;
 }
 
-.list-summary h4 {
-  grid-column: 1 / 3;
-  margin: 0;
+.list-summary header {
+  grid-column: 1 / 4;
+  display: flex;
+  gap: 0.4ch;
 }
 
-.list-summary button {
-  place-self: end;
+.list-summary h4 {
+  margin: 0;
+  margin-right: auto;
 }
 
 .list-summary .field {
