@@ -184,11 +184,12 @@ hr {
 
 input,
 select,
-option {
+option,
+textarea {
   border-radius: 0.6ch;
   border: solid 1px var(--accent-lightest);
   background-color: var(--bg-color);
-  accent-color: var(--accent-lighter);
+  accent-color: var(--accent-light);
   padding-block: 0;
 }
 
