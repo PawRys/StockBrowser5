@@ -63,8 +63,15 @@ const activeWindow = computed(() => {
   </main>
 
   <footer>
-    <p>Wszelkie prawa zastrzeżone.</p>
+    <p>Wszelkie prawa zastrzeżone - Paweł Ryszkowski</p>
+    <p>
+      Uwagi i pomoc techniczna - Paweł:
+      <a href="mailto:pawrys.kontakt@gmail.com?subject=Pomoc%20Stock%20Browser%205" target="_blank"
+        >pawrys.kontakt@gmail.com</a
+      >
+    </p>
   </footer>
+
   <widget-container-modal />
 </template>
 
@@ -86,8 +93,7 @@ const activeWindow = computed(() => {
   flex-wrap: wrap;
 }
 
-/* .switch { */
-/* font-size: 1.1rem; */
-/* text-transform: uppercase; */
-/* } */
+footer {
+  padding: 1ch;
+}
 </style>
