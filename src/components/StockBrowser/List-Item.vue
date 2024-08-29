@@ -53,9 +53,9 @@ provide('basePrice', basePrice)
     </section>
 
     <section class="inventory" v-if="listView === 'inventory'">
-      <InventoryStock class="quantity" :item="item" :unit="'m3'" :stockStatus="1" />
-      <InventoryStock class="quantity" :item="item" :unit="'m2'" :stockStatus="1" />
-      <InventoryStock class="quantity" :item="item" :unit="'szt'" :stockStatus="1" />
+      <InventoryStock class="quantity" :item="item" :unit="'m3'" :stockStatus="statusFilter" />
+      <InventoryStock class="quantity" :item="item" :unit="'m2'" :stockStatus="statusFilter" />
+      <InventoryStock class="quantity" :item="item" :unit="'szt'" :stockStatus="statusFilter" />
       <InventoryInput class="quantity" :item="item" :unit="'m3'" />
       <InventoryInput class="quantity" :item="item" :unit="'m2'" />
       <InventoryInput class="quantity" :item="item" :unit="'szt'" />

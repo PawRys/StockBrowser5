@@ -22,7 +22,7 @@ const stockNameList: { [key: number]: 'totalStock' | 'aviableStock' } = {
 }
 
 const quantity = computed(() => {
-  const whichStock = stockNameList[stockStatus.value]
+  const whichStock = listView.value === 'prices' ? stockNameList[stockStatus.value] : 'totalStock'
   const m = listView.value === 'prices' ? 1 : -1
   return calcQuant(item.value.size, item.value[whichStock], 'm3', unit) * m
 })
