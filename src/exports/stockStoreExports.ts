@@ -25,7 +25,7 @@ export function applyAttrFilter(plywood: Plywood) {
   for (const key of filterCategories) {
     const k = key as keyof typeof attrFilter
     const selectedAttribute = JSON.parse(JSON.stringify(attrFilter[k]))
-    const plywoodAttribute = plywood.attr[k].split(' ')
+    const plywoodAttribute = plywood?.attr[k]?.split(' ') || ''
     const attributesSet = [...new Set([...selectedAttribute, ...plywoodAttribute])]
     if (selectedAttribute.length + plywoodAttribute.length > attributesSet.length) {
       matchFound++
