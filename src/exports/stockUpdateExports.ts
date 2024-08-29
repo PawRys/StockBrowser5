@@ -22,14 +22,14 @@ export function defineDataType(input: string): defineDataTypeOutput {
     message = ``
   } else {
     datatype = false
-    message = `❌ Nie rozpoznano danych.`
+    message = `Nie rozpoznano danych ❌`
   }
 
   const isStocks = /Stany magazynowe towarów/i.test(text)
   const isCorrectStocksColumns = /Kod towaru		nazwa towaru		jm		stan	cena	wartość		/i.test(text)
   if (isStocks && isCorrectStocksColumns) {
     datatype = 'stocks'
-    message = `📜 Rozpoznano Stany magazynowe towarów.`
+    message = `Rozpoznano Stany magazynowe towarów 📜`
   }
 
   const isReservation = /Stany i rezerwacje towarów/i.test(text)
@@ -37,14 +37,14 @@ export function defineDataType(input: string): defineDataTypeOutput {
     /Kod towaru		nazwa towaru		jm		stan handlowy	rezerwacje R	rezerwacje A		stan  całkowity	/i.test(text)
   if (isReservation && isCorrectReservationColumns) {
     datatype = 'reservations'
-    message = `📦 Rozpoznano Stany i rezerwacje towarów.`
+    message = `Rozpoznano Stany i rezerwacje towarów 📦`
   }
 
   const codeLength = 4
   const isFullExchangeCode = new RegExp(`^\\d{${codeLength}}$`, 'i').test(text)
   if (isFullExchangeCode) {
     datatype = 'code'
-    message = `🔢 Rozpoznano kod wymiany danych.`
+    message = `Rozpoznano kod wymiany danych 🔢`
   }
 
   const isPartExchangeCode = new RegExp(`^\\d{1,${codeLength - 1}}$`, 'i').test(text)

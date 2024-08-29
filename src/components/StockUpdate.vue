@@ -47,11 +47,11 @@ async function submit(e: Event): Promise<void> {
     bad_JSON: 'Problem ze strukturą danych ❌',
     data_not_exist: 'Kod jest przedawniony ❌',
     connection_error: 'Problem z połączeniem ❌',
-    data_transmitted: '📜 Pobrano dane z chmury ✔'
+    data_transmitted: 'Pobrano dane z chmury ✔️✔'
   }
   const localMessages = {
-    stocks: '📜 Zaktualizowano stany ✔',
-    reservations: '📦 Zaktualizowano rezerwacje ✔'
+    stocks: 'Zaktualizowano stany ✔️✔',
+    reservations: 'Zaktualizowano rezerwacje ✔️✔'
   }
 
   if (datatype.value === 'code') {

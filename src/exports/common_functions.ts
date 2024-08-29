@@ -125,3 +125,21 @@ export function hasReservations(): Boolean {
   }, 0)
   return x ? true : false
 }
+
+export function downloadFile(file: string, data: string, type: string) {
+  const blob = new Blob([data], { type: type })
+  const blobUrl = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = blobUrl
+  link.download = file
+  document.body.appendChild(link)
+  link.dispatchEvent(
+    new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window
+    })
+  )
+  document.body.removeChild(link)
+  URL.revokeObjectURL(blobUrl)
+}
