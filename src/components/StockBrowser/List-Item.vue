@@ -18,6 +18,7 @@ const props = defineProps<{
   index: number
 }>()
 const { item, index } = toRefs(props)
+const itemName = item.value.name.replace(/(\d+([,.]\d+)?x\d{2,4}x\d{2,4})/i, '<b>$1</b>')
 const basePrice: Ref<number> = ref(item.value.price || 0)
 provide('basePrice', basePrice)
 </script>
@@ -36,7 +37,7 @@ provide('basePrice', basePrice)
         <span>{{ `${item.attr.faceGroup}` }}</span>
       </div>
 
-      <div class="header--item-name">{{ item.name }}</div>
+      <div class="header--item-name" v-html="itemName"></div>
     </header>
 
     <section class="prices" v-if="listView === 'prices'">
