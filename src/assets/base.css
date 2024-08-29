@@ -187,7 +187,7 @@ select,
 option,
 textarea {
   border-radius: 0.6ch;
-  border: solid 1px var(--accent-lightest);
+  border: dashed 1px var(--accent-lighter);
   background-color: var(--bg-color);
   accent-color: var(--accent-light);
   padding-block: 0;
