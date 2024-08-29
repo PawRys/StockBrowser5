@@ -236,10 +236,10 @@ dialog[open] {
   inset: 0;
   margin: 0;
   padding: 1ch;
-  width: 100svw;
-  height: 100svh;
-  max-width: 100svw;
-  max-height: 100svh;
+  width: 100dvw;
+  height: 100dvh;
+  max-width: 100dvw;
+  max-height: 100dvh;
   background-color: var(--bg-color);
 }
 
