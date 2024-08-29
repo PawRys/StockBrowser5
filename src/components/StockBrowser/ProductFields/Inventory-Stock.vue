@@ -44,7 +44,7 @@ const unitLabel = computed(() => {
 
 <template>
   <div class="inventory-stock field">
-    <i v-if="stockStatus === 0" class="bi bi-boxes"></i>
+    <i v-if="stockStatus === 0" class="bi bi-0-circle"></i>
     <i v-if="stockStatus === 1" class="bi bi-boxes"></i>
     <i v-if="stockStatus === 2" class="bi bi-box"></i>
     {{ quantity.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
