@@ -397,6 +397,7 @@ export async function mergeStocks(
     const localItemIndex = localData.findIndex((localItem) => localItem.id === incomingItem.id)
 
     if (localItemIndex < 0) {
+      incomingItem.inventoryStatus = setInventoryStatus(incomingItem)
       localData.push(incomingItem)
     } else {
       const localItem = localData[localItemIndex]
