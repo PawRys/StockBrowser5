@@ -36,11 +36,13 @@ export const useStockStore = defineStore(
         (localItem: Plywood) => localItem.id === incomingItem.id
       )
       _.merge(localData[localItemIndex], incomingItem)
-      localStorage.SB5_stockList = JSON.stringify(localData)
-      localStorageSB5_stockList.value = JSON.stringify(localData)
+      const data = JSON.stringify(localData)
+      localStorage.SB5_stockList = data
+      localStorageSB5_stockList.value = data
     }
 
     function updateData(incomingData: DBSchema): void {
+      console.time('updateData')
       localStorage.SB5_stockList = JSON.stringify(incomingData.stockList)
       localStorageSB5_stockList.value = JSON.stringify(incomingData.stockList)
 
@@ -51,6 +53,7 @@ export const useStockStore = defineStore(
       const stockWarehause = incomingData.stockWarehause || localStorage.SB5_stockWarehause || ''
       localStorage.SB5_stockWarehause = stockWarehause
       localStorageSB5_stockWarehause.value = stockWarehause
+      console.timeEnd('updateData')
     }
 
     return { items, date, warehause, updateItem, updateData }
