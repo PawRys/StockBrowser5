@@ -14,6 +14,7 @@ const { unit } = props
 
 const userInput = ref(item.value.inventory?.[unit as keyof typeof item.value.inventory] || '')
 const isEdited = ref(false)
+const saving = ref(false)
 
 const itemInvSumAll = computed(() => {
   const cub = calcQuant(item.value.size, evalMath(item.value.inventory?.m3 || '0'), 'm3', unit)
@@ -26,9 +27,11 @@ const debouncedUpdate = _.debounce((item, userInput) => {
   _.merge(item.value, { inventory: { [unit]: userInput.value || '' } })
   _.merge(item.value, { inventoryStatus: setInventoryStatus(item.value) })
   useStockStore().updateItem(item.value)
+  saving.value = false
 }, 500)
 
 watch(userInput, () => {
+  saving.value = true
   debouncedUpdate(item, userInput)
 })
 
@@ -60,7 +63,6 @@ const notNull = () => {
     contenteditable="true"
   >
     <i class="bi bi-pencil-square" v-if="notNull()"></i>
-    <!-- <i class="bi bi-clipboard-plus-fill" :class="{ 'not-null': notNull() }"></i> -->
     {{ itemInvSumAll.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
   </div>
 
@@ -76,7 +78,10 @@ const notNull = () => {
       @vue:mounted="$el.querySelector('input')?.focus()"
     />
     <span class="input-summary">
-      {{ `= ${evalMath(userInput).toFixed(zeroFix)}` }}<small v-html="unitLabel"></small>
+      <i v-if="saving" class="bi bi-floppy2-fill saving"></i>
+      <span v-else>{{ ` = ` }}</span>
+      {{ evalMath(userInput).toFixed(zeroFix) }}
+      <small v-html="unitLabel"></small>
     </span>
   </div>
 </template>
@@ -108,6 +113,12 @@ const notNull = () => {
 
 .user-input {
   text-align: right;
+}
+
+.saving {
+  place-self: center;
+  font-size: 0.8rem;
+  color: var(--accent-lighter);
 }
 
 .input-summary {
