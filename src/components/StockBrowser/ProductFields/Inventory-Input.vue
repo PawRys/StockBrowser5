@@ -22,10 +22,14 @@ const itemInvSumAll = computed(() => {
   return cub + sqr + pcs
 })
 
-watch(userInput, () => {
+const debouncedUpdate = _.debounce((item, userInput) => {
   _.merge(item.value, { inventory: { [unit]: userInput.value || '' } })
   _.merge(item.value, { inventoryStatus: setInventoryStatus(item.value) })
   useStockStore().updateItem(item.value)
+}, 500)
+
+watch(userInput, () => {
+  debouncedUpdate(item, userInput)
 })
 
 const zeroFix = computed(() => {

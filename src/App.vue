@@ -8,6 +8,13 @@ import StockUpdate from '@/components/StockUpdate.vue'
 import StockShare from '@/components/StockShare.vue'
 import StockManager from '@/components/StockManager.vue'
 import DataStats from '@/components/StockBrowser/DataStats.vue'
+;(function setRandomUUID() {
+  const UUID = localStorage.getItem('SB5_UUID') || ''
+  const UUIDpattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(UUID)
+  if (UUIDpattern === false) {
+    localStorage.setItem('SB5_UUID', crypto.randomUUID())
+  }
+})()
 
 onMounted(() => {
   document.querySelectorAll('[tabindex]').forEach((item) => {
