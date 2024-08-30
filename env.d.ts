@@ -31,6 +31,7 @@ type Plywood = {
     m3?: string
     m2?: string
     szt?: string
+    summary?: number
   }
 }
 

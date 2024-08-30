@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { calcQuant } from '@/exports/common_functions'
 import CryptoJS from 'crypto-js'
 import { downloadFile } from '@/exports/common_functions'
 
@@ -7,7 +8,7 @@ import { promptModal } from 'jenesius-vue-modal'
 import YepNopeModal from '@/components/Modals/YepNopeModal.vue'
 
 import { useStockStore } from '@/stores/stockStore'
-const { updateData } = useStockStore()
+const { updateData, items } = useStockStore()
 
 const messageBox = ref('')
 
@@ -83,6 +84,30 @@ async function dropDB() {
 
   messageBox.value = `❗ Baza danych została usunięta.`
 }
+
+const csvData = () => {
+  return items
+    .map((item) => {
+      return [
+        item.id,
+        item.inventoryStatus,
+        `${calcQuant(item.size, item.totalStock, 'm3', 'm3').toFixed(2)}m3`,
+        `${calcQuant(item.size, item.totalStock, 'm3', 'm2').toFixed(4)}m2`,
+        `${calcQuant(item.size, item.totalStock, 'm3', 'szt').toFixed(1)}szt`
+      ]
+    })
+    .join('\n')
+}
+
+function downloadCSV(filename: string, csvData: string) {
+  const blob = new Blob([csvData], { type: 'text/csv' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = filename
+  a.click()
+  URL.revokeObjectURL(url)
+}
 </script>
 
 <template>
@@ -102,7 +127,12 @@ async function dropDB() {
 
     <button class="" @click="dropDB">
       <i class="bi bi-file-earmark-x"></i>
-      <span>Ustawienia fabryczne</span>
+      <span>Wróć do ustawień fabrycznych</span>
+    </button>
+
+    <button class="" @click="downloadCSV('file.csv', csvData())">
+      <i class="bi bi-file-earmark-x"></i>
+      <span>XML</span>
     </button>
 
     <p class="messageBox">{{ messageBox }}</p>

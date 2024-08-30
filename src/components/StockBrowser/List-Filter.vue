@@ -6,7 +6,7 @@ import { useFilterStore } from '@/stores/filterStore'
 import { closeDialog } from '@/exports/dialogsExports'
 import { escapeNonword } from '@/exports/common_functions'
 
-import StockStatus from '@/components/StockBrowser/StockStatus-Filter.vue'
+import StockStatus from '@/components/StockBrowser/List-Filter-StockStatus.vue'
 
 const refreshComponent = ref(0)
 const filterStore = useFilterStore()
