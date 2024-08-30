@@ -8,7 +8,7 @@ import { promptModal } from 'jenesius-vue-modal'
 import YepNopeModal from '@/components/Modals/YepNopeModal.vue'
 
 import { useStockStore } from '@/stores/stockStore'
-const { updateData, items } = useStockStore()
+const { updateData } = useStockStore()
 
 const messageBox = ref('')
 
@@ -86,17 +86,49 @@ async function dropDB() {
 }
 
 const csvData = () => {
-  return items
-    .map((item) => {
-      return [
-        item.id,
-        item.inventoryStatus,
-        `${calcQuant(item.size, item.quantityCubicTotal, 'm3', 'm3').toFixed(2)}m3`,
-        `${calcQuant(item.size, item.quantityCubicTotal, 'm3', 'm2').toFixed(4)}m2`,
-        `${calcQuant(item.size, item.quantityCubicTotal, 'm3', 'szt').toFixed(1)}szt`
-      ]
-    })
-    .join('\n')
+  const header = [
+    'Kod',
+    'Status',
+    'Symfonia ma [m3]',
+    'Magazyn ma [m3]',
+    'Różnica [m3]',
+
+    'Symfonia ma [m2]',
+    'Magazyn ma [m2]',
+    'Różnica [m2]',
+
+    'Symfonia ma [szt]',
+    'Magazyn ma [szt]',
+    'Różnica [szt]'
+  ].join('\t')
+
+  const items = localStorage.SB5_stockList || '[]'
+
+  const result = JSON.parse(items).map((item: Plywood) => {
+    const quantCub = calcQuant(item.size, item.quantityCubicTotal, 'm3', 'm3')
+    const quantSqr = calcQuant(item.size, item.quantityCubicTotal, 'm3', 'm2')
+    const quantPcs = calcQuant(item.size, item.quantityCubicTotal, 'm3', 'szt')
+    const invCub = calcQuant(item.size, item.inventory?.cubicSum, 'm3', 'm3')
+    const invSqr = calcQuant(item.size, item.inventory?.cubicSum, 'm3', 'm2')
+    const invPcs = calcQuant(item.size, item.inventory?.cubicSum, 'm3', 'szt')
+    return [
+      item.id,
+      item.inventoryStatus,
+      `-${quantCub.toFixed(2)}`,
+      `${invCub.toFixed(2)}`,
+      `${(invCub - quantCub).toFixed(2)}`,
+
+      `-${quantSqr.toFixed(4)}`,
+      `${invSqr.toFixed(4)}`,
+      `${(invSqr - quantSqr).toFixed(4)}`,
+
+      `-${quantPcs.toFixed(1)}`,
+      `${invPcs.toFixed(1)}`,
+      `${(invPcs - quantPcs).toFixed(1)}`
+    ].join('\t')
+  })
+  result.unshift(header)
+  return result.join('\n')
 }
 
 function downloadCSV(filename: string, csvData: string) {
@@ -125,14 +157,14 @@ function downloadCSV(filename: string, csvData: string) {
 
     <input hidden type="file" name="import-backup" id="import-backup" @change="importDB($event)" />
 
-    <button class="" @click="dropDB">
+    <button class="red-font" @click="dropDB">
       <i class="bi bi-file-earmark-x"></i>
-      <span>Wróć do ustawień fabrycznych</span>
+      <span>Przywróć ustawienia fabryczne</span>
     </button>
 
     <button class="" @click="downloadCSV('file.csv', csvData())">
       <i class="bi bi-file-earmark-x"></i>
-      <span>XML</span>
+      <span>Arkusz inwentaryzacji</span>
     </button>
 
     <p class="messageBox">{{ messageBox }}</p>
