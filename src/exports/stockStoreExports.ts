@@ -3,7 +3,7 @@ import { useSortingStore } from '@/stores/sortingStore'
 import { useFilterStore } from '@/stores/filterStore'
 
 export function applyStatusFilter(el: Plywood) {
-  return el.stockStatus >= useFilterStore().statusFilter
+  return el.quantityStatus >= useFilterStore().statusFilter
 }
 
 export function applyInventoryFilter(el: Plywood) {
@@ -37,7 +37,13 @@ export function applyAttrFilter(plywood: Plywood) {
 export function applySort(a: Plywood, b: Plywood) {
   type SortingColumnsNames = Pick<
     Plywood,
-    'id' | 'name' | 'size' | 'price' | 'totalStock' | 'aviableStock' | 'stockStatus'
+    | 'id'
+    | 'name'
+    | 'size'
+    | 'price'
+    | 'quantityCubicTotal'
+    | 'quantityCubicAviable'
+    | 'quantityStatus'
   >
 
   const sortDir = useSortingStore().sortDir

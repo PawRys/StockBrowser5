@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+// import { computed } from 'vue'
 import { useFilterStore } from '@/stores/filterStore'
 import { hasReservations } from '@/exports/common_functions'
 
@@ -9,14 +9,14 @@ const statusList = [
   { label: 'Handlowy', icon: 'bi bi-box', show: hasReservations() }
 ]
 
-const isActive = computed(() => useFilterStore().inventoryFilter)
+// const isActive = computed(() => useFilterStore().inventoryFilter)
 
-function toggleInventoryFilter(item: string) {
-  let filter = useFilterStore().inventoryFilter
-  filter.match(item)
-    ? (useFilterStore().inventoryFilter = filter.replace(item, '').trim())
-    : (useFilterStore().inventoryFilter = `${filter} ${item}`.trim())
-}
+// function toggleInventoryFilter(item: string) {
+//   let filter = useFilterStore().inventoryFilter
+//   filter.match(item)
+//     ? (useFilterStore().inventoryFilter = filter.replace(item, '').trim())
+//     : (useFilterStore().inventoryFilter = `${filter} ${item}`.trim())
+// }
 </script>
 
 <template>

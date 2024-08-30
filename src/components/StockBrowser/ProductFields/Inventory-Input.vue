@@ -16,19 +16,24 @@ const userInput = ref(item.value.inventory?.[unit as keyof typeof item.value.inv
 const isEdited = ref(false)
 const saving = ref(false)
 
-const itemInvSumAll = computed(() => {
-  const cub = calcQuant(item.value.size, evalMath(item.value.inventory?.m3 || '0'), 'm3', unit)
-  const sqr = calcQuant(item.value.size, evalMath(item.value.inventory?.m2 || '0'), 'm2', unit)
-  const pcs = calcQuant(item.value.size, evalMath(item.value.inventory?.szt || '0'), 'szt', unit)
+const totalInventoryCubicSum = computed(() => {
+  const cub = calcQuant(item.value.size, evalMath(item.value.inventory?.m3 || '0'), 'm3', 'm3')
+  const sqr = calcQuant(item.value.size, evalMath(item.value.inventory?.m2 || '0'), 'm2', 'm3')
+  const pcs = calcQuant(item.value.size, evalMath(item.value.inventory?.szt || '0'), 'szt', 'm3')
   return cub + sqr + pcs
+})
+
+const itemInventoryUnitSum = computed(() => {
+  return calcQuant(item.value.size, totalInventoryCubicSum.value, 'm3', unit)
 })
 
 const debouncedUpdate = _.debounce((item, userInput) => {
   _.merge(item.value, { inventory: { [unit]: userInput.value || '' } })
+  _.merge(item.value, { inventory: { cubicSum: totalInventoryCubicSum.value || 0 } })
   _.merge(item.value, { inventoryStatus: setInventoryStatus(item.value) })
   useStockStore().updateItem(item.value)
   saving.value = false
-}, 500)
+}, 300)
 
 watch(userInput, () => {
   saving.value = true
@@ -36,11 +41,10 @@ watch(userInput, () => {
 })
 
 const zeroFix = computed(() => {
-  let result = 2
-  if (unit === 'm3') result = 3
-  if (unit === 'm2') result = 2
-  if (unit === 'szt') result = 1
-  return result
+  if (unit === 'm3') return 3
+  if (unit === 'm2') return 2
+  if (unit === 'szt') return 1
+  return 2
 })
 
 const unitLabel = computed(() => {
@@ -63,7 +67,7 @@ const notNull = () => {
     contenteditable="true"
   >
     <i class="bi bi-pencil-square" v-if="notNull()"></i>
-    {{ itemInvSumAll.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
+    {{ itemInventoryUnitSum.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
   </div>
 
   <div class="inventory-input" v-else>
@@ -80,7 +84,7 @@ const notNull = () => {
     <span class="input-summary">
       <i v-if="saving" class="bi bi-floppy2-fill saving"></i>
       <span v-else>{{ ` = ` }}</span>
-      {{ evalMath(userInput).toFixed(zeroFix) }}
+      {{ evalMath(userInput as string).toFixed(zeroFix) }}
       <small v-html="unitLabel"></small>
     </span>
   </div>

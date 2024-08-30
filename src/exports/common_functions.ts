@@ -112,16 +112,16 @@ export function evalMath(expr: string): number {
   return Number(finalResult)
 }
 
-export function hasPrices(): Boolean {
+export function hasPurchase(): Boolean {
   const x = JSON.parse(localStorage.SB5_stockList || '[]').reduce((acc: number, item: Plywood) => {
-    return acc + (item.price ? 1 : 0)
+    return acc + (item.purchase ? 1 : 0)
   }, 0)
   return x ? true : false
 }
 
 export function hasReservations(): Boolean {
   const x = JSON.parse(localStorage.SB5_stockList || '[]').reduce((acc: number, item: Plywood) => {
-    return acc + (item.aviableStock ? 1 : 0)
+    return acc + (item.quantityCubicAviable ? 1 : 0)
   }, 0)
   return x ? true : false
 }

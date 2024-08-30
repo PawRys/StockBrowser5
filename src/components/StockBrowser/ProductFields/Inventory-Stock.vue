@@ -10,19 +10,20 @@ const { listView } = storeToRefs(usePreferencesStore())
 const props = defineProps<{
   item: Plywood
   unit: string
-  stockStatus: number
+  quantityStatus: number
 }>()
-const { item, stockStatus } = toRefs(props)
+const { item, quantityStatus } = toRefs(props)
 const { unit } = props
 
-const stockNameList: { [key: number]: 'totalStock' | 'aviableStock' } = {
-  0: 'totalStock',
-  1: 'totalStock',
-  2: 'aviableStock'
+const stockNameList: { [key: number]: 'quantityCubicTotal' | 'quantityCubicAviable' } = {
+  0: 'quantityCubicTotal',
+  1: 'quantityCubicTotal',
+  2: 'quantityCubicAviable'
 }
 
 const quantity = computed(() => {
-  const whichStock = listView.value === 'prices' ? stockNameList[stockStatus.value] : 'totalStock'
+  const whichStock =
+    listView.value === 'prices' ? stockNameList[quantityStatus.value] : 'quantityCubicTotal'
   const m = listView.value === 'prices' ? 1 : -1
   return calcQuant(item.value.size, item.value[whichStock], 'm3', unit) * m
 })
@@ -44,9 +45,9 @@ const unitLabel = computed(() => {
 
 <template>
   <div class="inventory-stock field">
-    <i v-if="stockStatus === 0" class="bi bi-0-square"></i>
-    <i v-if="stockStatus === 1" class="bi bi-boxes"></i>
-    <i v-if="stockStatus === 2" class="bi bi-box"></i>
+    <i v-if="quantityStatus === 0" class="bi bi-0-square"></i>
+    <i v-if="quantityStatus === 1" class="bi bi-boxes"></i>
+    <i v-if="quantityStatus === 2" class="bi bi-box"></i>
     {{ quantity.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
   </div>
 </template>

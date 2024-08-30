@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useStockStore } from '@/stores/stockStore'
-import { hasPrices, hasReservations } from '@/exports/common_functions'
+import { hasPurchase, hasReservations } from '@/exports/common_functions'
 
 function daysDiff() {
   const today = new Date(new Date().toJSON().split('T')[0])
@@ -25,7 +25,7 @@ function daysDiffWord() {
     <span :class="{ 'rainbow-text': daysDiff() < 0, 'red-font': daysDiff() >= 2 }">
       {{ `${useStockStore().date || '0000-00-00'} ${daysDiffWord() || '0'}` }}
     </span>
-    <span class="overlap" v-if="!hasPrices()" title="Brak danych o cenach">
+    <span class="overlap" v-if="!hasPurchase()" title="Brak danych o cenach">
       <span>❌</span>
       <span>💵</span>
     </span>

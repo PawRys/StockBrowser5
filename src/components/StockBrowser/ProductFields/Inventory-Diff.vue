@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, defineProps, toRefs } from 'vue'
-import { evalMath, calcQuant } from '@/exports/common_functions'
+import { calcQuant } from '@/exports/common_functions'
 
 const props = defineProps<{
   item: Plywood
@@ -10,10 +10,9 @@ const { item } = toRefs(props)
 const { unit } = props
 
 const diff = computed(() => {
-  const cub = calcQuant(item.value.size, evalMath(item.value.inventory?.m3 || '0'), 'm3', unit)
-  const sqr = calcQuant(item.value.size, evalMath(item.value.inventory?.m2 || '0'), 'm2', unit)
-  const pcs = calcQuant(item.value.size, evalMath(item.value.inventory?.szt || '0'), 'szt', unit)
-  return cub + sqr + pcs - calcQuant(item.value.size, item.value.totalStock, 'm3', unit)
+  const totalUnitInventory = calcQuant(item.value.size, item.value.inventory?.cubicSum, 'm3', unit)
+  const totalUnitQuantity = calcQuant(item.value.size, item.value.quantityCubicTotal, 'm3', unit)
+  return totalUnitInventory - totalUnitQuantity
 })
 
 const zeroFix = computed(() => {

@@ -22,16 +22,16 @@ type Plywood = {
     faceType: string
     faceGroup: string
   }
-  price?: number
-  totalStock: number
-  aviableStock?: number
-  stockStatus: number
+  purchase?: number
+  quantityCubicTotal: number
+  quantityCubicAviable?: number
+  quantityStatus: number
   inventoryStatus: string
   inventory?: {
     m3?: string
     m2?: string
     szt?: string
-    summary?: number
+    cubicSum?: number
   }
 }
 

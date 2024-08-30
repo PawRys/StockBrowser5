@@ -114,9 +114,9 @@ export function convertToObject(data: string[][], datatype: string): Plywood[] {
       const total_status = total_stock > 0 ? 1 : null
       const price_calc = price / total_stock
       const finite_price = isFinite(price_calc) ? price_calc : 0
-      plywood.price = calcPrice(plywoodSize, finite_price, plywoodVolumeUnit, 'm3')
-      plywood.totalStock = calcQuant(plywoodSize, total_stock, plywoodVolumeUnit, 'm3')
-      plywood.stockStatus = total_status || 0
+      plywood.purchase = calcPrice(plywoodSize, finite_price, plywoodVolumeUnit, 'm3')
+      plywood.quantityCubicTotal = calcQuant(plywoodSize, total_stock, plywoodVolumeUnit, 'm3')
+      plywood.quantityStatus = total_status || 0
     }
 
     if (datatype === 'reservations') {
@@ -124,9 +124,9 @@ export function convertToObject(data: string[][], datatype: string): Plywood[] {
       const total_status = total_stock > 0 ? 1 : null
       const aviable_stock = Number(row[3].replace(',', '.'))
       const aviable_status = aviable_stock > 0 ? 2 : null
-      plywood.totalStock = calcQuant(plywoodSize, total_stock, plywoodVolumeUnit, 'm3')
-      plywood.aviableStock = calcQuant(plywoodSize, aviable_stock, plywoodVolumeUnit, 'm3')
-      plywood.stockStatus = aviable_status || total_status || 0
+      plywood.quantityCubicTotal = calcQuant(plywoodSize, total_stock, plywoodVolumeUnit, 'm3')
+      plywood.quantityCubicAviable = calcQuant(plywoodSize, aviable_stock, plywoodVolumeUnit, 'm3')
+      plywood.quantityStatus = aviable_status || total_status || 0
     }
 
     products.push(plywood)
@@ -312,24 +312,24 @@ function getColor(text: string, faceType: string | undefined): string | undefine
 
 export function zeroOutPrices(data: Plywood[]): Plywood[] {
   return data.map((el) => {
-    el.price = 0
+    el.purchase = 0
     return el
   })
 }
 
 export function zeroOutStocks(data: Plywood[]): Plywood[] {
   return data.map((el) => {
-    el.totalStock = 0
-    el.stockStatus = 0
+    el.quantityCubicTotal = 0
+    el.quantityStatus = 0
     return el
   })
 }
 
 export function zeroOutReservations(data: Plywood[]): Plywood[] {
   return data.map((el) => {
-    el.aviableStock = 0
-    el.totalStock = 0
-    el.stockStatus = 0
+    el.quantityCubicAviable = 0
+    el.quantityCubicTotal = 0
+    el.quantityStatus = 0
     return el
   })
 }
@@ -351,19 +351,19 @@ export function deleteInventory(data: Plywood[]): Plywood[] {
 
 export function setInventoryStatus(item: Plywood) {
   const threshold = 0.62
-  const totalStockPcs = calcQuant(item.size, item.totalStock, 'm3', 'szt')
+  const quantityCubicTotalPcs = calcQuant(item.size, item.quantityCubicTotal, 'm3', 'szt')
 
   const cub = calcQuant(item.size, evalMath(item.inventory?.m3 || '0'), 'm3', 'szt')
   const sqr = calcQuant(item.size, evalMath(item.inventory?.m2 || '0'), 'm2', 'szt')
   const pcs = calcQuant(item.size, evalMath(item.inventory?.szt || '0'), 'szt', 'szt')
-  const diff = cub + sqr + pcs - totalStockPcs
+  const diff = cub + sqr + pcs - quantityCubicTotalPcs
 
   let status = 'pusty'
-  if (totalStockPcs < 0) status = 'what'
-  if (totalStockPcs >= 0) {
+  if (quantityCubicTotalPcs < 0) status = 'what'
+  if (quantityCubicTotalPcs >= 0) {
     if (Math.abs(diff) <= threshold) status = 'OK'
-    if (totalStockPcs <= threshold) status = 'brak'
-    if (totalStockPcs == diff) status = 'pusty'
+    if (quantityCubicTotalPcs <= threshold) status = 'brak'
+    if (quantityCubicTotalPcs == diff) status = 'pusty'
     if (diff < threshold * -1) status = 'brak'
     if (diff > threshold) status = 'nadmiar'
   }

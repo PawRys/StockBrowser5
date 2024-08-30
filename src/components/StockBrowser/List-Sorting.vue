@@ -7,12 +7,12 @@ const sortingTable = [
   { column: 'price_m3', label: 'Zakup m3' },
   { column: 'price_m2', label: 'Zakup m2' },
   { column: 'price_szt', label: 'Zakup szt' },
-  { column: 'totalStock_m3', label: 'Całkowity m3' },
-  { column: 'totalStock_m2', label: 'Całkowity m2' },
-  { column: 'totalStock_szt', label: 'Całkowity szt' },
-  { column: 'aviableStock_m3', label: 'Handlowy m3' },
-  { column: 'aviableStock_m2', label: 'Handlowy m2' },
-  { column: 'aviableStock_szt', label: 'Handlowy szt' }
+  { column: 'quantityCubicTotal_m3', label: 'Całkowity m3' },
+  { column: 'quantityCubicTotal_m2', label: 'Całkowity m2' },
+  { column: 'quantityCubicTotal_szt', label: 'Całkowity szt' },
+  { column: 'quantityCubicAviable_m3', label: 'Handlowy m3' },
+  { column: 'quantityCubicAviable_m2', label: 'Handlowy m2' },
+  { column: 'quantityCubicAviable_szt', label: 'Handlowy szt' }
 ]
 
 function sortData(ev: Event) {

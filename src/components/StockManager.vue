@@ -91,9 +91,9 @@ const csvData = () => {
       return [
         item.id,
         item.inventoryStatus,
-        `${calcQuant(item.size, item.totalStock, 'm3', 'm3').toFixed(2)}m3`,
-        `${calcQuant(item.size, item.totalStock, 'm3', 'm2').toFixed(4)}m2`,
-        `${calcQuant(item.size, item.totalStock, 'm3', 'szt').toFixed(1)}szt`
+        `${calcQuant(item.size, item.quantityCubicTotal, 'm3', 'm3').toFixed(2)}m3`,
+        `${calcQuant(item.size, item.quantityCubicTotal, 'm3', 'm2').toFixed(4)}m2`,
+        `${calcQuant(item.size, item.quantityCubicTotal, 'm3', 'szt').toFixed(1)}szt`
       ]
     })
     .join('\n')

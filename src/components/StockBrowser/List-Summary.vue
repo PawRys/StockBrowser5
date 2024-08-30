@@ -7,7 +7,7 @@ import { useStockStore } from '@/stores/stockStore'
 import { useFilterStore } from '@/stores/filterStore'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
-import { calcQuant, evalMath } from '@/exports/common_functions'
+import { calcQuant } from '@/exports/common_functions'
 import { setInventoryStatus } from '@/exports/stockUpdateExports'
 
 import { promptModal } from 'jenesius-vue-modal'
@@ -18,25 +18,22 @@ const { listView } = storeToRefs(usePreferencesStore())
 
 const summaryDiff = (unit: string) => {
   return useStockStore().items.reduce((acc: number, item: Plywood) => {
-    const cub = calcQuant(item.size, evalMath(item.inventory?.m3 || ''), 'm3', unit)
-    const sqr = calcQuant(item.size, evalMath(item.inventory?.m2 || ''), 'm2', unit)
-    const pcs = calcQuant(item.size, evalMath(item.inventory?.szt || ''), 'szt', unit)
-    return acc + cub + sqr + pcs - calcQuant(item.size, item.totalStock, 'm3', unit)
+    const totalUnitInventory = calcQuant(item.size, item.inventory?.cubicSum, 'm3', unit)
+    const totalUnitQuantity = calcQuant(item.size, item.quantityCubicTotal, 'm3', unit)
+    return acc + totalUnitInventory - totalUnitQuantity
   }, 0)
 }
 
 const summaryInput = (unit: string) => {
   return useStockStore().items.reduce((acc: number, item: Plywood) => {
-    const cub = calcQuant(item.size, evalMath(item.inventory?.m3 || ''), 'm3', unit)
-    const sqr = calcQuant(item.size, evalMath(item.inventory?.m2 || ''), 'm2', unit)
-    const pcs = calcQuant(item.size, evalMath(item.inventory?.szt || ''), 'szt', unit)
-    return acc + cub + sqr + pcs
+    const totalUnitInventory = calcQuant(item.size, item.inventory?.cubicSum, 'm3', unit)
+    return acc + totalUnitInventory
   }, 0)
 }
 
 // const summarySymfo = (unit: string) => {
 //   return useStockStore().items.reduce((acc: number, item: Plywood) => {
-//     return acc + calcQuant(item.size, item.totalStock, 'm3', unit)
+//     return acc + calcQuant(item.size, item.quantityCubicTotal, 'm3', unit)
 //   }, 0)
 // }
 
