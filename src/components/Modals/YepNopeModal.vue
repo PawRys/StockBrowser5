@@ -49,7 +49,7 @@ const props = defineProps<{
   text-align: center;
 }
 
-.btn {
-  margin: 10px;
+h3 {
+  width: 100%;
 }
 </style>
