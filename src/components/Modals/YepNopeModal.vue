@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Modal } from 'jenesius-vue-modal'
 const props = defineProps<{
-  text: string
+  text?: string
 }>()
 </script>
 
