@@ -52,7 +52,7 @@ async function shareData() {
     <div class="stock-share--window">
       <h2>Udostępnij</h2>
       <form action="javascript:void(0);">
-        <input type="password" placeholder="Hasło (opcjonalnie)" v-model="password" />
+        <input type="password" placeholder="Hasło (opcjonalne)" v-model="password" />
         <button class="cta" @click="shareData">Generuj kod</button>
       </form>
       <p class="message-box">{{ messagebox }}</p>

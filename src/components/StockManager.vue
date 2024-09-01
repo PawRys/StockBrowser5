@@ -55,16 +55,16 @@ function importDB(event: Event) {
       )
       const result = JSON.parse(decryptedData)
       updateData(result)
-      messageBox.value = `✅ Baza danych została przywrócona pomyślnie.`
+      messageBox.value = `Baza danych została przywrócona pomyślnie ✔️`
     } catch (error: unknown) {
       console.error('**importIDB()**', error)
       if (error instanceof Error) {
-        messageBox.value = `❌ Błąd podczas przywracania bazy danych.`
+        messageBox.value = `Błąd podczas przywracania bazy danych ❌`
         if (error.message.match(/Malformed UTF-8 data/)) {
-          messageBox.value = `❌ Błąd. Kopia zapasowa może zostać przywrócona tylko w przeglądarce, w której została utworzona.`
+          messageBox.value = `Błąd. Kopia zapasowa może zostać przywrócona tylko w przeglądarce, w której została utworzona ❌`
         }
       } else {
-        messageBox.value = `❌ Nieznany błąd.`
+        messageBox.value = `Nieznany błąd ❌`
       }
     }
   }
@@ -83,7 +83,7 @@ async function dropDB() {
     updateData({ stockList: [], stockDate: '', stockWarehause: '' })
   })
 
-  messageBox.value = `❗ Baza danych została usunięta.`
+  messageBox.value = `Baza danych została usunięta ❗`
 }
 
 const csvData = () => {
