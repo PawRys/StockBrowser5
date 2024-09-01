@@ -5,7 +5,8 @@ import { php_server_url } from '@/exports/urls'
 
 import { calcPrice, calcQuant, evalMath } from './common_functions'
 import { promptModal } from 'jenesius-vue-modal'
-import InventoryMerge from '@/components/Modals/InventoryMerge.vue'
+import InventoryMerge from '@/components/Modals/InventoryMergeModal.vue'
+// await promptModal(InventoryMerge)
 
 interface defineDataTypeOutput {
   data: 'stocks' | 'reservations' | 'code' | boolean | null

@@ -210,6 +210,30 @@ dialog::backdrop {
   backdrop-filter: blur(4px);
 }
 
+/** div.dialog **/
+.dialog-backdrop {
+  position: fixed;
+  z-index: 999999;
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+  backdrop-filter: blur(4px);
+}
+
+.dialog {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  padding: 1ch;
+  padding-bottom: 3ch;
+  border: solid 1px var(--bg2-color);
+  width: min(45ch, 100%);
+  background-color: var(--bg-color);
+  text-align: center;
+}
+
 /******************************************************************************/
 .grey-font {
   color: var(--grey-color);
