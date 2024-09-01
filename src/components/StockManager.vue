@@ -80,6 +80,7 @@ async function dropDB() {
   Object.keys(localStorage).forEach((key) => {
     if (key.match(/SB5_UUID/i)) return
     if (key.match(/SB5_/i)) localStorage.removeItem(key)
+    updateData({ stockList: [], stockDate: '', stockWarehause: '' })
   })
 
   messageBox.value = `❗ Baza danych została usunięta.`
@@ -144,31 +145,43 @@ function downloadCSV(filename: string, csvData: string) {
 
 <template>
   <section id="stock-manager">
-    <h2>StockManager</h2>
+    <h2>Zarządzaj bazą danych</h2>
     <button class="" @click="exportDB()">
-      <i class="bi bi-file-earmark-arrow-down"></i>
+      <i class="bi bi-floppy2-fill"></i>
       <span>Utwórz kopię zapasową</span>
     </button>
 
     <button class="" @click="passClickTo('#import-backup')">
-      <i class="bi bi-file-earmark-arrow-up"></i>
+      <i class="bi bi-file-earmark-arrow-down-fill"></i>
       <span>Wczytaj kopię zapasową</span>
     </button>
 
     <input hidden type="file" name="import-backup" id="import-backup" @change="importDB($event)" />
+
+    <button class="" @click="downloadCSV('file.csv', csvData())">
+      <i class="bi bi-file-earmark-spreadsheet"></i>
+      <span>Arkusz inwentaryzacji</span>
+    </button>
 
     <button class="red-font" @click="dropDB">
       <i class="bi bi-file-earmark-x"></i>
       <span>Przywróć ustawienia fabryczne</span>
     </button>
 
-    <button class="" @click="downloadCSV('file.csv', csvData())">
-      <i class="bi bi-file-earmark-x"></i>
-      <span>Arkusz inwentaryzacji</span>
-    </button>
-
     <p class="messageBox">{{ messageBox }}</p>
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+#stock-manager {
+  display: grid;
+  justify-content: center;
+  gap: 2ch;
+}
+
+button {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+</style>

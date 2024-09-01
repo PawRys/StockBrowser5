@@ -8,7 +8,7 @@ import Filter from '@/components/StockBrowser/List-Filter.vue'
 import FloatingToolbar from '@/components/StockBrowser/Floating-Toolbar.vue'
 
 function condition(): string {
-  if (!localStorage.SB5_stockList || localStorage.SB5_stockList === '{}') return 'nodatabase'
+  if (!localStorage.SB5_stockList || localStorage.SB5_stockList === '[]') return 'nodatabase'
   if (useStockStore().items.length < 1 && useFilterStore().statusFilter >= 2) return 'trymore'
   if (useStockStore().items.length < 1 && useFilterStore().statusFilter === 1) return 'tryzero'
   if (useStockStore().items.length < 1 && useFilterStore().statusFilter === 0) return 'notexist'
