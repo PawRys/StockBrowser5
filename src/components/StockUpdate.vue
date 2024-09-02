@@ -41,7 +41,7 @@ async function submit(e: Event): Promise<void> {
   const form = e.target as HTMLFormElement
   const formTextbox = form.elements.namedItem('textBox') as HTMLInputElement
   const formData = formTextbox.value
-  const localData = JSON.parse(localStorage.SB5_stockList || '[]') as Plywood[]
+  const localData = JSON.parse(localStorage.getItem('SB5_stockList') || '[]') as Plywood[]
 
   const serverMessages = {
     bad_JSON: 'Problem ze strukturą danych ❌',

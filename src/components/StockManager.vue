@@ -20,9 +20,9 @@ function passClickTo(query: string) {
 function exportDB() {
   const file = `StockBrowserBackup-${new Date().toJSON().split('T')[0]}.json`
   const stockData = {
-    stockDate: localStorage.SB5_stockDate,
-    stockWarehause: localStorage.SB5_stockWarehause,
-    stockList: JSON.parse(localStorage.SB5_stockList)
+    stockDate: localStorage.getItem('SB5_stockDate'),
+    stockWarehause: localStorage.getItem('SB5_stockWarehause'),
+    stockList: JSON.parse(localStorage.getItem('SB5_stockList'))
   }
 
   const stockDataString = JSON.stringify(stockData)
@@ -103,7 +103,7 @@ const csvData = () => {
     'Różnica [szt]'
   ].join('\t')
 
-  const items = localStorage.SB5_stockList || '[]'
+  const items = localStorage.getItem('SB5_stockList') || '[]'
 
   const result = JSON.parse(items).map((item: Plywood) => {
     const quantCub = calcQuant(item.size, item.quantityCubicTotal, 'm3', 'm3')

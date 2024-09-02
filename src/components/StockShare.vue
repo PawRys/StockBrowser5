@@ -12,9 +12,9 @@ async function shareData() {
     action: 'provide',
     password: password.value || '',
     stockData: {
-      stockDate: localStorage.SB5_stockDate,
-      stockWarehause: localStorage.SB5_stockWarehause,
-      stockList: JSON.parse(localStorage.SB5_stockList)
+      stockDate: localStorage.getItem('SB5_stockDate'),
+      stockWarehause: localStorage.getItem('SB5_stockWarehause'),
+      stockList: JSON.parse(localStorage.getItem('SB5_stockList'))
     }
   }
 

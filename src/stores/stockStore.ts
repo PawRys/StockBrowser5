@@ -12,9 +12,9 @@ import {
   applyInventoryFilter
 } from '@/exports/stockStoreExports'
 
-const localStorageSB5_stockList = ref(localStorage.SB5_stockList || '[]')
-const localStorageSB5_stockDate = ref(localStorage.SB5_stockDate || '')
-const localStorageSB5_stockWarehause = ref(localStorage.SB5_stockWarehause || '')
+const localStorageSB5_stockList = ref(localStorage.getItem('SB5_stockList') || '[]')
+const localStorageSB5_stockDate = ref(localStorage.getItem('SB5_stockDate') || '')
+const localStorageSB5_stockWarehause = ref(localStorage.getItem('SB5_stockWarehause') || '')
 
 export const useStockStore = defineStore(
   'SB5_stockStore',
@@ -31,27 +31,28 @@ export const useStockStore = defineStore(
     )
 
     function updateItem(incomingItem: Plywood): void {
-      const localData = JSON.parse(localStorage.SB5_stockList || '[]')
+      const localData = JSON.parse(localStorage.getItem('SB5_stockList') || '[]')
       const localItemIndex = localData.findIndex(
         (localItem: Plywood) => localItem.id === incomingItem.id
       )
       _.merge(localData[localItemIndex], incomingItem)
       const data = JSON.stringify(localData)
-      localStorage.SB5_stockList = data
+      localStorage.setItem('SB5_stockList', data)
       localStorageSB5_stockList.value = data
     }
 
     function updateData(incomingData: DBSchema): void {
       console.time('updateData')
-      localStorage.SB5_stockList = JSON.stringify(incomingData.stockList)
+      localStorage.setItem('SB5_stockList', JSON.stringify(incomingData.stockList))
       localStorageSB5_stockList.value = JSON.stringify(incomingData.stockList)
 
-      const stockDate = incomingData.stockDate || localStorage.SB5_stockDate || ''
-      localStorage.SB5_stockDate = stockDate
+      const stockDate = incomingData.stockDate || localStorage.getItem('SB5_stockDate') || ''
+      localStorage.setItem('SB5_stockDate', stockDate)
       localStorageSB5_stockDate.value = stockDate
 
-      const stockWarehause = incomingData.stockWarehause || localStorage.SB5_stockWarehause || ''
-      localStorage.SB5_stockWarehause = stockWarehause
+      const stockWarehause =
+        incomingData.stockWarehause || localStorage.getItem('SB5_stockWarehause') || ''
+      localStorage.setItem('SB5_stockWarehause', stockWarehause)
       localStorageSB5_stockWarehause.value = stockWarehause
       console.timeEnd('updateData')
     }

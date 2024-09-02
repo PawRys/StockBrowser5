@@ -113,16 +113,22 @@ export function evalMath(expr: string): number {
 }
 
 export function hasPurchase(): Boolean {
-  const x = JSON.parse(localStorage.SB5_stockList || '[]').reduce((acc: number, item: Plywood) => {
-    return acc + (item.purchase ? 1 : 0)
-  }, 0)
+  const x = JSON.parse(localStorage.getItem('SB5_stockList') || '[]').reduce(
+    (acc: number, item: Plywood) => {
+      return acc + (item.purchase ? 1 : 0)
+    },
+    0
+  )
   return x ? true : false
 }
 
 export function hasReservations(): Boolean {
-  const x = JSON.parse(localStorage.SB5_stockList || '[]').reduce((acc: number, item: Plywood) => {
-    return acc + (item.quantityCubicAviable ? 1 : 0)
-  }, 0)
+  const x = JSON.parse(localStorage.getItem('SB5_stockList') || '[]').reduce(
+    (acc: number, item: Plywood) => {
+      return acc + (item.quantityCubicAviable ? 1 : 0)
+    },
+    0
+  )
   return x ? true : false
 }
 

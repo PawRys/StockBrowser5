@@ -39,7 +39,7 @@ const summaryInput = (unit: string) => {
 
 const zeroOutFilteredInventory = async () => {
   if (!(await promptModal(YepNopeModal))) return
-  const storedItems = JSON.parse(localStorage.SB5_stockList || '[]')
+  const storedItems = JSON.parse(localStorage.getItem('SB5_stockList') || '[]')
   const filteredItems = useStockStore().items
   filteredItems.map((filteredItem: Plywood) => {
     storedItems.find((storedItem: Plywood) => {
