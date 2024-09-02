@@ -22,7 +22,7 @@ function exportDB() {
   const stockData = {
     stockDate: localStorage.getItem('SB5_stockDate'),
     stockWarehause: localStorage.getItem('SB5_stockWarehause'),
-    stockList: JSON.parse(localStorage.getItem('SB5_stockList'))
+    stockList: JSON.parse(localStorage.getItem('SB5_stockList') || '[]')
   }
 
   const stockDataString = JSON.stringify(stockData)
