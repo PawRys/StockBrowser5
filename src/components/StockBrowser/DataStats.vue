@@ -15,11 +15,17 @@ function daysDiffWord() {
   if (diff === 1) return 'wczoraj'
   if (diff > 1) return `${diff} dni`
 }
+
+function warehauseWarning() {
+  const wh = useStockStore().warehause
+  if (wh.split(',').length > 1) return true
+  if (wh === 'Wszystkie') return true
+}
 </script>
 
 <template>
   <section class="data-status">
-    <span :class="{ 'red-font': useStockStore().warehause === 'Wszystkie' }">
+    <span :class="{ 'red-font': warehauseWarning() }">
       {{ `Magazyn: ${useStockStore().warehause || ''}` }}
     </span>
     <span :class="{ 'rainbow-text': daysDiff() < 0, 'red-font': daysDiff() >= 2 }">

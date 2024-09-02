@@ -90,60 +90,101 @@ async function dropDB() {
   messageBox.value = `Baza danych została usunięta ❗`
 }
 
-const csvData = () => {
-  const header = [
-    'Kod',
-    'Status',
-    'Symfonia ma [m3]',
-    'Magazyn ma [m3]',
-    'Różnica [m3]',
+function downloadSpreadsheet() {
+  const data = prepareData()
+  const htmlTable = convertToHTMLTable(data)
+  const excelFile = wrapInExcel(htmlTable)
 
-    'Symfonia ma [m2]',
-    'Magazyn ma [m2]',
-    'Różnica [m2]',
+  // Create a Blob object with Excel MIME type
+  const blob = new Blob([excelFile], { type: 'application/vnd.ms-excel' })
 
-    'Symfonia ma [szt]',
-    'Magazyn ma [szt]',
-    'Różnica [szt]'
-  ].join('\t')
+  // Create a link element and simulate a click to download the file
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(blob)
+  a.download = `Inwentaryzacja-${new Date().toJSON().split('T')[0]}.xls`
+  a.click()
 
-  const items = localStorage.getItem('SB5_stockList') || '[]'
+  // Clean up the URL object
+  URL.revokeObjectURL(a.href)
+}
 
-  const result = JSON.parse(items).map((item: Plywood) => {
+function prepareData() {
+  return JSON.parse(localStorage.getItem('SB5_stockList') || '[]').map((item: Plywood) => {
     const quantCub = calcQuant(item.size, item.quantityCubicTotal, 'm3', 'm3')
     const quantSqr = calcQuant(item.size, item.quantityCubicTotal, 'm3', 'm2')
     const quantPcs = calcQuant(item.size, item.quantityCubicTotal, 'm3', 'szt')
     const invCub = calcQuant(item.size, item.inventory?.cubicSum, 'm3', 'm3')
     const invSqr = calcQuant(item.size, item.inventory?.cubicSum, 'm3', 'm2')
     const invPcs = calcQuant(item.size, item.inventory?.cubicSum, 'm3', 'szt')
-    return [
-      item.id,
-      item.inventoryStatus,
-      `-${quantCub.toFixed(2)}`,
-      `${invCub.toFixed(2)}`,
-      `${(invCub - quantCub).toFixed(2)}`,
 
-      `-${quantSqr.toFixed(4)}`,
-      `${invSqr.toFixed(4)}`,
-      `${(invSqr - quantSqr).toFixed(4)}`,
+    return {
+      Kod: item.id,
+      Status: item.inventoryStatus,
 
-      `-${quantPcs.toFixed(1)}`,
-      `${invPcs.toFixed(1)}`,
-      `${(invPcs - quantPcs).toFixed(1)}`
-    ].join('\t')
+      'Symfonia ma [m3]': quantCub.toFixed(3),
+      'Magazyn ma [m3]': invCub.toFixed(3),
+      'Różnica [m3]': (invCub - quantCub).toFixed(3),
+
+      'Symfonia ma [m2]': quantSqr.toFixed(4),
+      'Magazyn ma [m2]': invSqr.toFixed(4),
+      'Różnica [m2]': (invSqr - quantSqr).toFixed(4),
+
+      'Symfonia ma [szt]': quantPcs.toFixed(1),
+      'Magazyn ma [szt]': invPcs.toFixed(1),
+      'Różnica [szt]': (invPcs - quantPcs).toFixed(1)
+    }
   })
-  result.unshift(header)
-  return result.join('\n')
 }
 
-function downloadCSV(filename: string, csvData: string) {
-  const blob = new Blob([csvData], { type: 'text/csv' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = filename
-  a.click()
-  URL.revokeObjectURL(url)
+function convertToHTMLTable(data: any[]): string {
+  let html = '<table border="1" style="border-collapse:collapse;width:100%;">' // Table styles
+
+  const headers = Object.keys(data[0])
+  html +=
+    '<tr style="background-color:#4CAF50;color:white;font-weight:bold;">' +
+    headers.map((header) => `<th style="padding:8px;text-align:left;">${header}</th>`).join('') +
+    '</tr>'
+
+  for (let i = 0; i < data.length; i++) {
+    const row = data[i]
+    const rowColor = i % 2 === 0 ? '#f2f2f2' : '#ffffff'
+    html +=
+      `<tr style="background-color:${rowColor};">` +
+      headers
+        .map((header) => {
+          let color = 'unset'
+          if (header.match(/\[m3]/i)) color = 'limegreen'
+          if (header.match(/\[m2]/i)) color = 'orange'
+          if (header.match(/\[szt]/i)) color = 'dodgerblue'
+          if (header.match(/Różnica \[m2]/i)) color = 'orangered'
+          return `<td style="padding:8px;text-align:right;color:${color};">${row[header]}</td>`
+        })
+        .join('') +
+      '</tr>'
+  }
+
+  html += '</table>'
+  return html
+}
+
+function wrapInExcel(htmlTable: string) {
+  return `
+    <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+    <head>
+      <!--[if gte mso 9]>
+      <xml>
+        <x:ExcelWorkbook>
+          <x:ExcelWorksheets>
+            <x:ExcelWorksheet>
+              <x:Name>Sheet1</x:Name>
+              <x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions>
+            </x:ExcelWorksheet>
+          </x:ExcelWorksheets>
+        </x:ExcelWorkbook>
+      </xml>
+      <![endif]-->
+    </head>
+    <body>${htmlTable}</body></html>`
 }
 </script>
 
@@ -162,17 +203,19 @@ function downloadCSV(filename: string, csvData: string) {
 
     <input hidden type="file" name="import-backup" id="import-backup" @change="importDB($event)" />
 
-    <button class="" @click="downloadCSV('file.csv', csvData())">
+    <!-- <button class="" @click="downloadCSV('file.csv', csvData())"> -->
+    <button class="" @click="downloadSpreadsheet()">
       <i class="bi bi-file-earmark-spreadsheet"></i>
       <span>Arkusz inwentaryzacji</span>
     </button>
 
-    <button class="red-font" @click="dropDB">
+    <button class="red-font" @click="dropDB()">
       <i class="bi bi-file-earmark-x"></i>
       <span>Przywróć ustawienia fabryczne</span>
     </button>
 
     <p class="messageBox">{{ messageBox }}</p>
+    <!-- <div v-html="downloadSpreadsheet()"></div> -->
   </section>
 </template>
 

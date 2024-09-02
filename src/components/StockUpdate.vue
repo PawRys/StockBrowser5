@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import _ from 'lodash'
 import { ref, watch } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
 import {
@@ -72,7 +73,8 @@ async function submit(e: Event): Promise<void> {
     const data: DBSchema = {
       stockList: await mergeStocks(incomingData, localData, datatype.value),
       stockDate: formData.match(/\d\d\d\d-\d\d-\d\d/)?.[0] || today,
-      stockWarehause: formData.match(/magazyny? ([A-ZĄĘŚĆŻŹÓŁŃ, ]+)/)?.[1] || 'Wszystkie'
+      stockWarehause:
+        _.trim(formData.match(/magazyny? ([A-ZĄĘŚĆŻŹÓŁŃ, ]+)/)?.[1], ' ,') || 'Wszystkie'
     }
 
     useStockStore().updateData(data)
