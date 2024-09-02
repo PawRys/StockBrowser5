@@ -135,17 +135,17 @@ export function hasReservations(): Boolean {
 export function downloadFile(file: string, data: string, type: string) {
   const blob = new Blob([data], { type: type })
   const blobUrl = URL.createObjectURL(blob)
-  const link = document.createElement('a')
-  link.href = blobUrl
-  link.download = file
-  document.body.appendChild(link)
-  link.dispatchEvent(
+  const linkElement = document.createElement('a')
+  linkElement.href = blobUrl
+  linkElement.download = file
+  document.body.appendChild(linkElement)
+  linkElement.dispatchEvent(
     new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
       view: window
     })
   )
-  document.body.removeChild(link)
+  document.body.removeChild(linkElement)
   URL.revokeObjectURL(blobUrl)
 }
