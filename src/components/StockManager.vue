@@ -28,7 +28,10 @@ function exportDB() {
   const stockDataString = JSON.stringify(stockData)
 
   const type = 'application/json; charset=UTF-8'
-  const encryptedData = CryptoJS.AES.encrypt(stockDataString, localStorage.SB5_UUID).toString()
+  const encryptedData = CryptoJS.AES.encrypt(
+    stockDataString,
+    localStorage.getItem('SB5_UUID') as string
+  ).toString()
   console.log(encryptedData)
 
   try {
@@ -50,9 +53,10 @@ function importDB(event: Event) {
       const encryptedData = event.target?.result || ''
       const encryptedString =
         typeof encryptedData === 'string' ? encryptedData : new TextDecoder().decode(encryptedData)
-      const decryptedData = CryptoJS.AES.decrypt(encryptedString, localStorage.SB5_UUID).toString(
-        CryptoJS.enc.Utf8
-      )
+      const decryptedData = CryptoJS.AES.decrypt(
+        encryptedString,
+        localStorage.getItem('SB5_UUID') as string
+      ).toString(CryptoJS.enc.Utf8)
       const result = JSON.parse(decryptedData)
       updateData(result)
       messageBox.value = `Baza danych została przywrócona pomyślnie ✔️`
