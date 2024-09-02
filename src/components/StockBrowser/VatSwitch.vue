@@ -24,7 +24,6 @@ function formatSuper(text: string): string {
 <style scoped>
 .product-vat-switch {
   display: inline-flex;
-  align-items: flex-end;
 }
 
 h4 {
