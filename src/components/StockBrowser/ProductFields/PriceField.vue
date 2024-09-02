@@ -44,9 +44,8 @@ function updateBasePrice(event: Event) {
 }
 
 const preFix = computed(() => {
-  let result = ''
-  if (unit.match(/marg|perc/) && computedPrice.value > 0) result = '+'
-  return result
+  if (unit.match(/marg|perc/) && computedPrice.value > 0) return '+'
+  return ''
 })
 
 const unitLabel = computed(() => {
@@ -59,9 +58,8 @@ const unitLabel = computed(() => {
 })
 
 const zeroFix = computed(() => {
-  let result = 2
-  if (unit.match(/perc/)) result = 1
-  return result
+  if (unit.match(/perc/)) return 1
+  return 2
 })
 
 function keyguard(event: KeyboardEvent): void {
