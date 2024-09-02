@@ -11,7 +11,7 @@ const props = defineProps<{
 const { item } = toRefs(props)
 const { unit } = props
 
-const purchase = item.value.price || 0
+const purchase = item.value.purchase || 0
 const basePrice = inject<Ref<number>>('basePrice')!
 const isEdited = ref(false)
 const userInput = ref()
