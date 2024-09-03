@@ -19,7 +19,7 @@ function passClickTo(query: string) {
 }
 
 function exportDB() {
-  const file = `StockBrowserBackup-${new Date().toJSON().split('T')[0]}.json`
+  const file = `StockBrowserBackup-${new Date().toJSON().split('T')[0]}.txt`
   const stockData = {
     stockDate: localStorage.getItem('SB5_stockDate') || '',
     stockWarehause: localStorage.getItem('SB5_stockWarehause') || '',

@@ -107,27 +107,21 @@ export function convertToObject(data: string[][], datatype: string): Plywood[] {
     plywood.attr.glueType = glueType_val || '(?)'
     plywood.attr.woodType = woodType_val || '(?)'
     plywood.attr.color = color_val
-    // plywood.inventory = {}
 
     if (datatype === 'stocks') {
       const price = Number(row[5].replace(',', '.'))
       const total_stock = Number(row[3].replace(',', '.'))
-      const total_status = total_stock > 0 ? 1 : null
       const price_calc = price / total_stock
       const finite_price = isFinite(price_calc) ? price_calc : 0
       plywood.purchase = calcPrice(plywoodSize, finite_price, plywoodVolumeUnit, 'm3')
       plywood.quantityCubicTotal = calcQuant(plywoodSize, total_stock, plywoodVolumeUnit, 'm3')
-      plywood.quantityStatus = total_status || 0
     }
 
     if (datatype === 'reservations') {
       const total_stock = Number(row[6].replace(',', '.'))
-      const total_status = total_stock > 0 ? 1 : null
       const aviable_stock = Number(row[3].replace(',', '.'))
-      const aviable_status = aviable_stock > 0 ? 2 : null
       plywood.quantityCubicTotal = calcQuant(plywoodSize, total_stock, plywoodVolumeUnit, 'm3')
       plywood.quantityCubicAviable = calcQuant(plywoodSize, aviable_stock, plywoodVolumeUnit, 'm3')
-      plywood.quantityStatus = aviable_status || total_status || 0
     }
 
     products.push(plywood)
@@ -371,6 +365,12 @@ export function setInventoryStatus(item: Plywood) {
   return status
 }
 
+function setQuantityStatus(item: Plywood) {
+  const aviable_status = item.quantityCubicAviable || 0 > 0 ? 2 : null
+  const total_status = item.quantityCubicTotal > 0 ? 1 : null
+  return aviable_status || total_status || 0
+}
+
 export async function mergeStocks(
   incomingData: Plywood[],
   localData: Plywood[],
@@ -399,6 +399,7 @@ export async function mergeStocks(
 
     if (localItemIndex < 0) {
       incomingItem.inventoryStatus = setInventoryStatus(incomingItem)
+      incomingItem.quantityStatus = setQuantityStatus(incomingItem)
       localData.push(incomingItem)
     } else {
       const localItem = localData[localItemIndex]
@@ -414,6 +415,7 @@ export async function mergeStocks(
       }
       _.merge(localData[localItemIndex], incomingItem) // Object.assign but better
       localData[localItemIndex].inventoryStatus = setInventoryStatus(localData[localItemIndex])
+      localData[localItemIndex].quantityStatus = setQuantityStatus(localData[localItemIndex])
     }
   }
   return localData
