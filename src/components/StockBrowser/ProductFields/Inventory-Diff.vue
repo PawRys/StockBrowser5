@@ -10,7 +10,7 @@ const { item } = toRefs(props)
 const { unit } = props
 
 const diff = computed(() => {
-  const totalUnitInventory = calcQuant(item.value.size, item.value.inventory?.cubicSum, 'm3', unit)
+  const totalUnitInventory = calcQuant(item.value.size, item.value.inventoryCubicSum, 'm3', unit)
   const totalUnitQuantity = calcQuant(item.value.size, item.value.quantityCubicTotal, 'm3', unit)
   return totalUnitInventory - totalUnitQuantity
 })

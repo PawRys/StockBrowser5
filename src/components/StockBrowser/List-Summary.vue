@@ -18,7 +18,7 @@ const { listView } = storeToRefs(usePreferencesStore())
 
 const summaryDiff = (unit: string) => {
   return useStockStore().items.reduce((acc: number, item: Plywood) => {
-    const totalUnitInventory = calcQuant(item.size, item.inventory?.cubicSum, 'm3', unit)
+    const totalUnitInventory = calcQuant(item.size, item.inventoryCubicSum, 'm3', unit)
     const totalUnitQuantity = calcQuant(item.size, item.quantityCubicTotal, 'm3', unit)
     return acc + totalUnitInventory - totalUnitQuantity
   }, 0)
@@ -26,7 +26,7 @@ const summaryDiff = (unit: string) => {
 
 const summaryInput = (unit: string) => {
   return useStockStore().items.reduce((acc: number, item: Plywood) => {
-    const totalUnitInventory = calcQuant(item.size, item.inventory?.cubicSum, 'm3', unit)
+    const totalUnitInventory = calcQuant(item.size, item.inventoryCubicSum, 'm3', unit)
     return acc + totalUnitInventory
   }, 0)
 }

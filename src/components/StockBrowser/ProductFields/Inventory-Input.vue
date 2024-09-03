@@ -29,7 +29,7 @@ const itemInventoryUnitSum = computed(() => {
 
 const debouncedUpdate = _.debounce((item, userInput) => {
   _.merge(item.value, { inventory: { [unit]: userInput.value || '' } })
-  _.merge(item.value, { inventory: { cubicSum: totalInventoryCubicSum.value || 0 } })
+  _.merge(item.value, { inventoryCubicSum: totalInventoryCubicSum.value || 0 })
   _.merge(item.value, { inventoryStatus: setInventoryStatus(item.value) })
   useStockStore().updateItem(item.value)
   saving.value = false

@@ -1,6 +1,7 @@
 import { calcPrice, calcQuant } from '@/exports/common_functions'
 import { useSortingStore } from '@/stores/sortingStore'
 import { useFilterStore } from '@/stores/filterStore'
+import { storeToRefs } from 'pinia'
 
 export function applyStatusFilter(el: Plywood) {
   return el.quantityStatus >= useFilterStore().statusFilter
@@ -40,18 +41,19 @@ export function applySort(a: Plywood, b: Plywood) {
     | 'id'
     | 'name'
     | 'size'
-    | 'price'
+    | 'purchase'
     | 'quantityCubicTotal'
     | 'quantityCubicAviable'
+    | 'inventoryCubicSum'
     | 'quantityStatus'
   >
 
-  const sortDir = useSortingStore().sortDir
-  const sortCol = useSortingStore().sortCol
-  const sortUnit = useSortingStore().sortUnit
+  const { sortDir, sortCol, sortUnit } = storeToRefs(useSortingStore())
 
-  const aValue = a[sortCol as keyof SortingColumnsNames] ?? ''
-  const bValue = b[sortCol as keyof SortingColumnsNames] ?? ''
+  const sortingUnits = ['m3', 'm2', 'szt']
+
+  const aValue = a[sortCol.value as keyof SortingColumnsNames] ?? ''
+  const bValue = b[sortCol.value as keyof SortingColumnsNames] ?? ''
   const collator = new Intl.Collator(undefined, {
     usage: 'sort',
     numeric: true
@@ -59,15 +61,16 @@ export function applySort(a: Plywood, b: Plywood) {
 
   let A = aValue
   let B = bValue
-  if (sortCol.match(/price/i)) {
-    A = calcPrice(a.size, Number(aValue), 'm3', sortUnit)
-    B = calcPrice(b.size, Number(bValue), 'm3', sortUnit)
+  const x = 1000000
+  if (sortCol.value.match(/purchase/i)) {
+    A = x * calcPrice(a.size, Number(aValue), 'm3', sortingUnits[sortUnit.value])
+    B = x * calcPrice(b.size, Number(bValue), 'm3', sortingUnits[sortUnit.value])
   }
-  if (sortCol.match(/Stock/i)) {
-    A = calcQuant(a.size, Number(aValue), 'm3', sortUnit)
-    B = calcQuant(b.size, Number(bValue), 'm3', sortUnit)
+  if (sortCol.value.match(/quantity|inventory/i)) {
+    A = x * calcQuant(a.size, Number(aValue), 'm3', sortingUnits[sortUnit.value])
+    B = x * calcQuant(b.size, Number(bValue), 'm3', sortingUnits[sortUnit.value])
   }
-  if (sortDir > 0) return collator.compare(A.toString(), B.toString())
-  if (sortDir < 0) return collator.compare(B.toString(), A.toString())
+  if (sortDir.value > 0) return collator.compare(A.toString(), B.toString())
+  if (sortDir.value < 0) return collator.compare(B.toString(), A.toString())
   return 0
 }

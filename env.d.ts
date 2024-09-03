@@ -27,11 +27,11 @@ type Plywood = {
   quantityCubicAviable?: number
   quantityStatus: number
   inventoryStatus: string
+  inventoryCubicSum?: number
   inventory?: {
     m3?: string
     m2?: string
     szt?: string
-    cubicSum?: number
   }
 }
 

@@ -101,9 +101,9 @@ function prepareData() {
     const quantCub = calcQuant(item.size, item.quantityCubicTotal, 'm3', 'm3')
     const quantSqr = calcQuant(item.size, item.quantityCubicTotal, 'm3', 'm2')
     const quantPcs = calcQuant(item.size, item.quantityCubicTotal, 'm3', 'szt')
-    const invCub = calcQuant(item.size, item.inventory?.cubicSum, 'm3', 'm3')
-    const invSqr = calcQuant(item.size, item.inventory?.cubicSum, 'm3', 'm2')
-    const invPcs = calcQuant(item.size, item.inventory?.cubicSum, 'm3', 'szt')
+    const invCub = calcQuant(item.size, item.inventoryCubicSum, 'm3', 'm3')
+    const invSqr = calcQuant(item.size, item.inventoryCubicSum, 'm3', 'm2')
+    const invPcs = calcQuant(item.size, item.inventoryCubicSum, 'm3', 'szt')
 
     return {
       Kod: item.id,

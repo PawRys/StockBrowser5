@@ -1,42 +1,43 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { useSortingStore } from '@/stores/sortingStore'
+const { sortCol, sortDir, sortUnit } = storeToRefs(useSortingStore())
 
-const sortingTable = [
-  { column: 'id', label: 'Kod towaru' },
-  { column: 'size', label: 'Wymiar' },
-  { column: 'price_m3', label: 'Zakup m3' },
-  { column: 'price_m2', label: 'Zakup m2' },
-  { column: 'price_szt', label: 'Zakup szt' },
-  { column: 'quantityCubicTotal_m3', label: 'Całkowity m3' },
-  { column: 'quantityCubicTotal_m2', label: 'Całkowity m2' },
-  { column: 'quantityCubicTotal_szt', label: 'Całkowity szt' },
-  { column: 'quantityCubicAviable_m3', label: 'Handlowy m3' },
-  { column: 'quantityCubicAviable_m2', label: 'Handlowy m2' },
-  { column: 'quantityCubicAviable_szt', label: 'Handlowy szt' }
+const sortingColumn = [
+  { col: 'id', label: 'Kod towaru' },
+  { col: 'size', label: 'Wymiar' },
+  { col: 'purchase', label: 'Cena zakupu' },
+  { col: 'quantityCubicTotal', label: 'Stan całkowity' },
+  { col: 'quantityCubicAviable', label: 'Stan handlowy' },
+  { col: 'inventoryCubicSum', label: 'Spis z natury' }
 ]
+
+// const sortingUnit = ['szt', 'm2', 'm3']
+const sortingUnits = ['m3', 'm2', 'szt']
 
 function sortData(ev: Event) {
   const target = ev.target as HTMLSelectElement
   const value = target.value
-
-  useSortingStore().sortParam = value
-  useSortingStore().sortDir *= -1
-  const [col, unit] = value.split('_')
-  useSortingStore().sortCol = col
-  useSortingStore().sortUnit = unit || ''
+  // useSortingStore().sortResetDir = value
+  sortCol.value = value
 }
 </script>
 
 <template>
   <section class="product-sorting">
     <select @change="sortData">
-      <template v-for="st in sortingTable" :key="st.column">
-        <option :value="st.column">{{ st.label }}</option>
+      <template v-for="st in sortingColumn" :key="st.column">
+        <option :value="st.col">{{ st.label }}</option>
       </template>
     </select>
-    <button @click="useSortingStore().sortDir *= -1" class="compact">
-      <i v-if="useSortingStore().sortDir > 0" class="bi bi-sort-down-alt"></i>
-      <i v-if="useSortingStore().sortDir < 0" class="bi bi-sort-down"></i>
+
+    <button @click="sortUnit = (sortUnit + 1) % sortingUnits.length" class="compact">
+      <span>{{ sortingUnits[sortUnit] }}</span>
+    </button>
+
+    <button @click="sortDir *= -1" class="compact">
+      <i v-if="sortDir > 0" class="bi bi-sort-down-alt"></i>
+      <i v-if="sortDir < 0" class="bi bi-sort-down"></i>
     </button>
   </section>
 </template>
