@@ -23,7 +23,8 @@
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "sanitize.css": "^13.0.0",
-    "vue": "^3.4.21"
+    "vue": "^3.4.21",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import * as XLSX from 'xlsx'
 import { ref } from 'vue'
 import { calcQuant } from '@/exports/common_functions'
 import CryptoJS from 'crypto-js'
@@ -92,20 +93,7 @@ async function dropDB() {
 
 function downloadSpreadsheet() {
   const data = prepareData()
-  const htmlTable = convertToHTMLTable(data)
-  const excelFile = wrapInExcel(htmlTable)
-
-  // Create a Blob object with Excel MIME type
-  const blob = new Blob([excelFile], { type: 'application/vnd.ms-excel' })
-
-  // Create a link element and simulate a click to download the file
-  const a = document.createElement('a')
-  a.href = URL.createObjectURL(blob)
-  a.download = `Inwentaryzacja-${new Date().toJSON().split('T')[0]}.xls`
-  a.click()
-
-  // Clean up the URL object
-  URL.revokeObjectURL(a.href)
+  saveToXLSX(data)
 }
 
 function prepareData() {
@@ -136,55 +124,11 @@ function prepareData() {
   })
 }
 
-function convertToHTMLTable(data: any[]): string {
-  let html = '<table border="1" style="border-collapse:collapse;width:100%;">' // Table styles
-
-  const headers = Object.keys(data[0])
-  html +=
-    '<tr style="background-color:#4CAF50;color:white;font-weight:bold;">' +
-    headers.map((header) => `<th style="padding:8px;text-align:left;">${header}</th>`).join('') +
-    '</tr>'
-
-  for (let i = 0; i < data.length; i++) {
-    const row = data[i]
-    const rowColor = i % 2 === 0 ? '#f2f2f2' : '#ffffff'
-    html +=
-      `<tr style="background-color:${rowColor};">` +
-      headers
-        .map((header) => {
-          let color = 'unset'
-          if (header.match(/\[m3]/i)) color = 'limegreen'
-          if (header.match(/\[m2]/i)) color = 'orange'
-          if (header.match(/\[szt]/i)) color = 'dodgerblue'
-          if (header.match(/Różnica \[m2]/i)) color = 'orangered'
-          return `<td style="padding:8px;text-align:right;color:${color};">${row[header]}</td>`
-        })
-        .join('') +
-      '</tr>'
-  }
-
-  html += '</table>'
-  return html
-}
-
-function wrapInExcel(htmlTable: string) {
-  return `
-    <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
-    <head>
-      <!--[if gte mso 9]>
-      <xml>
-        <x:ExcelWorkbook>
-          <x:ExcelWorksheets>
-            <x:ExcelWorksheet>
-              <x:Name>Sheet1</x:Name>
-              <x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions>
-            </x:ExcelWorksheet>
-          </x:ExcelWorksheets>
-        </x:ExcelWorkbook>
-      </xml>
-      <![endif]-->
-    </head>
-    <body>${htmlTable}</body></html>`
+function saveToXLSX(data: any[]) {
+  const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data)
+  const workbook: XLSX.WorkBook = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Inwentaryzacja')
+  XLSX.writeFile(workbook, `Inwentaryzacja-${new Date().toJSON().split('T')[0]}.xlsx`)
 }
 </script>
 
