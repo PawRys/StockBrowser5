@@ -79,6 +79,7 @@ function toggleInventoryFilter(item: string) {
 
 <template>
   <li class="list-summary" v-if="listView === 'inventory'">
+    <hr />
     <section class="inventory-summary">
       <header>
         <h4>Sumy filtrowanych pozycji</h4>
@@ -127,6 +128,11 @@ function toggleInventoryFilter(item: string) {
 <style scoped>
 .list-summary {
   background: var(--bg2-color);
+}
+
+.list-summary hr {
+  border-color: var(--accent-lighter);
+  margin-block: 0 2ch;
 }
 
 .list-summary section {
