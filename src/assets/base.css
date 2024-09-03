@@ -185,7 +185,8 @@ hr {
 input,
 select,
 option,
-textarea {
+textarea,
+[contenteditable='true'] {
   border-radius: 0.6ch;
   border: dashed 1px var(--accent-lighter);
   background-color: var(--bg-color);
