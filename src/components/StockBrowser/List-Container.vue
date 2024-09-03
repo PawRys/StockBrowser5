@@ -33,11 +33,11 @@ const reactiveItems = computed(() =>
       :item="item"
       :index="index + pageStart + 1"
     />
-    <InventorySummary @refresh="refreshComponent++" />
   </ul>
 
   <div class="toolbar">
     <Paginate :show="['setPage']" />
+    <InventorySummary @refresh="refreshComponent++" />
   </div>
 </template>
 

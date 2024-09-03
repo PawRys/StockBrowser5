@@ -78,9 +78,9 @@ function toggleInventoryFilter(item: string) {
 </script>
 
 <template>
-  <li class="list-summary" v-if="listView === 'inventory'">
+  <section class="list-summary" v-if="listView === 'inventory'">
     <hr />
-    <section class="inventory-summary">
+    <div class="inventory-summary">
       <header>
         <h4>Sumy filtrowanych pozycji</h4>
 
@@ -121,18 +121,20 @@ function toggleInventoryFilter(item: string) {
       <span class="field" :class="setFontColor('szt')">
         {{ summaryDiff('szt').toFixed(1) }}<small>szt</small>
       </span>
-    </section>
-  </li>
+    </div>
+  </section>
 </template>
 
 <style scoped>
 .list-summary {
   background: var(--bg2-color);
+  padding: 1ch;
+  width: 100%;
 }
 
 .list-summary hr {
   border-color: var(--accent-lighter);
-  margin-block: 0 2ch;
+  margin-block: 0ch 2ch;
 }
 
 .list-summary section {
@@ -144,6 +146,7 @@ function toggleInventoryFilter(item: string) {
   display: flex;
   flex-wrap: wrap;
   gap: 1ch;
+  margin-bottom: 1ch;
 }
 
 .list-summary header h4 {
