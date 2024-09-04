@@ -31,7 +31,7 @@ function setPageNum(e: Event) {
 </script>
 
 <template>
-  <div class="product-pagination">
+  <div class="list-pagination">
     <template v-if="!show || show.indexOf('setPageSize') > -1">
       <!-- <i class="bi bi-book"></i> -->
       <select class="setPageSize" v-model="usePageStore().pageSize">
@@ -69,7 +69,7 @@ function setPageNum(e: Event) {
 </template>
 
 <style scoped>
-.product-pagination {
+.list-pagination {
   display: inline-flex;
   gap: 1ch;
 }

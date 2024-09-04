@@ -8,28 +8,10 @@ const statusList = [
   { label: 'Całkowity', icon: 'bi bi-boxes', show: true },
   { label: 'Handlowy', icon: 'bi bi-box', show: hasReservations() }
 ]
-
-// const isActive = computed(() => useFilterStore().inventoryFilter)
-
-// function toggleInventoryFilter(item: string) {
-//   let filter = useFilterStore().inventoryFilter
-//   filter.match(item)
-//     ? (useFilterStore().inventoryFilter = filter.replace(item, '').trim())
-//     : (useFilterStore().inventoryFilter = `${filter} ${item}`.trim())
-// }
 </script>
 
 <template>
   <section class="product-status-filter">
-    <!-- <button
-      class="button switch compact"
-      :class="{ active: isActive.match(/brak|nadmiar/) }"
-      @click="toggleInventoryFilter('brak nadmiar')"
-    >
-      <i class="bi bi-plus-slash-minus"></i>
-      <small>różnice</small>
-    </button> -->
-
     <template v-for="(item, index) in statusList" :key="`status-${index}`">
       <label v-if="item.show" class="button switch compact" tabindex="0">
         <input

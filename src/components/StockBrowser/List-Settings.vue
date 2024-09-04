@@ -17,13 +17,15 @@ import Paginate from '@/components/StockBrowser/List-Pagination.vue'
     </header>
     <section>
       <h4>Ilość wyników</h4>
-      <span> <Paginate :show="['setPageSize']" /> na stronę </span>
+      <section class="toolbar">
+        <Paginate :show="['setPageSize']" /><span class="pagination-label">na stronę</span>
+      </section>
 
       <h4>Sortowanie</h4>
-      <Sorting />
+      <Sorting class="toolbar" />
 
       <h4>Doliczanie VATu</h4>
-      <VatSwitch />
+      <VatSwitch class="toolbar" />
     </section>
   </dialog>
 </template>
@@ -37,5 +39,9 @@ import Paginate from '@/components/StockBrowser/List-Pagination.vue'
 }
 #listSettings > section > h4::after {
   content: ':';
+}
+
+.pagination-label {
+  padding: 0.5ch;
 }
 </style>

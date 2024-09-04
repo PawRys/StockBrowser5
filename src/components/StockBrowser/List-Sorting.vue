@@ -1,15 +1,21 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { hasReservations } from '@/exports/common_functions'
 import { useSortingStore } from '@/stores/sortingStore'
 const { sortCol, sortDir, sortUnit } = storeToRefs(useSortingStore())
 
 const sortingColumn = [
-  { col: 'id', label: 'Kod towaru' },
-  { col: 'size', label: 'Wymiar' },
-  { col: 'purchase', label: 'Cena zakupu' },
-  { col: 'quantityCubicTotal', label: 'Stan całkowity' },
-  { col: 'quantityCubicAviable', label: 'Stan handlowy' },
-  { col: 'inventoryCubicSum', label: 'Spis z natury' }
+  { col: 'id', label: 'Kod towaru', icon: '&#xF40A;', show: true },
+  { col: 'size', label: 'Wymiar', icon: ' &#xF150;', show: true },
+  { col: 'purchase', label: 'Cena zakupu', icon: '&#xF634;', show: true },
+  { col: 'quantityCubicTotal', label: 'Stan całkowity', icon: '&#xF685;', show: true },
+  {
+    col: 'quantityCubicAviable',
+    label: 'Stan handlowy',
+    icon: '&#xF1C8;',
+    show: hasReservations()
+  },
+  { col: 'inventoryCubicSum', label: 'Spis z natury', icon: '&#xF1E0;', show: true }
 ]
 
 // const sortingUnit = ['szt', 'm2', 'm3']
@@ -24,15 +30,19 @@ function sortData(ev: Event) {
 </script>
 
 <template>
-  <section class="product-sorting">
+  <section class="list-sorting">
     <select @change="sortData">
       <template v-for="st in sortingColumn" :key="st.column">
-        <option :value="st.col">{{ st.label }}</option>
+        <option v-if="st?.show" :value="st.col"><i v-html="st.icon"></i>{{ st.label }}</option>
       </template>
     </select>
 
-    <button @click="sortUnit = (sortUnit + 1) % sortingUnits.length" class="compact">
-      <span>{{ sortingUnits[sortUnit] }}</span>
+    <button
+      v-if="sortCol.match(/purchase|quantityCubicTotal|quantityCubicAviable|inventoryCubicSum/i)"
+      @click="sortUnit = (sortUnit + 1) % sortingUnits.length"
+      class="compact"
+    >
+      <span v-html="sortingUnits[sortUnit].replace(/(2|3)/, '<sup>$1</sup>')"></span>
     </button>
 
     <button @click="sortDir *= -1" class="compact">
@@ -43,11 +53,18 @@ function sortData(ev: Event) {
 </template>
 
 <style scoped>
-.product-sorting {
+.list-sorting {
   display: inline-flex;
 }
 
 i {
   font-size: 1.3rem;
+}
+</style>
+
+<style>
+select i {
+  font-family: 'bootstrap-icons';
+  font-size: 1rem;
 }
 </style>
