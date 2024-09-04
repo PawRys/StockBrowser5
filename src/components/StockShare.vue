@@ -8,13 +8,14 @@ const password = ref()
 
 async function shareData() {
   messagebox.value = 'Wysyłanie danych...'
+  shareCode.value = ''
   const POST_data = {
     action: 'provide',
     password: password.value || '',
     stockData: {
       stockDate: localStorage.getItem('SB5_stockDate'),
       stockWarehause: localStorage.getItem('SB5_stockWarehause'),
-      stockList: JSON.parse(localStorage.getItem('SB5_stockList'))
+      stockList: JSON.parse(localStorage.getItem('SB5_stockList') || '[]')
     }
   }
 
