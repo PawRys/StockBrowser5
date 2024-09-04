@@ -371,6 +371,11 @@ function setQuantityStatus(item: Plywood) {
   return aviable_status || total_status || 0
 }
 
+function setInventoryCubicSum(item: Plywood) {
+  if (!item.inventoryCubicSum) return (item.inventoryCubicSum = -1 * item.quantityCubicTotal)
+  return item.inventoryCubicSum
+}
+
 export async function mergeStocks(
   incomingData: Plywood[],
   localData: Plywood[],
@@ -398,8 +403,6 @@ export async function mergeStocks(
     const localItemIndex = localData.findIndex((localItem) => localItem.id === incomingItem.id)
 
     if (localItemIndex < 0) {
-      incomingItem.inventoryStatus = setInventoryStatus(incomingItem)
-      incomingItem.quantityStatus = setQuantityStatus(incomingItem)
       localData.push(incomingItem)
     } else {
       const localItem = localData[localItemIndex]
@@ -414,9 +417,11 @@ export async function mergeStocks(
         })
       }
       _.merge(localData[localItemIndex], incomingItem) // Object.assign but better
-      localData[localItemIndex].inventoryStatus = setInventoryStatus(localData[localItemIndex])
-      localData[localItemIndex].quantityStatus = setQuantityStatus(localData[localItemIndex])
     }
+    const index = localItemIndex < 0 ? localData.length - 1 : localItemIndex
+    localData[index].inventoryCubicSum = setInventoryCubicSum(localData[index])
+    localData[index].inventoryStatus = setInventoryStatus(localData[index])
+    localData[index].quantityStatus = setQuantityStatus(localData[index])
   }
   return localData
 }
