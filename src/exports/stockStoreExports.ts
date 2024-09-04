@@ -66,9 +66,15 @@ export function applySort(a: Plywood, b: Plywood) {
     A = x * calcPrice(a.size, Number(aValue), 'm3', sortingUnits[sortUnit.value])
     B = x * calcPrice(b.size, Number(bValue), 'm3', sortingUnits[sortUnit.value])
   }
-  if (sortCol.value.match(/quantity|inventory/i)) {
+  if (sortCol.value.match(/quantity/i)) {
     A = x * calcQuant(a.size, Number(aValue), 'm3', sortingUnits[sortUnit.value])
     B = x * calcQuant(b.size, Number(bValue), 'm3', sortingUnits[sortUnit.value])
+  }
+  if (sortCol.value.match(/inventory/i)) {
+    const Adiff = Number(aValue) - a['quantityCubicTotal']
+    const Bdiff = Number(bValue) - b['quantityCubicTotal']
+    A = x * calcQuant(a.size, Adiff, 'm3', sortingUnits[sortUnit.value])
+    B = x * calcQuant(b.size, Bdiff, 'm3', sortingUnits[sortUnit.value])
   }
   if (sortDir.value > 0) return collator.compare(A.toString(), B.toString())
   if (sortDir.value < 0) return collator.compare(B.toString(), A.toString())

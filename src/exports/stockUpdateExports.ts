@@ -372,7 +372,7 @@ function setQuantityStatus(item: Plywood) {
 }
 
 function setInventoryCubicSum(item: Plywood) {
-  if (!item.inventoryCubicSum) return (item.inventoryCubicSum = -1 * item.quantityCubicTotal)
+  if (!item.inventoryCubicSum) return (item.inventoryCubicSum = 0)
   return item.inventoryCubicSum
 }
 
