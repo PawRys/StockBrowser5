@@ -19,6 +19,7 @@ const props = defineProps<{
 }>()
 const { item, index } = toRefs(props)
 const itemName = item.value.name.replace(/(\d+([,.]\d+)?x\d{2,4}x\d{2,4})/i, '<b>$1</b>')
+const itemPurchase = `<b>${item.value.purchase?.toFixed(2)}<small>zł/m<sup>3</sup></small></b>`
 const basePrice: Ref<number> = ref(item.value.purchase || 0)
 provide('basePrice', basePrice)
 </script>
@@ -37,11 +38,7 @@ provide('basePrice', basePrice)
         <span>{{ `${item.attr.faceGroup}` }}</span>
       </div>
 
-      <b
-        class="header--item-purchase"
-        v-html="`${item.purchase?.toFixed(2)}<small>zł/m<sup>3</sup></small>`"
-      ></b>
-      <div class="header--item-name" v-html="itemName"></div>
+      <div class="header--item-name" v-html="`${itemPurchase} - ${itemName}`"></div>
     </header>
 
     <section class="prices" v-if="listView === 'prices'">
@@ -75,8 +72,8 @@ header {
   display: grid;
   grid-template-columns: auto auto 1fr;
   grid-template-areas:
-    'indx info info'
-    'indx prch name';
+    'indx  info'
+    'indx  name';
   gap: 0.1ch 1ch;
 
   margin-bottom: 2ch;
@@ -104,9 +101,5 @@ header {
   grid-area: name;
   font-size: 0.9em;
   color: var(--grey-color);
-}
-
-.header--item-name::before {
-  content: ' - ';
 }
 </style>
