@@ -102,7 +102,9 @@ header {
   font-size: 0.9em;
   color: var(--grey-color);
 }
+</style>
 
+<style>
 .header--item-name u {
   text-decoration-style: dashed;
   text-decoration-thickness: 1px;
