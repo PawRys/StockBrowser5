@@ -37,6 +37,10 @@ provide('basePrice', basePrice)
         <span>{{ `${item.attr.faceGroup}` }}</span>
       </div>
 
+      <b
+        class="header--item-purchase"
+        v-html="`${item.purchase?.toFixed(2)}<small>zł/m<sup>3</sup></small>`"
+      ></b>
       <div class="header--item-name" v-html="itemName"></div>
     </header>
 
@@ -69,10 +73,10 @@ provide('basePrice', basePrice)
 <style scoped>
 header {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto auto 1fr;
   grid-template-areas:
-    'indx info'
-    'indx name';
+    'indx info info'
+    'indx prch name';
   gap: 0.1ch 1ch;
 
   margin-bottom: 2ch;
@@ -90,9 +94,19 @@ header {
   content: ' - ';
 }
 
+.header--item-purchase {
+  grid-area: prch;
+  font-size: 0.9em;
+  color: var(--grey-color);
+}
+
 .header--item-name {
   grid-area: name;
   font-size: 0.9em;
   color: var(--grey-color);
+}
+
+.header--item-name::before {
+  content: ' - ';
 }
 </style>
