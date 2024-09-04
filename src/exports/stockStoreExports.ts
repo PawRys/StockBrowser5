@@ -71,8 +71,8 @@ export function applySort(a: Plywood, b: Plywood) {
     B = x * calcQuant(b.size, Number(bValue), 'm3', sortingUnits[sortUnit.value])
   }
   if (sortCol.value.match(/inventory/i)) {
-    const Adiff = Number(aValue) - a['quantityCubicTotal']
-    const Bdiff = Number(bValue) - b['quantityCubicTotal']
+    const Adiff = Number(aValue) - a.quantityCubicTotal
+    const Bdiff = Number(bValue) - b.quantityCubicTotal
     A = x * calcQuant(a.size, Adiff, 'm3', sortingUnits[sortUnit.value])
     B = x * calcQuant(b.size, Bdiff, 'm3', sortingUnits[sortUnit.value])
   }
