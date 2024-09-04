@@ -18,7 +18,7 @@ const props = defineProps<{
   index: number
 }>()
 const { item, index } = toRefs(props)
-const itemName = item.value.name.replace(/(\d+([,.]\d+)?x\d{2,4}x\d{2,4})/i, '<b>$1</b>')
+const itemName = item.value.name.replace(/(\d+([,.]\d+)?x\d{2,4}x\d{2,4})/i, '<u>$1</u>')
 const itemPurchase = `<b>${item.value.purchase?.toFixed(2)}<small>zł/m<sup>3</sup></small></b>`
 const basePrice: Ref<number> = ref(item.value.purchase || 0)
 provide('basePrice', basePrice)
