@@ -149,3 +149,11 @@ export function downloadFile(file: string, data: string, type: string) {
   document.body.removeChild(linkElement)
   URL.revokeObjectURL(blobUrl)
 }
+
+export function setRandomUUID() {
+  const UUID = localStorage.getItem('SB5_UUID') || ''
+  const UUIDpattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(UUID)
+  if (UUIDpattern === false) {
+    localStorage.setItem('SB5_UUID', crypto.randomUUID())
+  }
+}

@@ -4,9 +4,11 @@ import { ref } from 'vue'
 import { calcQuant } from '@/exports/common_functions'
 import CryptoJS from 'crypto-js'
 import { downloadFile } from '@/exports/common_functions'
+import { setRandomUUID } from '@/exports/common_functions'
 
 import { promptModal } from 'jenesius-vue-modal'
 import YepNopeModal from '@/components/Modals/YepNopeModal.vue'
+import AhaOKModal from '@/components/Modals/AhaOKModal.vue'
 
 import { useStockStore } from '@/stores/stockStore'
 const { updateData } = useStockStore()
@@ -18,7 +20,12 @@ function passClickTo(query: string) {
   element.click()
 }
 
-function exportDB() {
+async function exportDB() {
+  // const msg = `W ciasteczkach zostanie zapisany unikalny dla tego urządzenia klucz.
+  // Usunięcie ciasteczek spowoduje brak możliwości przywracania kopii zapasowych.`
+  // await promptModal(AhaOKModal, { text: msg })
+  setRandomUUID()
+
   const file = `StockBrowserBackup-${new Date().toJSON().split('T')[0]}.txt`
   const stockData = {
     stockDate: localStorage.getItem('SB5_stockDate') || '',
@@ -66,7 +73,7 @@ function importDB(event: Event) {
       if (error instanceof Error) {
         messageBox.value = `Błąd podczas przywracania bazy danych ❌`
         if (error.message.match(/Malformed UTF-8 data/)) {
-          messageBox.value = `Błąd. Kopia zapasowa może zostać przywrócona tylko w przeglądarce, w której została utworzona ❌`
+          messageBox.value = `Błąd. Kopia zapasowa może zostać przywrócona tylko na urządzeniu, na którym została utworzona ❌`
         }
       } else {
         messageBox.value = `Nieznany błąd ❌`
@@ -78,7 +85,7 @@ function importDB(event: Event) {
 }
 
 async function dropDB() {
-  const msg = `Usuniesz wszystkie dane, łącznie z listą produktów!`
+  const msg = `Usuniesz wszystkie dane (m.in. stany magazynowe), z wyjątkiem klucza potrzebnego do przywracania kopii zapasowej.`
   const answer = await promptModal(YepNopeModal, { text: msg })
   if (answer === false) return
 
@@ -135,6 +142,7 @@ function saveToXLSX(data: any[]) {
 <template>
   <section id="stock-manager">
     <h2>Zarządzaj bazą danych</h2>
+
     <button class="" @click="exportDB()">
       <i class="bi bi-floppy2-fill"></i>
       <span>Utwórz kopię zapasową</span>
@@ -144,7 +152,6 @@ function saveToXLSX(data: any[]) {
       <i class="bi bi-file-earmark-arrow-down-fill"></i>
       <span>Wczytaj kopię zapasową</span>
     </button>
-
     <input hidden type="file" name="import-backup" id="import-backup" @change="importDB($event)" />
 
     <!-- <button class="" @click="downloadCSV('file.csv', csvData())"> -->
