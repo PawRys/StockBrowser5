@@ -339,6 +339,7 @@ export function hasInventory(stockList: Plywood[]): Boolean {
 
 export function deleteInventory(data: Plywood[]): Plywood[] {
   return data.map((el) => {
+    delete el.inventoryCubicSum
     delete el.inventory
     return el
   })
