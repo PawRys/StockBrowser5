@@ -407,14 +407,16 @@ export async function mergeStocks(
       localData.push(incomingItem)
     } else {
       const localItem = localData[localItemIndex]
-      if (localItem.inventory && modal === 'merge') {
+
+      if (modal === 'merge') {
+        incomingItem.inventoryCubicSum =
+          (incomingItem.inventoryCubicSum || 0) + (localItem.inventoryCubicSum || 0)
         const units = ['m3', 'm2', 'szt'] as const
         units.map((unit) => {
-          if (localItem.inventory?.[unit] && incomingItem.inventory?.[unit]) {
-            _.merge(incomingItem.inventory, {
-              [unit]: `${localItem.inventory[unit]} + ${incomingItem.inventory?.[unit]}`
-            })
-          }
+          if (!localItem.inventory?.[unit] && !incomingItem.inventory?.[unit]) return
+          const local = localItem.inventory?.[unit]
+          const incoming = incomingItem.inventory?.[unit]
+          _.merge(incomingItem.inventory, { [unit]: `${local} + ${incoming}` })
         })
       }
       _.merge(localData[localItemIndex], incomingItem) // Object.assign but better
