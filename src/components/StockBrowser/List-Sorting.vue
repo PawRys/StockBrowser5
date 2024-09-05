@@ -33,7 +33,7 @@ function sortData(ev: Event) {
   <section class="list-sorting">
     <select @change="sortData">
       <template v-for="st in sortingColumn" :key="st.column">
-        <option v-if="st?.show" :value="st.col"><i v-html="st.icon"></i>{{ st.label }}</option>
+        <option v-if="st?.show" :value="st.col">{{ st.label }}</option>
       </template>
     </select>
 
@@ -59,12 +59,5 @@ function sortData(ev: Event) {
 
 i {
   font-size: 1.3rem;
-}
-</style>
-
-<style>
-select i {
-  font-family: 'bootstrap-icons';
-  font-size: 1rem;
 }
 </style>
