@@ -12,5 +12,11 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  build: {
+    rollupOptions: {
+      // Specify external files or folders to exclude from the build
+      external: ['src/template_data/**']
+    }
   }
 })
