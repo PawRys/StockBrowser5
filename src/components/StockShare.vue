@@ -11,7 +11,7 @@ async function shareData() {
   shareCode.value = ''
   const POST_data = {
     action: 'provide',
-    password: password.value.trim() || '',
+    password: password.value || '',
     stockData: {
       stockDate: localStorage.getItem('SB5_stockDate'),
       stockWarehause: localStorage.getItem('SB5_stockWarehause'),

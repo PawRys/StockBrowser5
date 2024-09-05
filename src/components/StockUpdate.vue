@@ -56,7 +56,7 @@ async function submit(e: Event): Promise<void> {
   }
 
   if (datatype.value === 'code') {
-    const { message, data } = await fetchRemoteData(formData)
+    const { message, data } = await fetchRemoteData(formData.trim())
     if (data && message === 'data_transmitted') {
       const incomingData = JSON.parse(data) as DBSchema
       incomingData.stockList = await mergeStocks(incomingData.stockList, localData, datatype.value)
