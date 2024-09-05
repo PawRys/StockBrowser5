@@ -31,4 +31,5 @@ coverage
 *.tsbuildinfo
 
 # my rules
-/php_server/exchange_vault
+/php_server/exchange_
+/src/utilities
