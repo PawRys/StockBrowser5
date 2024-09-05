@@ -19,7 +19,8 @@ const props = defineProps<{
 }>()
 const { item, index } = toRefs(props)
 const itemName = item.value.name.replace(/(\d+([,.]\d+)?x\d{2,4}x\d{2,4})/i, '<u>$1</u>')
-const itemPurchase = `<b>${item.value.purchase?.toFixed(2)}<small>zł/m<sup>3</sup></small></b>`
+const roundedPurchase = Math.ceil((item.value.purchase || 0) / 10) * 10
+const itemPurchase = `<b>${roundedPurchase.toFixed(0)}<small>zł/m<sup>3</sup></small></b>`
 const basePrice: Ref<number> = ref(item.value.purchase || 0)
 provide('basePrice', basePrice)
 </script>
