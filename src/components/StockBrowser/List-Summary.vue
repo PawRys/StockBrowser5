@@ -44,6 +44,7 @@ const zeroOutFilteredInventory = async () => {
   filteredItems.map((filteredItem: Plywood) => {
     storedItems.find((storedItem: Plywood) => {
       if (storedItem.id === filteredItem.id) {
+        delete storedItem.inventoryCubicSum
         delete storedItem.inventory
         _.merge(storedItem, { inventoryStatus: setInventoryStatus(storedItem) })
       }
@@ -105,7 +106,7 @@ function toggleInventoryFilter(item: string) {
             :disabled="summaryInput('m3') === 0"
           >
             <i class="bi bi-trash3"></i>
-            Zeruj filtrowane
+            Zeruj filtrowane {{ summaryInput('m3') }}
           </button>
         </div>
       </header>
