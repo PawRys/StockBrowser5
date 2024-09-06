@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import { computed } from 'vue'
+import { computed } from 'vue'
 import { useFilterStore } from '@/stores/filterStore'
 import { hasReservations } from '@/exports/common_functions'
 
@@ -8,10 +8,34 @@ const statusList = [
   { label: 'Całkowity', icon: 'bi bi-boxes', show: true },
   { label: 'Handlowy', icon: 'bi bi-box', show: hasReservations() }
 ]
+
+const isActive = computed(() => useFilterStore().inventoryFilter)
+
+function toggleInventoryFilter(item: string) {
+  let filter = useFilterStore().inventoryFilter
+  filter.match(item)
+    ? (useFilterStore().inventoryFilter = filter.replace(item, '').trim())
+    : (useFilterStore().inventoryFilter = `${filter} ${item}`.trim())
+}
 </script>
 
 <template>
   <section class="product-status-filter">
+    <button
+      class="button switch compact"
+      :class="{ active: isActive.match(/OK/) }"
+      @click="toggleInventoryFilter('OK')"
+    >
+      <i class="bi bi-check-lg"></i>
+    </button>
+    <button
+      class="button switch compact"
+      :class="{ active: isActive.match(/brak|nadmiar/) }"
+      @click="toggleInventoryFilter('brak nadmiar')"
+    >
+      <i class="bi bi-plus-slash-minus"></i>
+    </button>
+
     <template v-for="(item, index) in statusList" :key="`status-${index}`">
       <label v-if="item.show" class="button switch compact" tabindex="0">
         <input
@@ -23,7 +47,7 @@ const statusList = [
           hidden
         />
         <i :class="item.icon" :title="`Stan ${item.label.toLowerCase()}`"></i>
-        <small>{{ item.label.toLowerCase() }}</small>
+        <!-- <small>{{ item.label.toLowerCase() }}</small> -->
       </label>
     </template>
   </section>
