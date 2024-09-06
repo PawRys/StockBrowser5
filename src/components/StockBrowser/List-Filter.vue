@@ -32,9 +32,9 @@ const attrSets = {
 
 const attrLabels = {
   faceGroup: 'Grupa',
-  faceType: 'Klasa',
   sizeT: 'Grubość',
   footSize: 'Rozmiar',
+  faceType: 'Klasa',
   sizeA: 'Wym A',
   sizeB: 'Wym B',
   // sizeAB: 'Wymiar',
