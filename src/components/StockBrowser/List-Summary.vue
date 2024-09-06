@@ -106,7 +106,7 @@ function toggleInventoryFilter(item: string) {
             :disabled="summaryInput('m3') === 0"
           >
             <i class="bi bi-trash3"></i>
-            Zeruj filtrowane {{ summaryInput('m3') }}
+            Zeruj filtrowane
           </button>
         </div>
       </header>
