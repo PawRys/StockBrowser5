@@ -23,10 +23,10 @@ onMounted(() => {
 })
 
 const appWindowsList = {
-  StockBrowser: { component: StockBrowser, label: 'Lista', icon: '' },
-  StockUpdate: { component: StockUpdate, label: 'Wczytaj', icon: '' },
-  StockShare: { component: StockShare, label: 'Udostępnij', icon: '' },
-  StockManager: { component: StockManager, label: 'Zarządzaj', icon: '' }
+  StockBrowser: { component: StockBrowser, label: 'Lista', icon: 'bi bi-house' },
+  StockUpdate: { component: StockUpdate, label: 'Wczytaj', icon: 'bi bi-download' },
+  StockShare: { component: StockShare, label: 'Udostępnij', icon: 'bi bi-cloud-upload' },
+  StockManager: { component: StockManager, label: 'Zarządzaj', icon: 'bi bi-gear' }
 }
 
 const activeWindow = computed(() => {
@@ -48,6 +48,7 @@ const activeWindow = computed(() => {
         :key="id"
         @click="usePreferencesStore().activeWindow = id"
       >
+        <i :class="tab.icon"></i>
         {{ tab.label }}
       </button>
     </div>
