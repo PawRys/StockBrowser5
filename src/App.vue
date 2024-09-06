@@ -24,7 +24,7 @@ onMounted(() => {
 
 const appWindowsList = {
   StockBrowser: { component: StockBrowser, label: 'Lista', icon: 'bi bi-house' },
-  StockUpdate: { component: StockUpdate, label: 'Wczytaj', icon: 'bi bi-download' },
+  StockUpdate: { component: StockUpdate, label: 'Wczytaj', icon: 'bi bi-cloud-download' },
   StockShare: { component: StockShare, label: 'Udostępnij', icon: 'bi bi-cloud-upload' },
   StockManager: { component: StockManager, label: 'Zarządzaj', icon: 'bi bi-gear' }
 }
@@ -36,6 +36,8 @@ const activeWindow = computed(() => {
       : Object.keys(appWindowsList)[0]
   return appWindowsList[activeWindowIndex as keyof typeof appWindowsList]
 })
+
+const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill' : '')
 </script>
 
 <template>
@@ -48,7 +50,7 @@ const activeWindow = computed(() => {
         :key="id"
         @click="usePreferencesStore().activeWindow = id"
       >
-        <i :class="tab.icon"></i>
+        <i :class="`${tab.icon}${fill(id)}`"></i>
         {{ tab.label }}
       </button>
     </div>
