@@ -91,18 +91,7 @@
   outline-color: orange;
 }
 
-#app {
-  min-height: 100vh;
-  min-height: 100svh;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  /* margin-inline: 1rem; */
-}
-
 body {
-  margin: auto;
-  width: min(65ch, 100%);
-
   color: var(--font-color);
   background-color: var(--bg-color);
   font-family: 'Rajdhani', sans-serif;
@@ -111,6 +100,17 @@ body {
 
   font-size: 112.5%;
   color-scheme: light dark;
+}
+
+#app {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  min-height: 100svh;
+
+  margin: auto;
+  padding: 1ch;
+  width: min(100%, 70ch);
 }
 
 hr {

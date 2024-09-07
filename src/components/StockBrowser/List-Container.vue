@@ -46,7 +46,7 @@ ul {
   margin-inline: auto;
   margin-block: 0;
   padding: 0.1ch 1ch;
-  width: min(100%, 65ch);
+  /* width: min(100%, 65ch); */
   background: var(--bg2-color);
 }
 
@@ -69,7 +69,7 @@ li:hover {
   justify-content: flex-end;
   gap: 1ch;
   margin-inline: auto;
-  width: min(100%, 65ch);
+  width: auto;
   background: var(--bg2-color);
 }
 

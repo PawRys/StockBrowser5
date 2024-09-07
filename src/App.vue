@@ -5,6 +5,7 @@ import { container as WidgetContainerModal } from 'jenesius-vue-modal'
 import { setRandomUUID } from '@/exports/common_functions'
 setRandomUUID()
 
+import StockStatistics from '@/components/StockStatistics.vue'
 import StockBrowser from '@/components/StockBrowser.vue'
 import StockUpdate from '@/components/StockUpdate.vue'
 import StockShare from '@/components/StockShare.vue'
@@ -26,7 +27,8 @@ const appWindowsList = {
   StockBrowser: { component: StockBrowser, label: 'Lista', icon: 'bi bi-house' },
   StockUpdate: { component: StockUpdate, label: 'Wczytaj', icon: 'bi bi-cloud-download' },
   StockShare: { component: StockShare, label: 'Udostępnij', icon: 'bi bi-cloud-upload' },
-  StockManager: { component: StockManager, label: 'Zarządzaj', icon: 'bi bi-gear' }
+  StockManager: { component: StockManager, label: 'Zarządzaj', icon: 'bi bi-gear' },
+  StockStatistics: { component: StockStatistics, label: 'Statystyki', icon: 'bi bi-clipboard-data' }
 }
 
 const activeWindow = computed(() => {

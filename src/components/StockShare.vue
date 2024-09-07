@@ -49,24 +49,18 @@ async function shareData() {
 </script>
 
 <template>
-  <section id="stock-share" class="stock-shar--backdrop">
-    <div class="stock-share--window">
-      <h2>Udostępnij</h2>
-      <form action="javascript:void(0);">
-        <input type="password" placeholder="Hasło (opcjonalne)" v-model="password" />
-        <button class="cta" @click="shareData">Generuj kod</button>
-      </form>
-      <p class="message-box">{{ messagebox }}</p>
-      <p class="share-code">{{ shareCode }}</p>
-    </div>
+  <section id="stock-share">
+    <h2>Udostępnij</h2>
+    <form action="javascript:void(0);">
+      <input type="password" placeholder="Hasło (opcjonalne)" v-model="password" />
+      <button class="cta" @click="shareData">Generuj kod</button>
+    </form>
+    <p class="message-box">{{ messagebox }}</p>
+    <p class="share-code">{{ shareCode }}</p>
   </section>
 </template>
 
 <style scoped>
-.stock-share--window {
-  padding: 1ch;
-}
-
 .share-code {
   margin-block: 1ch;
   font-size: 5rem;
