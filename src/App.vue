@@ -27,8 +27,8 @@ const appWindowsList = {
   StockBrowser: { component: StockBrowser, label: 'Lista', icon: 'bi bi-house' },
   StockUpdate: { component: StockUpdate, label: 'Wczytaj', icon: 'bi bi-cloud-download' },
   StockShare: { component: StockShare, label: 'Udostępnij', icon: 'bi bi-cloud-upload' },
-  StockManager: { component: StockManager, label: 'Zarządzaj', icon: 'bi bi-gear' },
-  StockStatistics: { component: StockStatistics, label: 'Statystyki', icon: 'bi bi-clipboard-data' }
+  StockStats: { component: StockStatistics, label: 'Statystyki', icon: 'bi bi-clipboard-data' },
+  StockManager: { component: StockManager, label: 'Zarządzaj', icon: 'bi bi-gear' }
 }
 
 const activeWindow = computed(() => {
@@ -53,7 +53,7 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
         @click="usePreferencesStore().activeWindow = id"
       >
         <i :class="`${tab.icon}${fill(id)}`"></i>
-        {{ tab.label }}
+        <span>{{ tab.label }}</span>
       </button>
     </div>
     <div class="top-header">
@@ -95,7 +95,13 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
 .menu-bar {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 75ch) {
+  .menu-bar button > span {
+    display: none;
+  }
 }
 
 footer {
