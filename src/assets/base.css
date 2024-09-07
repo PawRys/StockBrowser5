@@ -61,8 +61,8 @@
     --bg2-color: var(--neutral-palette-800);
     --font-color: var(--neutral-palette-100);
     --font-color-inv: var(--accent-palette-100);
-    --accent-lightest: var(--neutral-palette-550);
-    --accent-lighter: var(--accent-palette-150);
+    --accent-lightest: var(--accent-palette-700);
+    --accent-lighter: var(--accent-palette-550);
     --accent-light: var(--accent-palette-350);
     --cta-color: var(--accent-palette-450);
 
@@ -168,7 +168,6 @@ hr {
 
 @media (hover: hover) and (pointer: fine) {
   :is(button, .button, select):hover:not(:disabled) {
-    /* box-shadow: inset 0 0 0 1px var(--accent-lighter); */
     background-color: var(--accent-light);
     color: var(--font-color);
     filter: hue-rotate(180deg);
@@ -262,10 +261,10 @@ dialog::backdrop {
 
 .toolbar {
   display: flex;
-  gap: 1ch;
+  gap: 0.8ch;
 
-  padding: 1ch;
-  border-radius: 1ch;
+  padding: 0.8ch;
+  border-radius: 0.8ch;
   width: fit-content;
   background-color: var(--bg2-color);
 }

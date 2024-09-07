@@ -1,6 +1,6 @@
 <?php
-// header('Access-Control-Allow-Origin: https://pawrys.github.io');
-header('Access-Control-Allow-Origin: http://localhost:5173');
+header('Access-Control-Allow-Origin: https://pawrys.github.io');
+// header('Access-Control-Allow-Origin: http://localhost:5173');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
@@ -63,6 +63,7 @@ if ($POST_data['action'] == 'provide') {
     
     foreach ($stockData['stockList'] as $k => $v) {
       $stockData['stockList'][$k]["price"] = 0;
+      $stockData['stockList'][$k]["purchase"] = 0;
     }
   }
   

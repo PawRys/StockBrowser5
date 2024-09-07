@@ -104,10 +104,6 @@ li:hover {
   text-align: right;
 }
 
-/* :is(.prices, .inventory, .inventory-summary) .field[contenteditable='true'] {
-  border: dotted 1px var(--accent-lighter);
-} */
-
 :is(.prices, .inventory, .inventory-summary) .field .bi {
   place-self: center;
   margin-right: auto;
