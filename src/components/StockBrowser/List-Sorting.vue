@@ -32,7 +32,7 @@ function sortData(ev: Event) {
 <template>
   <section class="list-sorting">
     <select @change="sortData">
-      <template v-for="st in sortingColumn" :key="st.column">
+      <template v-for="st in sortingColumn" :key="st.col">
         <option v-if="st?.show" :value="st.col">{{ st.label }}</option>
       </template>
     </select>
