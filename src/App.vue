@@ -99,6 +99,9 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
 }
 
 @media (max-width: 75ch) {
+  .menu-bar {
+    gap: 0.6ch;
+  }
   .menu-bar button > span {
     display: none;
   }
