@@ -1,10 +1,18 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useStockStore } from '@/stores/stockStore'
 import { hasPurchase, hasReservations } from '@/exports/common_functions'
 
+const { date, items, warehause } = storeToRefs(useStockStore())
+const refreshComponent = ref(0)
+watch(items, () => {
+  refreshComponent.value++
+})
+
 function daysDiff() {
   const today = new Date(new Date().toJSON().split('T')[0])
-  const subtract = new Date(useStockStore().date)
+  const subtract = new Date(date.value)
   return (today.getTime() - subtract.getTime()) / 1000 / 60 / 60 / 24
 }
 
@@ -17,19 +25,19 @@ function daysDiffWord() {
 }
 
 function warehauseWarning() {
-  const wh = useStockStore().warehause
+  const wh = warehause.value
   if (wh.split(',').length > 1) return true
   if (wh === 'Wszystkie') return true
 }
 </script>
 
 <template>
-  <section class="data-status">
+  <section class="data-status" :key="refreshComponent">
     <span :class="{ 'red-font': warehauseWarning() }">
-      {{ `Magazyn: ${useStockStore().warehause || ''}` }}
+      {{ `Magazyn: ${warehause || ''}` }}
     </span>
     <span :class="{ 'rainbow-text': daysDiff() < 0, 'red-font': daysDiff() >= 2 }">
-      {{ `${useStockStore().date || '0000-00-00'} ${daysDiffWord() || '0'}` }}
+      {{ `${date || '0000-00-00'} ${daysDiffWord() || '0'}` }}
     </span>
     <span class="overlap" v-if="!hasPurchase()" title="Brak danych o cenach">
       <span>❌</span>
