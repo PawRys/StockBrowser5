@@ -176,6 +176,10 @@ function saveToXLSX(data: any[]) {
 </template>
 
 <style scoped>
+#stock-manager {
+  padding: 1ch;
+}
+
 .button-container {
   display: grid;
   justify-content: start;

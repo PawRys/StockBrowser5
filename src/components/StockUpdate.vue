@@ -106,6 +106,9 @@ async function submit(e: Event): Promise<void> {
 </template>
 
 <style scoped>
+#stock-update {
+  padding: 1ch;
+}
 form {
   display: grid;
   gap: 1ch;

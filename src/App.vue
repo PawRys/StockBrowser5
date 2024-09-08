@@ -107,6 +107,7 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
   }
 }
 
+header,
 footer {
   padding: 1ch;
 }

@@ -258,6 +258,10 @@ function showHTML(rowFilter: Function, colFilter: Function) {
 </template>
 
 <style scoped>
+#stock-stats {
+  padding: 1ch;
+}
+
 .toolbar {
   display: grid;
   grid-template-columns: 1fr 1fr;
