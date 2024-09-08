@@ -60,7 +60,7 @@
     --bg-color: var(--neutral-palette-750);
     --bg2-color: var(--neutral-palette-800);
     --font-color: var(--neutral-palette-100);
-    --font-color-inv: var(--accent-palette-100);
+    --font-color-inv: var(--accent-palette-700);
     --accent-lightest: var(--accent-palette-700);
     --accent-lighter: var(--accent-palette-550);
     --accent-light: var(--accent-palette-350);
@@ -109,7 +109,7 @@ body {
   min-height: 100svh;
 
   margin: auto;
-  padding: 1ch;
+  /* padding: 1ch; */
   width: min(100%, 70ch);
 }
 
@@ -134,8 +134,8 @@ hr {
   min-height: 4ch;
 
   color: var(--font-color);
-  /* background-color: var(--bg-color); */
-  background-color: var(--accent-lightest);
+  background-color: var(--bg2-color);
+  /* background-color: var(--accent-lightest); */
   line-height: 1;
 
   /* transition-property: color, background-color, box-shadow, filter; */
