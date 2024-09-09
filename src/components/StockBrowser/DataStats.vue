@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
-import { watch, inject } from 'vue'
+import { watch, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useStockStore } from '@/stores/stockStore'
 import { hasPurchase } from '@/exports/common_functions'
 // import {  hasReservations } from '@/exports/common_functions'
 
-const { date,  warehause } = storeToRefs(useStockStore())
-const refreshComponent = inject<Ref<number>>('refreshComponent')!
+const { date, items, warehause } = storeToRefs(useStockStore())
+const refreshLocalComponent = ref(0)
 
-watch([date, warehause], () => {
-  refreshComponent.value++
+watch([date, items, warehause], () => {
+  refreshLocalComponent.value++
 })
 
 function daysDiff() {
@@ -35,7 +34,7 @@ function warehauseWarning() {
 </script>
 
 <template>
-  <section class="data-status">
+  <section class="data-status" :key="refreshLocalComponent">
     <span :class="{ 'red-font': warehauseWarning() }">
       {{ `Magazyn: ${warehause || ''}` }}
     </span>

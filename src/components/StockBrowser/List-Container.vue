@@ -13,7 +13,7 @@ import InventorySummary from '@/components/StockBrowser/List-Summary.vue'
 const { pageStart, pageEnd } = storeToRefs(usePageStore())
 const { items: stockItems } = storeToRefs(useStockStore())
 
-const refreshComponent = inject<Ref<number>>('refreshComponent')!
+const refreshMainComponent = inject<Ref<number>>('refreshMainComponent')!
 
 const reactiveItems = computed(() =>
   (useStockStore().items as Plywood[])
@@ -38,7 +38,7 @@ const reactiveItems = computed(() =>
 
   <div class="toolbar">
     <Paginate :show="['setPage']" />
-    <InventorySummary @refresh="refreshComponent++" />
+    <InventorySummary @refresh="refreshMainComponent++" />
   </div>
 </template>
 

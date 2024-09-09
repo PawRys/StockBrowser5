@@ -12,8 +12,8 @@ import StockShare from '@/components/StockShare.vue'
 import StockManager from '@/components/StockManager.vue'
 import DataStats from '@/components/StockBrowser/DataStats.vue'
 
-const refreshComponent = ref(0)
-provide('refreshComponent', refreshComponent)
+const refreshMainComponent = ref(0)
+provide('refreshMainComponent', refreshMainComponent)
 
 onMounted(() => {
   document.querySelectorAll('[tabindex]').forEach((item) => {
@@ -64,7 +64,7 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
     </div>
   </header>
 
-  <main :key="refreshComponent">
+  <main :key="refreshMainComponent">
     <Suspense>
       <component :is="activeWindow.component"></component>
     </Suspense>

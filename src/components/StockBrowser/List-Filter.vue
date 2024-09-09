@@ -10,7 +10,7 @@ import { escapeNonword } from '@/exports/common_functions'
 
 import quantityStatus from '@/components/StockBrowser/List-Filter-QuantityStatus.vue'
 
-// const refreshComponent = inject<Ref<number>>('refreshComponent')!
+// const refreshMainComponent = inject<Ref<number>>('refreshMainComponent')!
 const filterStore = useFilterStore()
 const { items: stockItems } = storeToRefs(useStockStore())
 
