@@ -82,30 +82,32 @@ export function removeGarbage(data: string[][], datatype: string) {
 export function convertToObject(data: string[][], datatype: string): Plywood[] {
   const products = []
   for (const row of data) {
+    const searchString = `${row[1]} ${row[0]} `
     const plywood = {} as Plywood
-    const plywoodSize = getSize(row[1])
+    const plywoodSize = getSize(searchString)
+    const plywoodFootSize = getFootSize(plywoodSize)
     const [sizeT = null, sizeA = null, sizeB = null] = plywoodSize?.split('x') || []
     const plywoodVolumeUnit = getVolumeUnit(row[2])
-    const searchString = `${row[1]} ${row[0]} `
     const faceGroup_val = getFaceGroup(searchString)
     const faceType_val = getFaceType(searchString)
     const glueType_val = getGlueType(searchString)
     const woodType_val = getWoodType(searchString)
     const color_val = getColor(searchString, faceType_val)
 
+    const riddle = '(?)'
     plywood.id = row[0]
-    plywood.name = row[1] || '(?)'
-    plywood.size = plywoodSize || '(?)'
+    plywood.name = row[1] || riddle
+    plywood.size = plywoodSize || riddle
     plywood.attr = plywood.attr || {}
-    plywood.attr.sizeT = sizeT || '(?)'
-    plywood.attr.sizeA = sizeA || '(?)'
-    plywood.attr.sizeB = sizeB || '(?)'
-    plywood.attr.sizeAB = `${sizeA}x${sizeB}` || '(?)'
-    plywood.attr.footSize = getFootSize(plywoodSize) || '(?)'
-    plywood.attr.faceType = faceType_val || '(?)'
-    plywood.attr.faceGroup = faceGroup_val || '(?)'
-    plywood.attr.glueType = glueType_val || '(?)'
-    plywood.attr.woodType = woodType_val || '(?)'
+    plywood.attr.sizeT = sizeT || riddle
+    plywood.attr.sizeA = sizeA || riddle
+    plywood.attr.sizeB = sizeB || riddle
+    plywood.attr.sizeAB = `${sizeA}x${sizeB}` || riddle
+    plywood.attr.footSize = plywoodFootSize || riddle
+    plywood.attr.faceType = faceType_val || riddle
+    plywood.attr.faceGroup = faceGroup_val || riddle
+    plywood.attr.glueType = glueType_val || riddle
+    plywood.attr.woodType = woodType_val || riddle
     plywood.attr.color = color_val
 
     if (datatype === 'stocks') {
@@ -397,6 +399,7 @@ export async function mergeStocks(
     localData = zeroOutStocks(localData || [])
   }
   if (datatype?.match(/reservations/i)) {
+    localData = zeroOutStocks(localData || [])
     localData = zeroOutReservations(localData || [])
   }
 

@@ -5,10 +5,10 @@ import { useStockStore } from '@/stores/stockStore'
 import { hasPurchase } from '@/exports/common_functions'
 // import {  hasReservations } from '@/exports/common_functions'
 
-const { date, items, warehause } = storeToRefs(useStockStore())
+const { date, warehause } = storeToRefs(useStockStore())
 const refreshLocalComponent = ref(0)
 
-watch([date, items, warehause], () => {
+watch([date, warehause], () => {
   refreshLocalComponent.value++
 })
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import _ from 'lodash'
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useStockStore } from '@/stores/stockStore'
@@ -13,7 +13,9 @@ import { setInventoryStatus } from '@/exports/stockUpdateExports'
 import { promptModal } from 'jenesius-vue-modal'
 import YepNopeModal from '@/components/Modals/YepNopeModal.vue'
 
-const emit = defineEmits(['refresh'])
+import type { Ref } from 'vue'
+const refreshMainComponent = inject<Ref<number>>('refreshMainComponent')!
+
 const { listView } = storeToRefs(usePreferencesStore())
 
 const summaryDiff = (unit: string) => {
@@ -31,12 +33,6 @@ const summaryInput = (unit: string) => {
   }, 0)
 }
 
-// const summarySymfo = (unit: string) => {
-//   return useStockStore().items.reduce((acc: number, item: Plywood) => {
-//     return acc + calcQuant(item.size, item.quantityCubicTotal, 'm3', unit)
-//   }, 0)
-// }
-
 const zeroOutFilteredInventory = async () => {
   if (!(await promptModal(YepNopeModal))) return
   const storedItems = JSON.parse(localStorage.getItem('SB5_stockList') || '[]')
@@ -51,7 +47,7 @@ const zeroOutFilteredInventory = async () => {
     })
   })
   useStockStore().updateData({ stockList: storedItems })
-  emit('refresh')
+  refreshMainComponent.value++
 }
 
 function setFontColor(unit: 'm3' | 'm2' | 'szt') {
