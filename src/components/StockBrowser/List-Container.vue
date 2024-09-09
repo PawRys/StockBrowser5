@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import type { Ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, inject } from 'vue'
 import { usePageStore } from '@/stores/paginateStore'
 import { useStockStore } from '@/stores/stockStore'
 import { escapeNonword } from '@/exports/common_functions'
@@ -12,7 +13,7 @@ import InventorySummary from '@/components/StockBrowser/List-Summary.vue'
 const { pageStart, pageEnd } = storeToRefs(usePageStore())
 const { items: stockItems } = storeToRefs(useStockStore())
 
-const refreshComponent = ref(0)
+const refreshComponent = inject<Ref<number>>('refreshComponent')!
 
 const reactiveItems = computed(() =>
   (useStockStore().items as Plywood[])
@@ -26,7 +27,7 @@ const reactiveItems = computed(() =>
     <Paginate :show="['setPage']" />
   </div>
 
-  <ul class="product-list" :key="refreshComponent">
+  <ul class="product-list">
     <ListItem
       v-for="(item, index) in reactiveItems"
       :key="escapeNonword(item.value.id)"

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+// import type { Ref } from 'vue'
+// import { inject} from 'vue'
+import { watch, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useStockStore } from '@/stores/stockStore'
 import { useFilterStore } from '@/stores/filterStore'
@@ -8,7 +10,7 @@ import { escapeNonword } from '@/exports/common_functions'
 
 import quantityStatus from '@/components/StockBrowser/List-Filter-QuantityStatus.vue'
 
-const refreshComponent = ref(0)
+// const refreshComponent = inject<Ref<number>>('refreshComponent')!
 const filterStore = useFilterStore()
 const { items: stockItems } = storeToRefs(useStockStore())
 
@@ -116,7 +118,7 @@ const appliedFiltersCount = computed(() => {
 </script>
 
 <template>
-  <dialog id="list-filter" class="filter-window" :key="refreshComponent">
+  <dialog id="list-filter" class="filter-window">
     <header class="filter-window__header">
       <div>
         <!-- empty div -->

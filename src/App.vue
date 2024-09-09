@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { ref, computed, onMounted, provide } from 'vue'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 import { container as WidgetContainerModal } from 'jenesius-vue-modal'
 import { setRandomUUID } from '@/exports/common_functions'
@@ -11,6 +11,9 @@ import StockUpdate from '@/components/StockUpdate.vue'
 import StockShare from '@/components/StockShare.vue'
 import StockManager from '@/components/StockManager.vue'
 import DataStats from '@/components/StockBrowser/DataStats.vue'
+
+const refreshComponent = ref(0)
+provide('refreshComponent', refreshComponent)
 
 onMounted(() => {
   document.querySelectorAll('[tabindex]').forEach((item) => {
@@ -61,7 +64,7 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
     </div>
   </header>
 
-  <main>
+  <main :key="refreshComponent">
     <Suspense>
       <component :is="activeWindow.component"></component>
     </Suspense>

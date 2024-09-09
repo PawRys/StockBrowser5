@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import type { Ref } from 'vue'
+import { watch, inject } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useStockStore } from '@/stores/stockStore'
-import { hasPurchase, hasReservations } from '@/exports/common_functions'
+import { hasPurchase } from '@/exports/common_functions'
+// import {  hasReservations } from '@/exports/common_functions'
 
-const { date, items, warehause } = storeToRefs(useStockStore())
-const refreshComponent = ref(0)
-watch(items, () => {
+const { date,  warehause } = storeToRefs(useStockStore())
+const refreshComponent = inject<Ref<number>>('refreshComponent')!
+
+watch([date, warehause], () => {
   refreshComponent.value++
 })
 
@@ -32,7 +35,7 @@ function warehauseWarning() {
 </script>
 
 <template>
-  <section class="data-status" :key="refreshComponent">
+  <section class="data-status">
     <span :class="{ 'red-font': warehauseWarning() }">
       {{ `Magazyn: ${warehause || ''}` }}
     </span>
