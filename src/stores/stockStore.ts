@@ -43,7 +43,7 @@ export const useStockStore = defineStore(
 
     function updateData(incomingData: DBSchema): void {
       console.time('updateData')
-      const data = JSON.stringify(incomingData)
+      const data = JSON.stringify(incomingData.stockList)
       localStorage.setItem('SB5_stockList', data)
       localStorageSB5_stockList.value = data
 
