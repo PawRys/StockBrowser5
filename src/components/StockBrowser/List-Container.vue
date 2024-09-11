@@ -1,19 +1,16 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { ref, computed, inject } from 'vue'
+import { ref, computed } from 'vue'
 import { usePageStore } from '@/stores/paginateStore'
 import { useStockStore } from '@/stores/stockStore'
 import { escapeNonword } from '@/exports/common_functions'
 
 import ListItem from '@/components/StockBrowser/List-Item.vue'
 import Paginate from '@/components/StockBrowser/List-Pagination.vue'
-import InventorySummary from '@/components/StockBrowser/List-Summary.vue'
+import ListSummary from '@/components/StockBrowser/List-Summary.vue'
 
 const { pageStart, pageEnd } = storeToRefs(usePageStore())
 const { items: stockItems } = storeToRefs(useStockStore())
-
-const refreshMainComponent = inject<Ref<number>>('refreshMainComponent')!
 
 const reactiveItems = computed(() =>
   (useStockStore().items as Plywood[])
@@ -38,7 +35,7 @@ const reactiveItems = computed(() =>
 
   <div class="toolbar">
     <Paginate :show="['setPage']" />
-    <InventorySummary @refresh="refreshMainComponent++" />
+    <ListSummary />
   </div>
 </template>
 
@@ -47,7 +44,6 @@ ul {
   margin-inline: auto;
   margin-block: 0;
   padding: 0.1ch 1ch;
-  /* width: min(100%, 65ch); */
   background: var(--bg2-color);
 }
 

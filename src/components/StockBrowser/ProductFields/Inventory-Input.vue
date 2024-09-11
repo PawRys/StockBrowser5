@@ -16,7 +16,7 @@ const userInput = ref(item.value.inventory?.[unit as keyof typeof item.value.inv
 const isEdited = ref(false)
 const saving = ref(false)
 
-const collectiveInventoryCubicSum = computed(() => {
+const totalInventoryCubicSum = computed(() => {
   const cub = calcQuant(item.value.size, evalMath(item.value.inventory?.m3 || '0'), 'm3', 'm3')
   const sqr = calcQuant(item.value.size, evalMath(item.value.inventory?.m2 || '0'), 'm2', 'm3')
   const pcs = calcQuant(item.value.size, evalMath(item.value.inventory?.szt || '0'), 'szt', 'm3')
@@ -24,12 +24,12 @@ const collectiveInventoryCubicSum = computed(() => {
 })
 
 const itemInventoryUnitSum = computed(() => {
-  return calcQuant(item.value.size, collectiveInventoryCubicSum.value, 'm3', unit)
+  return calcQuant(item.value.size, totalInventoryCubicSum.value, 'm3', unit)
 })
 
 const debouncedUpdate = _.debounce((item, userInput) => {
   _.merge(item.value, { inventory: { [unit]: userInput.value || '' } })
-  _.merge(item.value, { inventoryCubicSum: collectiveInventoryCubicSum.value || 0 })
+  _.merge(item.value, { inventoryCubicSum: totalInventoryCubicSum.value || 0 })
   _.merge(item.value, { inventoryStatus: setInventoryStatus(item.value) })
   useStockStore().updateItem(item.value)
   saving.value = false

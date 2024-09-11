@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// import type { Ref } from 'vue'
-// import { inject} from 'vue'
 import { watch, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useStockStore } from '@/stores/stockStore'
@@ -10,7 +8,6 @@ import { escapeNonword } from '@/exports/common_functions'
 
 import quantityStatus from '@/components/StockBrowser/List-Filter-QuantityStatus.vue'
 
-// const refreshMainComponent = inject<Ref<number>>('refreshMainComponent')!
 const filterStore = useFilterStore()
 const { items: stockItems } = storeToRefs(useStockStore())
 
