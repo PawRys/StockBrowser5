@@ -40,7 +40,6 @@ async function exportDB() {
     stockDataString,
     localStorage.getItem('SB5_UUID') as string
   ).toString()
-  console.log(encryptedData)
 
   try {
     downloadFile(file, encryptedData, type)
