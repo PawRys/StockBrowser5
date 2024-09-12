@@ -72,7 +72,6 @@ async function submit(e: Event): Promise<void> {
       stockWarehause:
         _.trim(formData.match(/magazyny? ([A-ZĄĘŚĆŻŹÓŁŃ, ]+)/)?.[1], ' ,') || 'Wszystkie'
     }
-
     useStockStore().updateData(data)
     messagebox.value = localMessages[datatype.value as keyof typeof localMessages] || datatype.value
   }
