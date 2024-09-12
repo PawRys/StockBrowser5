@@ -24,8 +24,9 @@ const stockNameList: { [key: number]: 'quantityCubicTotal' | 'quantityCubicAviab
 const quantity = computed(() => {
   const whichStock =
     listView.value === 'prices' ? stockNameList[quantityStatus.value] : 'quantityCubicTotal'
-  const m = listView.value === 'prices' ? 1 : -1
-  return calcQuant(item.value.size, item.value[whichStock], 'm3', unit) * m
+  // const m = listView.value === 'prices' ? 1 : -1
+  // return calcQuant(item.value.size, item.value[whichStock], 'm3', unit) * m
+  return calcQuant(item.value.size, item.value[whichStock], 'm3', unit)
 })
 
 const zeroFix = computed(() => {
