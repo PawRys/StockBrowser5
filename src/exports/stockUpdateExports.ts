@@ -228,7 +228,7 @@ function getFaceType(text: string): string | undefined {
   // /*5*/ if (/s12|s13|\bF\/F\b|lamin|folio/gi.test(text)) result = 'F/F'
   // /*5*/ if (/s14|s15|\bF\/W\b|anty/gi.test(text)) result = 'F/W'
   // /*5*/ if (/s16|s17|\bW\/W\b/gi.test(text)) result = 'W/W'
-  if (/|s13\/|s15\/|s17\//gi.test(text)) result += ' II'
+  if (/s13\/|s15\/|s17\//gi.test(text)) result += ' II'
   return result
 }
 
