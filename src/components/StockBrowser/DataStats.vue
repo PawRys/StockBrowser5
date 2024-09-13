@@ -82,8 +82,7 @@ function warehauseWarning() {
   -webkit-text-fill-color: transparent;
 }
 
-.red-bg {
-  background-color: orangered;
-  padding-inline: 1ch;
+.red-font::after {
+  content: ' ❗';
 }
 </style>
