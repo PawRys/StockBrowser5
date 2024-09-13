@@ -192,11 +192,11 @@ function getFaceType(text: string): string | undefined {
   /*1*/ if (/s10\//gi.test(text)) result = 'C/C'
   /*1*/ if (/s11\//gi.test(text)) result = 'Kilo'
   /*1*/ if (/s12\//gi.test(text)) result = 'F/F'
-  /*1*/ if (/s13\//gi.test(text)) result = 'F/F II'
+  // /*1*/ if (/s13\//gi.test(text)) result = 'F/F II'
   /*1*/ if (/s14\//gi.test(text)) result = 'F/W'
-  /*1*/ if (/s15\//gi.test(text)) result = 'F/W II'
+  // /*1*/ if (/s15\//gi.test(text)) result = 'F/W II'
   /*1*/ if (/s16\//gi.test(text)) result = 'W/W'
-  /*1*/ if (/s17\//gi.test(text)) result = 'W/W II'
+  // /*1*/ if (/s17\//gi.test(text)) result = 'W/W II'
   /*1*/ if (/s18\//gi.test(text)) result = 'CP/C'
   /*1*/ if (/s19\//gi.test(text)) result = 'M/WG'
   /*1*/ if (/s20\//gi.test(text)) result = 'F/BB'
@@ -216,10 +216,7 @@ function getFaceType(text: string): string | undefined {
   /*2.1*/ if (/\bkilo\b/gi.test(text)) result = 'Kilo'
   /*2.2*/ if (/\bPQ\b/gi.test(text)) result = 'PQ'
   /*2.3*/ if (/\bPQ\W?F\b/gi.test(text)) result = 'PQF'
-  /*3*/ if (/\bF\/W\W?H\b|Heksa/gi.test(text)) {
-    if (/s14\/|s16\//gi.test(text)) result = 'F/WH+'
-    if (/s15\/|s17\//gi.test(text)) result = 'F/WH+ II'
-  }
+  /*3*/ if (/\bF\/W\W?H\b|Heksa/gi.test(text)) result = 'H+'
   /*3*/ if (/\bhoney\b/gi.test(text)) result = 'Honey'
   /*3*/ if (/\bM\/M\b|mel/gi.test(text)) result = 'M/M'
   /*3*/ if (/\bopal\b/gi.test(text)) result = 'Opal'
@@ -231,7 +228,7 @@ function getFaceType(text: string): string | undefined {
   // /*5*/ if (/s12|s13|\bF\/F\b|lamin|folio/gi.test(text)) result = 'F/F'
   // /*5*/ if (/s14|s15|\bF\/W\b|anty/gi.test(text)) result = 'F/W'
   // /*5*/ if (/s16|s17|\bW\/W\b/gi.test(text)) result = 'W/W'
-
+  if (/|s13\/|s15\/|s17\//gi.test(text)) result += ' II'
   return result
 }
 
