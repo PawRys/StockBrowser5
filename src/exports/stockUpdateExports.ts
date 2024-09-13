@@ -425,9 +425,11 @@ export async function mergeStocks(
       _.merge(localData[localItemIndex], incomingItem) // Object.assign but better
     }
     const index = localItemIndex < 0 ? localData.length - 1 : localItemIndex
+    const str = `${localData[index].id} ${localData[index].name}`
     localData[index].inventoryCubicSum = setInventoryCubicSum(localData[index])
     localData[index].inventoryStatus = setInventoryStatus(localData[index])
     localData[index].quantityStatus = setQuantityStatus(localData[index])
+    localData[index].attr.faceType = getFaceType(str) || '(?)'
   }
   return localData
 }
