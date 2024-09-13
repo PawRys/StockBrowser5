@@ -59,7 +59,7 @@ async function submit(e: Event): Promise<void> {
       const incomingData = JSON.parse(data) as DBSchema
       incomingData.stockList = await mergeStocks(incomingData.stockList, localData, datatype.value)
       useStockStore().updateData(incomingData)
-      refreshMainComponent.value++
+      // refreshMainComponent.value++
     }
     messagebox.value = serverMessages[message as keyof typeof serverMessages] || message
   } else {
@@ -76,7 +76,7 @@ async function submit(e: Event): Promise<void> {
         _.trim(formData.match(/magazyny? ([A-ZĄĘŚĆŻŹÓŁŃ, ]+)/)?.[1], ' ,') || 'Wszystkie'
     }
     useStockStore().updateData(data)
-    refreshMainComponent.value++
+    // refreshMainComponent.value++
     messagebox.value = localMessages[datatype.value as keyof typeof localMessages] || datatype.value
   }
 
