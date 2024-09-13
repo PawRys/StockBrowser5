@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { escapeNonword } from '@/exports/common_functions'
 
 const stockList = JSON.parse(localStorage.getItem('SB5_stockList') || '[]')
