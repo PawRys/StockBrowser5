@@ -15,7 +15,6 @@ import {
 const localStorageSB5_stockList = ref(localStorage.getItem('SB5_stockList') || '[]')
 const localStorageSB5_stockDate = ref(localStorage.getItem('SB5_stockDate') || '')
 const localStorageSB5_stockWarehause = ref(localStorage.getItem('SB5_stockWarehause') || '')
-const refreshMainComponent = inject<Ref<number>>('refreshMainComponent')!
 
 export const useStockStore = defineStore(
   'SB5_stockStore',
@@ -56,8 +55,6 @@ export const useStockStore = defineStore(
         incomingData.stockWarehause || localStorage.getItem('SB5_stockWarehause') || ''
       localStorage.setItem('SB5_stockWarehause', stockWarehause)
       localStorageSB5_stockWarehause.value = stockWarehause
-
-      refreshMainComponent.value++
 
       console.timeEnd('updateData')
     }

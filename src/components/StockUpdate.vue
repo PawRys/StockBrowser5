@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import _ from 'lodash'
-import { ref, watch } from 'vue'
+import type { Ref } from 'vue'
+import { ref, watch, inject } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
 import {
   defineDataType,
@@ -16,6 +17,7 @@ import PasteButton from '@/components/StockUpdate/PasteButton.vue'
 const messagebox = ref('')
 const datatype = ref()
 const textbox = ref('')
+const refreshMainComponent = inject<Ref<number>>('refreshMainComponent')!
 
 watch(textbox, () => {
   const { message, data } = defineDataType(textbox.value)
@@ -57,6 +59,7 @@ async function submit(e: Event): Promise<void> {
       const incomingData = JSON.parse(data) as DBSchema
       incomingData.stockList = await mergeStocks(incomingData.stockList, localData, datatype.value)
       useStockStore().updateData(incomingData)
+      refreshMainComponent.value++
     }
     messagebox.value = serverMessages[message as keyof typeof serverMessages] || message
   } else {
@@ -73,6 +76,7 @@ async function submit(e: Event): Promise<void> {
         _.trim(formData.match(/magazyny? ([A-ZĄĘŚĆŻŹÓŁŃ, ]+)/)?.[1], ' ,') || 'Wszystkie'
     }
     useStockStore().updateData(data)
+    refreshMainComponent.value++
     messagebox.value = localMessages[datatype.value as keyof typeof localMessages] || datatype.value
   }
 
