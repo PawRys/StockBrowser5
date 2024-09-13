@@ -85,7 +85,7 @@ const collection = [
       {
         label: 'H+',
         filter_fn: (item: Plywood) =>
-          item.attr.faceGroup === 'laminat' && item.attr.faceType.match(/\b(H\+|Heksa)\b/)
+          item.attr.faceGroup === 'laminat' && item.attr.faceType.match(/\b(Heksa)\b/)
       },
       {
         label: 'F/W',
@@ -95,7 +95,7 @@ const collection = [
       {
         label: 'F/F',
         filter_fn: (item: Plywood) =>
-          item.attr.faceGroup === 'laminat' && !item.attr.faceType.match(/\b(W|H\+|Heksa)\b/)
+          item.attr.faceGroup === 'laminat' && !item.attr.faceType.match(/\b(W|Heksa)\b/)
       }
     ]
   },
@@ -130,7 +130,7 @@ const collection = [
       {
         label: 'H+',
         filter_fn: (item: Plywood) =>
-          item.attr.color?.match(/\bbrown\b/i) && item.attr.faceType.match(/\b(H\+|Heksa)\b/)
+          item.attr.color?.match(/\bbrown\b/i) && item.attr.faceType.match(/\b(Heksa)\b/)
       },
       {
         label: 'F/W',
@@ -140,7 +140,7 @@ const collection = [
       {
         label: 'F/F',
         filter_fn: (item: Plywood) =>
-          item.attr.color?.match(/\bbrown\b/i) && !item.attr.faceType.match(/\b(W|H\+|Heksa)\b/)
+          item.attr.color?.match(/\bbrown\b/i) && !item.attr.faceType.match(/\b(W|Heksa)\b/)
       }
     ]
   },
@@ -154,12 +154,12 @@ const collection = [
       {
         label: 'F/W',
         filter_fn: (item: Plywood) =>
-          item.attr.color?.match(/\bwhite\b/i) && item.attr.faceType.match(/\b(W|H\+|Heksa)\b/)
+          item.attr.color?.match(/\bwhite\b/i) && item.attr.faceType.match(/\b(W|Heksa)\b/)
       },
       {
         label: 'F/F',
         filter_fn: (item: Plywood) =>
-          item.attr.color?.match(/\bwhite\b/i) && !item.attr.faceType.match(/\b(W|H\+|Heksa)\b/)
+          item.attr.color?.match(/\bwhite\b/i) && !item.attr.faceType.match(/\b(W|Heksa)\b/)
       }
     ]
   },
@@ -173,7 +173,7 @@ const collection = [
       {
         label: 'H+',
         filter_fn: (item: Plywood) =>
-          item.attr.color?.match(/\bgrey\b/i) && item.attr.faceType.match(/\b(H\+|Heksa)\b/)
+          item.attr.color?.match(/\bgrey\b/i) && item.attr.faceType.match(/\b(Heksa)\b/)
       },
       {
         label: 'F/W',
@@ -183,7 +183,7 @@ const collection = [
       {
         label: 'F/F',
         filter_fn: (item: Plywood) =>
-          item.attr.color?.match(/\bgrey\b/i) && !item.attr.faceType.match(/\b(W|H\+|Heksa)\b/)
+          item.attr.color?.match(/\bgrey\b/i) && !item.attr.faceType.match(/\b(W|Heksa)\b/)
       }
     ]
   },
@@ -197,7 +197,7 @@ const collection = [
       {
         label: 'H+',
         filter_fn: (item: Plywood) =>
-          item.attr.color?.match(/\bblack\b/i) && item.attr.faceType.match(/\b(H\+|Heksa)\b/)
+          item.attr.color?.match(/\bblack\b/i) && item.attr.faceType.match(/\b(Heksa)\b/)
       },
       {
         label: 'F/W',
@@ -207,7 +207,7 @@ const collection = [
       {
         label: 'F/F',
         filter_fn: (item: Plywood) =>
-          item.attr.color?.match(/\bblack\b/i) && !item.attr.faceType.match(/\b(W|H\+|Heksa)\b/)
+          item.attr.color?.match(/\bblack\b/i) && !item.attr.faceType.match(/\b(W|Heksa)\b/)
       }
     ]
   }
