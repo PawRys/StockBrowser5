@@ -32,8 +32,8 @@ const attrSets = {
 const attrLabels = {
   faceGroup: 'Grupa',
   sizeT: 'Grubość',
-  footSize: 'Rozmiar',
   faceType: 'Klasa',
+  footSize: 'Rozmiar',
   sizeA: 'Wym A',
   sizeB: 'Wym B',
   // sizeAB: 'Wymiar',
@@ -306,12 +306,13 @@ dialog[open] {
   grid-row: 2 / 3;
   grid-column: 1 / 2;
 }
+/*
 .setKey-woodType {
   grid-row: 3 / 4;
   grid-column: 1 / 2;
   overflow: auto;
 }
-
+*/
 .filter__attr-set h4 {
   margin: 1ch auto;
 }
