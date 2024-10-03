@@ -13,6 +13,8 @@ import { setInventoryStatus } from '@/exports/stockUpdateExports'
 import { promptModal } from 'jenesius-vue-modal'
 import YepNopeModal from '@/components/Modals/YepNopeModal.vue'
 
+import QuantityStatus from '@/components/StockBrowser/List-Filter-QuantityStatus.vue'
+
 import type { Ref } from 'vue'
 const refreshMainComponent = inject<Ref<number>>('refreshMainComponent')!
 
@@ -63,15 +65,6 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
   if (val <= threshold) return 'red-font'
   return ''
 }
-
-const isActive = computed(() => useFilterStore().inventoryFilter)
-
-function toggleInventoryFilter(item: string) {
-  let filter = useFilterStore().inventoryFilter
-  filter.match(item)
-    ? (useFilterStore().inventoryFilter = filter.replace(item, '').trim())
-    : (useFilterStore().inventoryFilter = `${filter} ${item}`.trim())
-}
 </script>
 
 <template>
@@ -82,20 +75,7 @@ function toggleInventoryFilter(item: string) {
         <h4>Sumy filtrowanych pozycji</h4>
 
         <div>
-          <button
-            class="button switch compact"
-            :class="{ active: isActive.match(/OK/) }"
-            @click="toggleInventoryFilter('OK')"
-          >
-            <i class="bi bi-check-lg"></i>
-          </button>
-          <button
-            class="button switch compact"
-            :class="{ active: isActive.match(/brak|nadmiar/) }"
-            @click="toggleInventoryFilter('brak nadmiar')"
-          >
-            <i class="bi bi-plus-slash-minus"></i>
-          </button>
+          <QuantityStatus />
           <button
             class="compact"
             @click="zeroOutFilteredInventory()"
