@@ -18,13 +18,11 @@ const sortingColumn = [
   { col: 'inventoryCubicSum', label: 'Spis z natury', icon: '&#xF1E0;', show: true }
 ]
 
-// const sortingUnit = ['szt', 'm2', 'm3']
 const sortingUnits = ['m3', 'm2', 'szt']
 
 function sortData(ev: Event) {
   const target = ev.target as HTMLSelectElement
   const value = target.value
-  // useSortingStore().sortResetDir = value
   sortCol.value = value
 }
 </script>
@@ -33,7 +31,9 @@ function sortData(ev: Event) {
   <section class="list-sorting">
     <select @change="sortData">
       <template v-for="st in sortingColumn" :key="st.col">
-        <option v-if="st?.show" :value="st.col">{{ st.label }}</option>
+        <option v-if="st?.show" :value="st.col" :selected="st.col === sortCol">
+          {{ st.label }}
+        </option>
       </template>
     </select>
 
