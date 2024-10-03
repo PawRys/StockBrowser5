@@ -6,7 +6,7 @@ import { useFilterStore } from '@/stores/filterStore'
 import { closeDialog } from '@/exports/dialogsExports'
 import { escapeNonword } from '@/exports/common_functions'
 
-import quantityStatus from '@/components/StockBrowser/List-Filter-QuantityStatus.vue'
+import QuantityStatus from '@/components/StockBrowser/List-Filter-QuantityStatus.vue'
 
 const filterStore = useFilterStore()
 const { items: stockItems } = storeToRefs(useStockStore())
@@ -120,7 +120,7 @@ const appliedFiltersCount = computed(() => {
       <div>
         <!-- empty div -->
       </div>
-      <quantityStatus />
+      <QuantityStatus />
       <button class="compact" @click="closeDialog">
         <i class="close-button bi bi-x-square-fill"></i>
       </button>
