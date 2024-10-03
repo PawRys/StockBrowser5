@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import _ from 'lodash'
-import { computed, inject } from 'vue'
+import { inject } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useStockStore } from '@/stores/stockStore'
-import { useFilterStore } from '@/stores/filterStore'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
 import { calcQuant } from '@/exports/common_functions'
