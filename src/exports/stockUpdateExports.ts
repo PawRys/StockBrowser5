@@ -83,47 +83,29 @@ export function convertToObject(data: string[][], datatype: string): Plywood[] {
   const products = []
   for (const row of data) {
     const searchString = `${row[1]} ${row[0]} `
+    const unit = getVolumeUnit(row[2])
     const plywood = {} as Plywood
     const plywoodSize = getSize(searchString)
-    const plywoodFootSize = getFootSize(plywoodSize)
-    const [sizeT = null, sizeA = null, sizeB = null] = plywoodSize?.split('x') || []
-    const plywoodVolumeUnit = getVolumeUnit(row[2])
-    const faceGroup_val = getFaceGroup(searchString)
-    const faceType_val = getFaceType(searchString)
-    const glueType_val = getGlueType(searchString)
-    const woodType_val = getWoodType(searchString)
-    const color_val = getColor(searchString, faceType_val)
 
-    const riddle = '(?)'
+    const unknown = '(?)'
     plywood.id = row[0]
-    plywood.name = row[1] || riddle
-    plywood.size = plywoodSize || riddle
-    plywood.attr = plywood.attr || {}
-    plywood.attr.sizeT = sizeT || riddle
-    plywood.attr.sizeA = sizeA || riddle
-    plywood.attr.sizeB = sizeB || riddle
-    plywood.attr.sizeAB = `${sizeA}x${sizeB}` || riddle
-    plywood.attr.footSize = plywoodFootSize || riddle
-    plywood.attr.faceType = faceType_val || riddle
-    plywood.attr.faceGroup = faceGroup_val || riddle
-    plywood.attr.glueType = glueType_val || riddle
-    plywood.attr.woodType = woodType_val || riddle
-    plywood.attr.color = color_val
+    plywood.name = row[1] || unknown
+    plywood.size = plywoodSize || unknown
 
     if (datatype === 'stocks') {
-      const price = Number(row[5].replace(',', '.'))
-      const total_stock = Number(row[3].replace(',', '.'))
-      const price_calc = price / total_stock
-      const finite_price = isFinite(price_calc) ? price_calc : 0
-      plywood.purchase = calcPrice(plywoodSize, finite_price, plywoodVolumeUnit, 'm3')
-      plywood.quantityCubicTotal = calcQuant(plywoodSize, total_stock, plywoodVolumeUnit, 'm3')
+      const purchaseValue = Number(row[5].replace(',', '.'))
+      const quantity = Number(row[3].replace(',', '.'))
+      const price = purchaseValue / quantity
+      const priceFinite = isFinite(price) ? price : 0
+      plywood.purchase = calcPrice(plywoodSize, priceFinite, unit, 'm3')
+      plywood.quantityCubicTotal = calcQuant(plywoodSize, quantity, unit, 'm3')
     }
 
     if (datatype === 'reservations') {
       const total_stock = Number(row[6].replace(',', '.'))
       const aviable_stock = Number(row[3].replace(',', '.'))
-      plywood.quantityCubicTotal = calcQuant(plywoodSize, total_stock, plywoodVolumeUnit, 'm3')
-      plywood.quantityCubicAviable = calcQuant(plywoodSize, aviable_stock, plywoodVolumeUnit, 'm3')
+      plywood.quantityCubicTotal = calcQuant(plywoodSize, total_stock, unit, 'm3')
+      plywood.quantityCubicAviable = calcQuant(plywoodSize, aviable_stock, unit, 'm3')
     }
 
     products.push(plywood)
@@ -256,7 +238,7 @@ function getFaceGroup(text: string): string | undefined {
 function getWoodType(text: string): string | undefined {
   const results = new Set()
 
-  if (/liścia/gi.test(text)) results.add('Liściasta')
+  if (/li[sś]cia/gi.test(text)) results.add('Liściasta')
   if (/iglasta/gi.test(text)) results.add('Iglasta')
   if (/pine|sosn/gi.test(text)) results.add('Sosna')
   if (/\bCH\b|topol/gi.test(text)) results.add('Topola')
@@ -409,28 +391,48 @@ export async function mergeStocks(
     if (localItemIndex < 0) {
       localData.push(incomingItem)
     } else {
-      const localItem = localData[localItemIndex]
-
       if (modal === 'merge') {
-        incomingItem.inventoryCubicSum =
-          (incomingItem.inventoryCubicSum || 0) + (localItem.inventoryCubicSum || 0)
+        const localItem = localData[localItemIndex]
         const units = ['m3', 'm2', 'szt'] as const
+        const incomingInvSum = incomingItem.inventoryCubicSum || 0
+        const localInvSum = localItem.inventoryCubicSum || 0
+        incomingItem.inventoryCubicSum = incomingInvSum + localInvSum
         units.map((unit) => {
-          if (!localItem.inventory?.[unit] && !incomingItem.inventory?.[unit]) return
           const local = localItem.inventory?.[unit]
           const incoming = incomingItem.inventory?.[unit]
-          _.merge(incomingItem.inventory, { [unit]: `${local} + ${incoming}` })
+          if (local && incoming) {
+            _.merge(incomingItem.inventory, { [unit]: `${local} + ${incoming}` })
+          }
         })
       }
-      _.merge(localData[localItemIndex], incomingItem) // Object.assign but better
+
+      _.merge(localData[localItemIndex], incomingItem)
     }
-    const index = localItemIndex < 0 ? localData.length - 1 : localItemIndex
-    const str = `${localData[index].id} ${localData[index].name}`
-    localData[index].inventoryCubicSum = setInventoryCubicSum(localData[index])
-    localData[index].inventoryStatus = setInventoryStatus(localData[index])
-    localData[index].quantityStatus = setQuantityStatus(localData[index])
-    localData[index].attr.faceType = getFaceType(str) || '(?)'
   }
+
+  localData.map((item: Plywood) => {
+    const unknown = '(?)'
+    const str = `${item.id} ${item.name}`
+    const plywoodSize = item.size || getSize(str)
+    const [sizeT = null, sizeA = null, sizeB = null] = plywoodSize?.split('x') || []
+
+    item.inventoryCubicSum = setInventoryCubicSum(item)
+    item.inventoryStatus = setInventoryStatus(item)
+    item.quantityStatus = setQuantityStatus(item)
+    item.size = plywoodSize || unknown
+    item.attr = item.attr || {}
+    item.attr.sizeT = sizeT || unknown
+    item.attr.sizeA = sizeA || unknown
+    item.attr.sizeB = sizeB || unknown
+    item.attr.sizeAB = `${sizeA}x${sizeB}` || unknown
+    item.attr.footSize = getFootSize(plywoodSize) || unknown
+    item.attr.faceType = getFaceType(str) || unknown
+    item.attr.faceGroup = getFaceGroup(str) || unknown
+    item.attr.glueType = getGlueType(str) || unknown
+    item.attr.woodType = getWoodType(str) || unknown
+    item.attr.color = getColor(str, item.attr.faceType)
+  })
+
   return localData
 }
 
