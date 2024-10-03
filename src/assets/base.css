@@ -203,6 +203,7 @@ textarea,
 dialog {
   position: fixed;
   width: min(100%, 45ch);
+  max-width: fit-content;
   border: solid 1px var(--bg2-color);
   background-color: var(--bg-color);
   color: var(--font-color);
