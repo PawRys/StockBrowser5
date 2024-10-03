@@ -62,8 +62,4 @@ function toggleInventoryFilter(item: string) {
 .button {
   flex-direction: column;
 }
-
-.bi {
-  font-size: 1.6rem;
-}
 </style>
