@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import _ from 'lodash'
 import { inject } from 'vue'
 import { storeToRefs } from 'pinia'
 
