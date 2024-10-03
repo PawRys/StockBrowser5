@@ -8,7 +8,7 @@ import { setRandomUUID } from '@/exports/common_functions'
 
 import { promptModal } from 'jenesius-vue-modal'
 import YepNopeModal from '@/components/Modals/YepNopeModal.vue'
-import AhaOKModal from '@/components/Modals/AhaOKModal.vue'
+// import AhaOKModal from '@/components/Modals/AhaOKModal.vue'
 
 import { useStockStore } from '@/stores/stockStore'
 const { updateData } = useStockStore()
@@ -113,6 +113,11 @@ function prepareData() {
 
     return {
       Kod: item.id,
+      Grupa: item.attr.faceGroup,
+      Grubość: item.attr.sizeT,
+      Klasa: item.attr.faceType,
+      Rozmiar: item.attr.footSize,
+
       Status: item.inventoryStatus,
 
       'Symfonia ma [m3]': quantCub.toFixed(3),
@@ -147,6 +152,7 @@ function saveToXLSX(data: any[]) {
         <i class="bi bi-floppy2-fill"></i>
         <span>Utwórz kopię zapasową</span>
       </button>
+
       <button class="" @click="passClickTo('#import-backup')">
         <i class="bi bi-file-earmark-arrow-down-fill"></i>
         <span>Wczytaj kopię zapasową</span>
@@ -158,11 +164,13 @@ function saveToXLSX(data: any[]) {
         id="import-backup"
         @change="importDB($event)"
       />
+
       <!-- <button class="" @click="downloadCSV('file.csv', csvData())"> -->
-      <button class="" @click="downloadSpreadsheet()">
+      <button class="blue-font" @click="downloadSpreadsheet()">
         <i class="bi bi-file-earmark-spreadsheet"></i>
         <span>Arkusz inwentaryzacji</span>
       </button>
+
       <button class="red-font" @click="dropDB()">
         <i class="bi bi-file-earmark-x"></i>
         <span>Przywróć ustawienia fabryczne</span>
