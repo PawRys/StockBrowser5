@@ -33,7 +33,7 @@ const debouncedUpdate = _.debounce((item, userInput) => {
   _.merge(item.value, { inventoryStatus: setInventoryStatus(item.value) })
   useStockStore().updateItem(item.value)
   saving.value = false
-}, 300)
+}, 500)
 
 watch(userInput, () => {
   saving.value = true
