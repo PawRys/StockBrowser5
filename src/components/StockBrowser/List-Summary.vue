@@ -43,7 +43,7 @@ const zeroOutFilteredInventory = async () => {
       if (storedItem.id === filteredItem.id) {
         delete storedItem.inventoryCubicSum
         delete storedItem.inventory
-        _.merge(storedItem, { inventoryStatus: setInventoryStatus(storedItem) })
+        storedItem.inventoryStatus = setInventoryStatus(storedItem)
       }
     })
   })
