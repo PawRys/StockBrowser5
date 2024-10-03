@@ -401,7 +401,7 @@ export async function mergeStocks(
           const local = localItem.inventory?.[unit]
           const incoming = incomingItem.inventory?.[unit]
           if (local && incoming) {
-            _.merge(incomingItem.inventory, { [unit]: `${local} + ${incoming}` })
+            _.merge(incomingItem.inventory, { [unit]: `${local || '0'} + ${incoming || '0'}` })
           }
         })
       }
