@@ -273,6 +273,7 @@ function showHTML(rowFilter: Function, colFilter: Function) {
 
 table {
   margin-block: 1rem;
+  border: solid 1px var(--accent-lighter);
   width: min(100%, 45ch);
 }
 
