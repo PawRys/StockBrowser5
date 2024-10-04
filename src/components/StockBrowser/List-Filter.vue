@@ -121,8 +121,8 @@ const appliedFiltersCount = computed(() => {
         <!-- empty div -->
       </div>
       <QuantityStatus />
-      <button class="compact" @click="closeDialog">
-        <i class="close-button bi bi-x-square-fill"></i>
+      <button class="close-button compact" @click="closeDialog">
+        <i class="bi bi-x-square-fill"></i>
       </button>
     </header>
 
