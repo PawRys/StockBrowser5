@@ -83,6 +83,7 @@ export function evalMath(expr: string): number {
 
   expr = expr ? expr : ''
   expr = expr.replace(/,/gi, '.')
+  expr = expr.replace(/[^-+*/.0-9()]/gi, '')
   expr = expr.replace(/-\+/gi, '-')
   expr = expr.replace(/--/gi, '+')
   expr = expr.replace(/\++/gi, '+')
