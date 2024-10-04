@@ -45,8 +45,8 @@
   --font-color: var(--neutral-palette-800);
   --font-color-inv: var(--accent-palette-100);
   --accent-lightest: var(--accent-palette-100);
-  --accent-lighter: var(--accent-palette-200);
-  --accent-light: var(--accent-palette-300);
+  --accent-lighter: var(--accent-palette-150);
+  --accent-light: var(--accent-palette-250);
   --cta-color: var(--accent-palette-450);
 
   --red-color: crimson;
@@ -62,8 +62,8 @@
     --font-color: var(--neutral-palette-100);
     --font-color-inv: var(--accent-palette-700);
     --accent-lightest: var(--accent-palette-700);
-    --accent-lighter: var(--accent-palette-550);
-    --accent-light: var(--accent-palette-350);
+    --accent-lighter: var(--accent-palette-650);
+    --accent-light: var(--accent-palette-600);
     --cta-color: var(--accent-palette-450);
 
     --red-color: tomato;
