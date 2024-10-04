@@ -4,7 +4,8 @@ import { useFilterStore } from '@/stores/filterStore'
 import { openDialogByID } from '@/exports/dialogsExports'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
-import ListSettings from '@/components/StockBrowser/List-Settings.vue'
+import { promptModal } from 'jenesius-vue-modal'
+import ListSettingsModal from '@/components/Modals/ListSettingsModal.vue'
 
 const filterStore = useFilterStore()
 const { listView } = storeToRefs(usePreferencesStore())
@@ -23,7 +24,6 @@ const { listView } = storeToRefs(usePreferencesStore())
     >
       <i class="bi bi-trash3"></i>
     </button>
-    <!-- <span class="filter-count">{{ `Wyników: ${stockItems.length}` }}</span> -->
 
     <button v-if="listView === 'prices'" @click="listView = 'inventory'">
       <i class="bi bi-coin"></i>
@@ -32,7 +32,9 @@ const { listView } = storeToRefs(usePreferencesStore())
       <i class="bi bi-calculator"></i>
     </button>
 
-    <ListSettings />
+    <button @click="promptModal(ListSettingsModal)">
+      <i class="bi bi-three-dots-vertical"></i>
+    </button>
   </section>
 </template>
 
