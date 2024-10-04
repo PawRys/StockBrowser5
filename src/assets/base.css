@@ -230,9 +230,7 @@ dialog::backdrop {
 }
 
 .dialog {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  display: grid;
 
   padding: 1ch;
   padding-bottom: 3ch;
@@ -240,6 +238,11 @@ dialog::backdrop {
   width: min(45ch, 100%);
   background-color: var(--bg-color);
   text-align: center;
+}
+
+.dialog > header {
+  display: flex;
+  justify-content: flex-end;
 }
 
 /******************************************************************************/
