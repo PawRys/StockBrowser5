@@ -10,6 +10,7 @@ const statusList = [
 ]
 
 const isActive = computed(() => useFilterStore().inventoryFilter)
+const random = Math.round(Math.random() * 1000000)
 
 function toggleInventoryFilter(item: string) {
   let filter = useFilterStore().inventoryFilter
@@ -36,14 +37,14 @@ function toggleInventoryFilter(item: string) {
       <i class="bi bi-plus-slash-minus"></i>
     </button>
 
-    <template v-for="(item, index) in statusList" :key="`status-${index}`">
+    <template v-for="(item, index) in statusList" :key="`status-${index}-${random}`">
       <label v-if="item.show" class="button switch compact" tabindex="0">
         <input
-          :id="`status-${index}`"
           :type="'radio'"
           :value="index"
-          name="statusFilter"
+          :name="`statusFilter-${random}`"
           v-model="useFilterStore().statusFilter"
+          :checked="useFilterStore().statusFilter == index"
           hidden
         />
         <i :class="item.icon" :title="`Stan ${item.label.toLowerCase()}`"></i>
