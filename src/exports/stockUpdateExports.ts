@@ -6,7 +6,6 @@ import { php_server_url } from '@/exports/urls'
 import { calcPrice, calcQuant, evalMath } from './common_functions'
 import { promptModal } from 'jenesius-vue-modal'
 import InventoryMerge from '@/components/Modals/InventoryMergeModal.vue'
-// await promptModal(InventoryMerge)
 
 interface defineDataTypeOutput {
   data: 'stocks' | 'reservations' | 'code' | boolean | null
@@ -368,6 +367,7 @@ export async function mergeStocks(
 ) {
   let modal = <string | unknown>''
   if (hasInventory(incomingData)) modal = await promptModal(InventoryMerge)
+
   if (modal === 'local') incomingData = deleteInventory(incomingData || [])
   if (modal === 'cloud') localData = deleteInventory(localData || [])
 
