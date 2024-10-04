@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import { showModalByID, closeDialog } from '@/exports/dialogsExports'
+// import { showModalByID, closeDialog } from '@/exports/dialogsExports'
 
-import VatSwitch from '@/components/StockBrowser/VatSwitch.vue'
-import Sorting from '@/components/StockBrowser/List-Sorting.vue'
-import Paginate from '@/components/StockBrowser/List-Pagination.vue'
+import { promptModal } from 'jenesius-vue-modal'
+import ListSettingsModal from '@/components/Modals/ListSettingsModal.vue'
+
+// import VatSwitch from '@/components/StockBrowser/VatSwitch.vue'
+// import Sorting from '@/components/StockBrowser/List-Sorting.vue'
+// import Paginate from '@/components/StockBrowser/List-Pagination.vue'
 </script>
 
 <template>
-  <button @click="showModalByID('listSettings')">
+  <button @click="promptModal(ListSettingsModal)">
     <i class="bi bi-three-dots-vertical"></i>
   </button>
 
-  <dialog id="listSettings">
+  <!-- <dialog id="listSettings">
     <header>
       <button @click="closeDialog"><i class="bi bi-x-square-fill"></i></button>
     </header>
@@ -27,11 +30,11 @@ import Paginate from '@/components/StockBrowser/List-Pagination.vue'
       <h4>Doliczanie VATu</h4>
       <VatSwitch class="toolbar" />
     </section>
-  </dialog>
+  </dialog> -->
 </template>
 
 <style scoped>
-#listSettings > section {
+/* #listSettings > section {
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
@@ -43,5 +46,5 @@ import Paginate from '@/components/StockBrowser/List-Pagination.vue'
 
 .pagination-label {
   padding: 0.5ch;
-}
+} */
 </style>
