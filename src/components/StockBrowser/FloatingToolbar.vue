@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useFilterStore } from '@/stores/filterStore'
-import { openDialogByID } from '@/exports/dialogsExports'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
 import { promptModal } from 'jenesius-vue-modal'
 import ListSettingsModal from '@/components/Modals/ListSettingsModal.vue'
+import ListFilterModal from '@/components/Modals/ListFilterModal.vue'
 
 const filterStore = useFilterStore()
 const { listView } = storeToRefs(usePreferencesStore())
@@ -13,7 +13,7 @@ const { listView } = storeToRefs(usePreferencesStore())
 
 <template>
   <section class="floating-toolbar" id="floating-toolbar">
-    <button class="cta" @click="openDialogByID('list-filter')">
+    <button class="cta" @click="promptModal(ListFilterModal)">
       <i class="bi bi-search"></i>
       <span>Szukaj</span>
     </button>

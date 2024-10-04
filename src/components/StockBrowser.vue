@@ -4,8 +4,7 @@ import { useFilterStore } from '@/stores/filterStore'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
 import ListContainer from '@/components/StockBrowser/List-Container.vue'
-import Filter from '@/components/StockBrowser/List-Filter.vue'
-import FloatingToolbar from '@/components/StockBrowser/Floating-Toolbar.vue'
+import FloatingToolbar from '@/components/StockBrowser/FloatingToolbar.vue'
 
 function condition(): string {
   if (!localStorage.getItem('SB5_stockList') || localStorage.getItem('SB5_stockList') === '[]')
@@ -67,7 +66,6 @@ function condition(): string {
 
     <div v-show="condition() === 'data'" id="scrolltoptarget">
       <FloatingToolbar />
-      <Filter />
       <ListContainer />
     </div>
   </section>

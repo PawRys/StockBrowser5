@@ -11,7 +11,7 @@ import { setInventoryStatus } from '@/exports/stockUpdateExports'
 import { promptModal } from 'jenesius-vue-modal'
 import YepNopeModal from '@/components/Modals/YepNopeModal.vue'
 
-import QuantityStatus from '@/components/StockBrowser/List-Filter-QuantityStatus.vue'
+import QuantityStatus from '@/components/StockBrowser/QuantityStatusSwitch.vue'
 
 import type { Ref } from 'vue'
 const refreshMainComponent = inject<Ref<number>>('refreshMainComponent')!
