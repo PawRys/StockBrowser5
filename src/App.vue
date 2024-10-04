@@ -110,12 +110,14 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
   }
 }
 
-.modal-container {
-  z-index: 999999;
-}
-
 header,
 footer {
   padding: 1ch;
+}
+</style>
+
+<style>
+.modal-container {
+  z-index: 999999;
 }
 </style>
