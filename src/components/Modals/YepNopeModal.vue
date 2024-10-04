@@ -10,14 +10,16 @@ const props = defineProps<{
     <div class="dialog">
       <p class="red-font" v-html="props.text"></p>
       <h3>Czy jesteś pewien?</h3>
-      <button @click="$emit(Modal.EVENT_PROMPT, true)">
-        <i class="bi bi-check-square"></i>
-        <span>Tak</span>
-      </button>
-      <button @click="$emit(Modal.EVENT_PROMPT, false)">
-        <i class="bi bi-x-square"></i>
-        <span>Nie</span>
-      </button>
+      <div class="button-bar">
+        <button @click="$emit(Modal.EVENT_PROMPT, true)">
+          <i class="bi bi-check-square"></i>
+          <span>Tak</span>
+        </button>
+        <button @click="$emit(Modal.EVENT_PROMPT, false)">
+          <i class="bi bi-x-square"></i>
+          <span>Nie</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -25,5 +27,10 @@ const props = defineProps<{
 <style scoped>
 h3 {
   width: 100%;
+}
+
+.button-bar {
+  display: flex;
+  justify-content: space-evenly;
 }
 </style>
