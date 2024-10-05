@@ -73,6 +73,20 @@ export function scrollTo(element: string, remOffset: number) {
   }
 }
 
+export function reduceExpr(expr: string): string {
+  expr = expr.replace(/[^-+*/.0-9()]/gi, '')
+  while (/--|\+\+|-\+|\+-/.test(expr)) {
+    expr = expr.replace(/-\+|\+-/, '-')
+    expr = expr.replace(/--|\+\+/, '+')
+  }
+  while (/\*\*|\/\/|[-+*/]([*/])/.test(expr)) {
+    expr = expr.replace(/\*\*/, '*')
+    expr = expr.replace(/\/\//, '/')
+    expr = expr.replace(/[-+*/]([*/])/, '$1')
+  }
+  return expr
+}
+
 export function evalMath(expr: string): number {
   function calcMultiply(exp: string) {
     const [numA, numB] = exp.split(/[*/]/)
@@ -81,28 +95,9 @@ export function evalMath(expr: string): number {
     return /\*/.test(exp) ? a * b : a / b
   }
 
-  function additionReduction(expr: string): string {
-    while (/--|\+\+|-\+|\+-/.test(expr)) {
-      expr = expr.replace(/-\+|\+-/, '-')
-      expr = expr.replace(/--|\+\+/, '+')
-    }
-    return expr
-  }
-
-  function multiplyReduction(expr: string): string {
-    while (/\*\*|\/\/|[-+*/]([*/])/.test(expr)) {
-      expr = expr.replace(/\*\*/, '*')
-      expr = expr.replace(/\/\//, '/')
-      expr = expr.replace(/[-+*/]([*/])/, '$1')
-    }
-    return expr
-  }
-
   expr = expr ? expr : ''
   expr = expr.replace(/,/gi, '.')
-  expr = expr.replace(/[^-+*/.0-9()]/gi, '')
-  expr = additionReduction(expr)
-  expr = multiplyReduction(expr)
+  expr = reduceExpr(expr)
   expr = expr.replace(/\(\)/gi, '0')
   expr = expr.replace(/\B\.\B/gi, '0')
   expr = expr.replace(/\B(\.)/gi, '0$1')
