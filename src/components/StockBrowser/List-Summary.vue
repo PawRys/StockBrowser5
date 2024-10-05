@@ -34,7 +34,9 @@ const summaryInput = (unit: string) => {
 }
 
 const zeroOutFilteredInventory = async () => {
-  if (!(await promptModal(YepNopeModal))) return
+  const msg = `<b>Zerowanie inwentaryzacji</b><br>
+  Ilość zerowanych pozycji: <b>${useStockStore().items.length}</b>`
+  if (!(await promptModal(YepNopeModal, { text: msg }))) return
   const storedItems = JSON.parse(localStorage.getItem('SB5_stockList') || '[]')
   const filteredItems = useStockStore().items
   filteredItems.map((filteredItem: Plywood) => {
