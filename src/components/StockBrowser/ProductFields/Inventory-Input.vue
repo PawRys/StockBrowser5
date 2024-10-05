@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, defineProps, watch, toRefs } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
-import { evalMath, calcQuant } from '@/exports/common_functions'
+import { evalMath, calcQuant, reduceExpr } from '@/exports/common_functions'
 import { setInventoryStatus } from '@/exports/stockUpdateExports'
 import _ from 'lodash'
 
@@ -57,6 +57,14 @@ const unitLabel = computed(() => {
 const notNull = () => {
   return item.value.inventory?.[unit as keyof typeof item.value.inventory] ? true : false
 }
+
+function reduceEval(el: KeyboardEvent) {
+  const target = el.target as HTMLInputElement
+  const caret = target.selectionStart || 0
+  const expr = target.value
+  userInput.value = reduceExpr(expr)
+  target.setSelectionRange(caret, caret)
+}
 </script>
 
 <template>
@@ -75,6 +83,7 @@ const notNull = () => {
       type="text"
       class="user-input"
       v-model="userInput"
+      @keyup="reduceEval"
       @blur="isEdited = false"
       @focus="($event.target as HTMLInputElement).select()"
       @keydown.esc="($event.target as HTMLInputElement).blur()"
