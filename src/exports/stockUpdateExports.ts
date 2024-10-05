@@ -410,28 +410,35 @@ export async function mergeStocks(
     }
   }
 
-  localData.map((item: Plywood) => {
-    const unknown = '(?)'
-    const str = `${item.id} ${item.name}`
-    const plywoodSize = item.size || getSize(str)
-    const [sizeT = null, sizeA = null, sizeB = null] = plywoodSize?.split('x') || []
-
-    item.inventoryCubicSum = setInventoryCubicSum(item)
-    item.inventoryStatus = setInventoryStatus(item)
-    item.quantityStatus = setQuantityStatus(item)
-    item.size = plywoodSize || unknown
-    item.attr = item.attr || {}
-    item.attr.sizeT = sizeT || unknown
-    item.attr.sizeA = sizeA || unknown
-    item.attr.sizeB = sizeB || unknown
-    item.attr.sizeAB = `${sizeA}x${sizeB}` || unknown
-    item.attr.footSize = getFootSize(plywoodSize) || unknown
-    item.attr.faceType = getFaceType(str) || unknown
-    item.attr.faceGroup = getFaceGroup(str) || unknown
-    item.attr.glueType = getGlueType(str) || unknown
-    item.attr.woodType = getWoodType(str) || unknown
-    item.attr.color = getColor(str, item.attr.faceType)
+  const collator = new Intl.Collator(undefined, {
+    usage: 'sort',
+    numeric: true
   })
+
+  localData
+    .sort((a: Plywood, b: Plywood) => collator.compare(a.id, b.id))
+    .map((item: Plywood) => {
+      const unknown = '(?)'
+      const str = `${item.id} ${item.name}`
+      const plywoodSize = item.size || getSize(str)
+      const [sizeT = null, sizeA = null, sizeB = null] = plywoodSize?.split('x') || []
+
+      item.inventoryCubicSum = setInventoryCubicSum(item)
+      item.inventoryStatus = setInventoryStatus(item)
+      item.quantityStatus = setQuantityStatus(item)
+      item.size = plywoodSize || unknown
+      item.attr = item.attr || {}
+      item.attr.sizeT = sizeT || unknown
+      item.attr.sizeA = sizeA || unknown
+      item.attr.sizeB = sizeB || unknown
+      item.attr.sizeAB = `${sizeA}x${sizeB}` || unknown
+      item.attr.footSize = getFootSize(plywoodSize) || unknown
+      item.attr.faceType = getFaceType(str) || unknown
+      item.attr.faceGroup = getFaceGroup(str) || unknown
+      item.attr.glueType = getGlueType(str) || unknown
+      item.attr.woodType = getWoodType(str) || unknown
+      item.attr.color = getColor(str, item.attr.faceType)
+    })
 
   return localData
 }
