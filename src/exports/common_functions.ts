@@ -81,19 +81,36 @@ export function evalMath(expr: string): number {
     return /\*/.test(exp) ? a * b : a / b
   }
 
+  function additionReduction(expr: string): string {
+    while (/--|\+\+|-\+|\+-/.test(expr)) {
+      expr = expr.replace(/-\+|\+-/, '-')
+      expr = expr.replace(/--|\+\+/, '+')
+    }
+    return expr
+  }
+
+  function multiplyReduction(expr: string): string {
+    while (/\*\*|\/\/|[-+*/]([*/])/.test(expr)) {
+      expr = expr.replace(/\*\*/, '*')
+      expr = expr.replace(/\/\//, '/')
+      expr = expr.replace(/[-+*/]([*/])/, '$1')
+    }
+    return expr
+  }
+
   expr = expr ? expr : ''
   expr = expr.replace(/,/gi, '.')
   expr = expr.replace(/[^-+*/.0-9()]/gi, '')
-  expr = expr.replace(/-\+/gi, '-')
-  expr = expr.replace(/--/gi, '+')
-  expr = expr.replace(/\++/gi, '+')
+  expr = additionReduction(expr)
+  expr = multiplyReduction(expr)
+  expr = expr.replace(/\(\)/gi, '0')
   expr = expr.replace(/\B\.\B/gi, '0')
   expr = expr.replace(/\B(\.)/gi, '0$1')
   expr = expr.replace(/(\d)(\()/gi, '$1*$2')
   expr = expr.replace(/(\))(\d)/gi, '$1*$2')
   expr = expr.replace(/(\))(\()/gi, '$1*$2')
   const regexpParenthesis = /\(([^()]+)\)/i
-  const regexpMultiply = /\d+(\.\d+)?[*/]-?\d+(\.\d+)?/i
+  const regexpMultiply = /\d+(\.\d+)?[*/][+-]?\d+(\.\d+)?/i
   const regexpAddition = /[+-]?\d+(\.\d+)?/gi
   const isParenthesis = expr.match(regexpParenthesis)
   const isMultiply = expr.match(regexpMultiply)
@@ -102,6 +119,14 @@ export function evalMath(expr: string): number {
   if (isParenthesis) {
     const evalParenthesis = expr.replace(regexpParenthesis, evalMath(isParenthesis[1]).toString())
     return evalMath(evalParenthesis)
+  }
+
+  if (!isParenthesis && /\(/.test(expr)) {
+    return evalMath(`${expr}+0)`)
+  }
+
+  if (!isParenthesis && /\)/.test(expr)) {
+    return evalMath(`(0+${expr}`)
   }
 
   if (isMultiply) {
