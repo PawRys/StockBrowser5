@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import _ from 'lodash'
 import { ref, computed, defineProps, watch, toRefs } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
 import { evalMath, calcQuant, reduceExpr } from '@/exports/common_functions'
 import { setInventoryStatus } from '@/exports/stockUpdateExports'
-import _ from 'lodash'
 
 const props = defineProps<{
   item: Plywood
@@ -58,11 +58,13 @@ const notNull = () => {
   return item.value.inventory?.[unit as keyof typeof item.value.inventory] ? true : false
 }
 
-function reduceEval(el: KeyboardEvent) {
+async function reduceEval(el: KeyboardEvent) {
   const target = el.target as HTMLInputElement
-  const caret = target.selectionStart || 0
-  const expr = target.value
-  userInput.value = reduceExpr(expr)
+  const normalExpr = userInput.value
+  const reducedExpr = reduceExpr(userInput.value)
+  const offset = normalExpr.length - reducedExpr.length
+  const caret = (target.selectionStart || 0) - offset
+  await Promise.resolve((userInput.value = reducedExpr))
   target.setSelectionRange(caret, caret)
 }
 </script>
