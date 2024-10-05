@@ -54,7 +54,7 @@ const unitLabel = computed(() => {
   return ``
 })
 
-const notNull = () => {
+const isFilledWithExpr = () => {
   return item.value.inventory?.[unit as keyof typeof item.value.inventory] ? true : false
 }
 
@@ -76,7 +76,7 @@ async function reduceEval(el: KeyboardEvent) {
     @focus="isEdited = true"
     contenteditable="true"
   >
-    <i class="bi bi-pencil-square" v-if="notNull()"></i>
+    <i class="bi bi-pencil-square" v-if="isFilledWithExpr()"></i>
     {{ itemInventoryUnitSum.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
   </div>
 
