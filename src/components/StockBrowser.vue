@@ -31,7 +31,7 @@ function condition(): string {
     <div class="notdata" v-if="condition() === 'trymore'">
       <h3>Nie znaleziono takiego produktu w stanach handlowych <i class="bi bi-box"></i></h3>
       <button class="" @click="useFilterStore().prevFilter">
-        <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij</span>
+        <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij filtr</span>
       </button>
       <button class="" @click="useFilterStore().statusFilter = 1">
         <i class="bi bi-boxes"></i><span>Pokaż stan całkowity</span>
@@ -44,7 +44,7 @@ function condition(): string {
     <div class="notdata" v-if="condition() === 'tryzero'">
       <h3>Nie znaleziono takiego produktu w stanach całkowitych <i class="bi bi-boxes"></i></h3>
       <button class="" @click="useFilterStore().prevFilter">
-        <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij</span>
+        <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij filtr</span>
       </button>
       <button class="" @click="useFilterStore().statusFilter = 0">
         <i class="bi bi-0-circle"></i><span>Pokaż stan zerowy</span>
@@ -57,7 +57,7 @@ function condition(): string {
     <div class="notdata notexist" v-if="condition() === 'notexist'">
       <h3>Wygląda na to, że taka sklejka nie istnieje 🤔</h3>
       <button class="light" @click="useFilterStore().prevFilter">
-        <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij</span>
+        <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij filtr</span>
       </button>
       <button class="light" @click="useFilterStore().resetAllFilters">
         <i class="bi bi-trash3"></i><span>Resetuj filtry</span>
