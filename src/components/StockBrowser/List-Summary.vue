@@ -90,7 +90,7 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
             :disabled="!filledInventoryCount()"
           >
             <i class="bi bi-trash3"></i>
-            Zeruj filtrowane ({{ filledInventoryCount() }})
+            Zeruj ({{ `${filledInventoryCount()} z ${useStockStore().items.length}` }})
           </button>
         </div>
       </header>
