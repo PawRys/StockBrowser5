@@ -74,15 +74,16 @@ export function scrollTo(element: string, remOffset: number) {
 }
 
 export function reduceExpr(expr: string): string {
+  expr = expr.replace(/,/gi, '.')
   expr = expr.replace(/[^-+*/.0-9()]/gi, '')
+  expr = expr.replace(/\B(\.)/gi, '0$1')
+  expr = expr.replace(/(\d)(\()/gi, '$1*$2')
+  expr = expr.replace(/(\))(\d)/gi, '$1*$2')
+  expr = expr.replace(/(\))(\()/gi, '$1*$2')
+  expr = expr.replace(/[*/]([*/])/, '$1')
   while (/--|\+\+|-\+|\+-/.test(expr)) {
     expr = expr.replace(/-\+|\+-/, '-')
     expr = expr.replace(/--|\+\+/, '+')
-  }
-  while (/\*\*|\/\/|[-+*/]([*/])/.test(expr)) {
-    expr = expr.replace(/\*\*/, '*')
-    expr = expr.replace(/\/\//, '/')
-    expr = expr.replace(/[-+*/]([*/])/, '$1')
   }
   return expr
 }
@@ -96,14 +97,9 @@ export function evalMath(expr: string): number {
   }
 
   expr = expr ? expr : ''
-  expr = expr.replace(/,/gi, '.')
   expr = reduceExpr(expr)
-  expr = expr.replace(/\(\)/gi, '0')
+  expr = expr.replace(/\(\)/gi, '')
   expr = expr.replace(/\B\.\B/gi, '0')
-  expr = expr.replace(/\B(\.)/gi, '0$1')
-  expr = expr.replace(/(\d)(\()/gi, '$1*$2')
-  expr = expr.replace(/(\))(\d)/gi, '$1*$2')
-  expr = expr.replace(/(\))(\()/gi, '$1*$2')
   const regexpParenthesis = /\(([^()]+)\)/i
   const regexpMultiply = /\d+(\.\d+)?[*/][+-]?\d+(\.\d+)?/i
   const regexpAddition = /[+-]?\d+(\.\d+)?/gi
