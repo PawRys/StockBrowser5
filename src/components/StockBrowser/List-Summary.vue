@@ -26,16 +26,9 @@ const summaryDiff = (unit: string) => {
   }, 0)
 }
 
-const summaryInput = (unit: string) => {
-  return useStockStore().items.reduce((acc: number, item: Plywood) => {
-    const totalUnitInventory = calcQuant(item.size, item.inventoryCubicSum, 'm3', unit)
-    return acc + totalUnitInventory
-  }, 0)
-}
-
-const zeroOutFilteredInventory = async () => {
+const zerooutFilteredInventory = async () => {
   const msg = `<b>Zerowanie inwentaryzacji</b><br>
-  Ilość zerowanych pozycji: <b>${useStockStore().items.length}</b>`
+  Ilość zerowanych pozycji: <b>${filledInventoryCount()} z ${useStockStore().items.length}</b> filtrowanych`
   if (!(await promptModal(YepNopeModal, { text: msg }))) return
   const storedItems = JSON.parse(localStorage.getItem('SB5_stockList') || '[]')
   const filteredItems = useStockStore().items
@@ -50,6 +43,20 @@ const zeroOutFilteredInventory = async () => {
   })
   useStockStore().updateData({ stockList: storedItems })
   refreshMainComponent.value++
+}
+
+function filledInventoryCount() {
+  let counter = 0
+  useStockStore().items.map((filteredItem: Plywood) => {
+    if (filteredItem.inventory) {
+      let check = false
+      if (filteredItem.inventory.m3) check = true
+      if (filteredItem.inventory.m2) check = true
+      if (filteredItem.inventory.szt) check = true
+      if (check) counter++
+    }
+  })
+  return counter
 }
 
 function setFontColor(unit: 'm3' | 'm2' | 'szt') {
@@ -78,11 +85,11 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
           <QuantityStatus />
           <button
             class="compact"
-            @click="zeroOutFilteredInventory()"
-            :disabled="summaryInput('m3') === 0"
+            @click="zerooutFilteredInventory()"
+            :disabled="!filledInventoryCount()"
           >
             <i class="bi bi-trash3"></i>
-            Zeruj filtrowane
+            Zeruj filtrowane ({{ filledInventoryCount() }})
           </button>
         </div>
       </header>
