@@ -31,7 +31,7 @@ footSizeValues.unshift({ label: 'Razem', filter_fn: () => true })
 const active = ref(0)
 const collection = [
   {
-    label: 'Laminaty / Surowe',
+    label: 'Laminaty - Surowe',
     stats: [
       { label: 'Razem', filter_fn: () => true },
       { label: 'Laminaty', filter_fn: (item: Plywood) => item.attr.faceGroup === 'laminat' },
@@ -39,7 +39,7 @@ const collection = [
     ]
   },
   {
-    label: 'WD / MR',
+    label: 'WD - MR',
     stats: [
       { label: 'Razem', filter_fn: () => true },
       { label: 'WD', filter_fn: (item: Plywood) => item.attr.glueType === 'WD' },
@@ -47,7 +47,7 @@ const collection = [
     ]
   },
   {
-    label: 'Laminaty WD / MR',
+    label: 'Laminaty WD - MR',
     stats: [
       { label: 'Razem', filter_fn: (item: Plywood) => item.attr.faceGroup === 'laminat' },
       {
@@ -63,7 +63,7 @@ const collection = [
     ]
   },
   {
-    label: 'Surowe WD / MR',
+    label: 'Surowe WD - MR',
     stats: [
       { label: 'Razem', filter_fn: (item: Plywood) => item.attr.faceGroup === 'surowa' },
       {
@@ -79,7 +79,7 @@ const collection = [
     ]
   },
   {
-    label: 'F/W / F/F',
+    label: 'F/W - F/F',
     stats: [
       { label: 'Razem', filter_fn: (item: Plywood) => item.attr.faceGroup === 'laminat' },
       {
@@ -100,7 +100,7 @@ const collection = [
     ]
   },
   {
-    label: 'Pod laser',
+    label: 'Pod Laser',
     stats: [
       {
         label: 'Razem',
