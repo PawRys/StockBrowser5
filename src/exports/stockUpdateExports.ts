@@ -331,19 +331,16 @@ export function deleteInventory(data: Plywood[]): Plywood[] {
 
 export function setInventoryStatus(item: Plywood) {
   const threshold = 0.62
-  const quantityCubicTotalPcs = calcQuant(item.size, item.quantityCubicTotal, 'm3', 'szt')
-
-  const cub = calcQuant(item.size, evalMath(item.inventory?.m3 || '0'), 'm3', 'szt')
-  const sqr = calcQuant(item.size, evalMath(item.inventory?.m2 || '0'), 'm2', 'szt')
-  const pcs = calcQuant(item.size, evalMath(item.inventory?.szt || '0'), 'szt', 'szt')
-  const diff = cub + sqr + pcs - quantityCubicTotalPcs
+  const quantityTotalPcs = calcQuant(item.size, item.quantityCubicTotal, 'm3', 'szt')
+  const inventorySumPcs = calcQuant(item.size, item.inventoryCubicSum, 'm3', 'szt')
+  const diff = inventorySumPcs - quantityTotalPcs
 
   let status = 'pusty'
-  if (quantityCubicTotalPcs < 0) status = 'what'
-  if (quantityCubicTotalPcs >= 0) {
+  if (quantityTotalPcs < 0) status = 'what'
+  if (quantityTotalPcs >= 0) {
     if (Math.abs(diff) <= threshold) status = 'OK'
-    if (quantityCubicTotalPcs <= threshold) status = 'brak'
-    if (quantityCubicTotalPcs == diff) status = 'pusty'
+    if (quantityTotalPcs <= threshold) status = 'brak'
+    if (quantityTotalPcs == diff) status = 'pusty'
     if (diff < threshold * -1) status = 'brak'
     if (diff > threshold) status = 'nadmiar'
   }
