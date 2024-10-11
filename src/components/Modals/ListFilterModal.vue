@@ -133,6 +133,7 @@ const appliedFiltersCount = computed(() => {
           type="search"
           name="textSearch"
           placeholder="Szukane słowo"
+          @keypress.enter="($event.target as HTMLInputElement).blur()"
           v-model="filterStore.textFilter"
         />
       </div>
@@ -275,20 +276,20 @@ body:has(dialog[open]) {
   overflow-x: scroll;
 }
 
-.scroll-track {
-  overflow-x: clip;
-  overflow-y: auto;
-  /* margin-bottom: 1rem; */
-}
-
 .filter__attr-set {
   grid-row: 1 / 4;
   display: flex;
   flex-direction: column;
 
   margin: 0;
-  border: none;
   padding: 0 1ch;
+  border: none;
+}
+
+.scroll-track {
+  overflow-x: clip;
+  overflow-y: auto;
+  /* margin-bottom: 1rem; */
 }
 
 .setKey-faceGroup {
@@ -298,13 +299,7 @@ body:has(dialog[open]) {
   grid-row: 2 / 3;
   grid-column: 1 / 2;
 }
-/*
-.setKey-woodType {
-  grid-row: 3 / 4;
-  grid-column: 1 / 2;
-  overflow: auto;
-}
-*/
+
 .filter__attr-set h4 {
   margin: 1ch auto;
 }
@@ -317,7 +312,6 @@ body:has(dialog[open]) {
 
 .filter__attr-item {
   display: flex;
-  /* justify-content: space-between; */
   align-items: center;
   width: 100%;
 }
