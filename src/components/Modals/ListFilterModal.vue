@@ -192,7 +192,7 @@ const appliedFiltersCount = computed(() => {
           <span>{{ filterStore.filterHistory.length - 1 - filterStore.currentFilterIndex }}</span>
         </button>
         <button type="reset" @click="filterStore.resetAllFilters" :disabled="!appliedFiltersCount">
-          <i class="bi bi-trash3"></i>
+          <i class="bi bi-bootstrap-reboot"></i>
           <span>{{ appliedFiltersCount }}</span>
         </button>
         <button

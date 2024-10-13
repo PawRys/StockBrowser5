@@ -37,7 +37,7 @@ function condition(): string {
         <i class="bi bi-boxes"></i><span>Pokaż stan całkowity</span>
       </button>
       <button class="" @click="useFilterStore().resetAllFilters">
-        <i class="bi bi-trash3"></i><span>Resetuj filtry</span>
+        <i class="bi bi-bootstrap-reboot"></i><span>Resetuj filtry</span>
       </button>
     </div>
 
@@ -50,7 +50,7 @@ function condition(): string {
         <i class="bi bi-0-circle"></i><span>Pokaż stan zerowy</span>
       </button>
       <button class="" @click="useFilterStore().resetAllFilters">
-        <i class="bi bi-trash3"></i><span>Resetuj filtry</span>
+        <i class="bi bi-bootstrap-reboot"></i><span>Resetuj filtry</span>
       </button>
     </div>
 
@@ -60,7 +60,7 @@ function condition(): string {
         <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij filtr</span>
       </button>
       <button class="light" @click="useFilterStore().resetAllFilters">
-        <i class="bi bi-trash3"></i><span>Resetuj filtry</span>
+        <i class="bi bi-bootstrap-reboot"></i><span>Resetuj filtry</span>
       </button>
     </div>
 
