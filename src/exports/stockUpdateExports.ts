@@ -133,7 +133,7 @@ function getFootSize(input: string | undefined): string | undefined {
   if (lo == 5 && hi == 10) return `5x10'`
   if (lo == 5) return `5x~'`
   if (lo >= 6) return `7x~'`
-  return `${lo}x${hi}'`
+  return `${lo || '?'}x${hi || '?'}'`
 }
 
 type VolumeUnit = 'szt' | 'm2' | 'm3' | undefined
