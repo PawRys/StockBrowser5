@@ -107,11 +107,14 @@ function checkSibling(ev: Event): void {
 }
 
 const appliedFiltersCount = computed(() => {
-  return Object.keys(filterStore.attrFilter ?? {}).reduce((acc, item) => {
+  const textFilterCount = filterStore.textFilter.length > 0 ? 1 : 0
+  const attrFilterCount = Object.keys(filterStore.attrFilter ?? {}).reduce((acc, item) => {
     return (
       acc + (filterStore.attrFilter?.[item as keyof typeof filterStore.attrFilter]?.length ?? 0)
     )
   }, 0)
+
+  return textFilterCount + attrFilterCount
 })
 </script>
 
