@@ -199,10 +199,11 @@ function getFaceType(text: string): string | undefined {
   /*2.2*/ if (/\bPQ\b/gi.test(text)) result = 'PQ'
   /*2.3*/ if (/\bPQ\W?F\b/gi.test(text)) result = 'PQF'
   /*3*/ if (/\bF\/W\W?H\b|Heksa/gi.test(text)) result = 'Heksa'
-  /*3*/ if (/\bhoney\b/gi.test(text)) result = 'Honey'
-  /*3*/ if (/\bM\/M\b|mel/gi.test(text)) result = 'M/M'
-  /*3*/ if (/\bopal\b/gi.test(text)) result = 'Opal'
-  /*3*/ if (/\bopal white\b/gi.test(text)) result = 'Opal White'
+  // /*3*/ if (/\bhoney\b/gi.test(text)) result = 'Honey'
+  /*3*/ if (/\bM\/M\b|mel|\bopal white\b/gi.test(text)) result = 'M/M'
+  // /*3*/ if (/\bM\/M\b|mel/gi.test(text)) result = 'M/M'
+  // /*3*/ if (/\bopal\b/gi.test(text)) result = 'Opal'
+  // /*3*/ if (/\bopal white\b/gi.test(text)) result = 'Opal White'
   /*3*/ if (/\bPF\b|poliform/gi.test(text)) result = 'Poliform'
   /*3*/ if (/\bPPL\b/gi.test(text)) result = 'PPL'
   /*3*/ if (/OSB/gi.test(text)) result = 'OSB'
@@ -253,13 +254,14 @@ function getWoodType(text: string): string | undefined {
 function getColor(text: string, faceType: string | undefined): string | undefined {
   const results = new Set()
 
-  if (/opal/gi.test(text)) results.add('opal')
+  if (/\bhoney\b/gi.test(text)) results.add('honey')
   if (/yell|zółt[ya]/gi.test(text)) results.add('yellow')
-  if (/white|biał[ya]/gi.test(text)) results.add('white')
   if (/black|czarn[ya]/gi.test(text)) results.add('black')
   if (/green|zielon[ya]/gi.test(text)) results.add('green')
   if (/blue|niebiesk[ia]/gi.test(text)) results.add('blue')
   if (/\bred\b|czerwon[ya]/gi.test(text)) results.add('red')
+  if (/(?<!(opal ?))(white)/gi.test(text)) results.add('white')
+  if (/(?<=(opal ?))(white)/gi.test(text)) results.add('opal white')
   if (/c\.less|trans|bezbarwna/gi.test(text)) results.add('c.less')
   if (/(?<!(l\. ?|jasn[yoa] ?|light ?))(grey|szar[ya])/gi.test(text)) results.add('grey')
   if (/(?<=(l\. ?|jasn[yoa] ?|light ?))(grey|szar[ya])/gi.test(text)) results.add('l.grey')
@@ -275,10 +277,8 @@ function getColor(text: string, faceType: string | undefined): string | undefine
     if (faceType === 'F/W II') results.add('d.brown')
     if (faceType === 'W/W II') results.add('d.brown')
     if (faceType === 'Heksa') results.add('d.brown')
-    if (faceType === 'Honey') results.add('honey')
     if (faceType === 'M/M') results.add('white')
     if (faceType === 'Poliform') results.add('(nieznany)')
-    if (faceType === 'Opal') results.add('(nieznany)')
     if (faceType === 'PPL') results.add('(nieznany)')
     if (faceType === 'PQF') results.add('(nieznany)')
   }
