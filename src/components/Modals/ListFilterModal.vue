@@ -145,7 +145,7 @@ const appliedFiltersCount = computed(() => {
       >
         <template v-for="(attrLabel, attrKey) in attrLabels" :key="`fieldset--${attrKey}`">
           <fieldset class="fieldset" :class="`fieldset--${attrKey}`">
-            <hr />
+            <hr v-if="attrKey.match(/footSize|glueType/)" />
             <div class="fieldset__scroll-track">
               <div
                 class="fieldset__item"
