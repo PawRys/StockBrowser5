@@ -298,12 +298,12 @@ body:has(dialog[open]) {
   grid-row: 1 / 2;
 }
 
-.fieldset--glueType {
+.fieldset--footSize {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
 }
 
-.fieldset--footSize {
+.fieldset--glueType {
   grid-column: 1 / 2;
   grid-row: 3 / 4;
 }

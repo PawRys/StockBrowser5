@@ -84,7 +84,7 @@
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--accent-lighter) var(--bg-color);
+  scrollbar-color: var(--accent-light) var(--bg-color);
 }
 
 :focus {
