@@ -32,15 +32,15 @@ const attrSets = {
 
 const attrLabels = {
   faceGroup: 'Grupa',
-  sizeT: 'Grubość',
-  faceType: 'Klasa',
+  glueType: 'Klej',
   footSize: 'Rozmiar',
+  sizeT: 'Grubość',
+  color: 'Kolor',
+  faceType: 'Klasa',
   sizeA: 'Wym A',
   sizeB: 'Wym B',
   // sizeAB: 'Wymiar',
-  color: 'Kolor',
-  woodType: 'Gatunek',
-  glueType: 'Klej'
+  woodType: 'Gatunek'
 }
 
 watch(
@@ -117,8 +117,8 @@ const appliedFiltersCount = computed(() => {
 
 <template>
   <div class="dialog-backdrop">
-    <div id="list-filter" class="dialog filter-window">
-      <header class="filter-window__header">
+    <div id="main-filter" class="dialog">
+      <header class="dialog__header">
         <div>
           <!-- empty div -->
         </div>
@@ -127,9 +127,9 @@ const appliedFiltersCount = computed(() => {
           <i class="bi bi-x-square-fill"></i>
         </button>
       </header>
-      <div class="filter__text-filter--wrapper">
+      <div class="main-filter__search-input--wrapper">
         <input
-          class="filter__text-filter"
+          class="main-filter__search-input"
           type="search"
           name="textSearch"
           placeholder="Szukane słowo"
@@ -137,71 +137,66 @@ const appliedFiltersCount = computed(() => {
           v-model="filterStore.textFilter"
         />
       </div>
-      <form id="filter__attr-list" class="filter__attr-list" @submit.prevent="getAttrFilterList">
-        <fieldset
-          class="filter__attr-set"
-          v-for="(attrLabel, attrKey) in attrLabels"
-          :class="`setKey-${attrKey}`"
-          :key="`setKey-${attrKey}`"
-        >
-          <!-- <h4>{{ attrLabel }}</h4> -->
-          <hr />
-          <div class="scroll-track">
-            <div
-              class="filter__attr-item"
-              v-for="item of Array.from(attrSets[attrKey]).sort(collator.compare)"
-              :key="`${attrKey}-${escapeNonword(item)}`"
-            >
-              <label class="button compact">
-                <input
-                  type="checkbox"
-                  :value="item"
-                  :name="attrKey"
-                  :checked="isChecked(attrKey, item)"
-                  :id="`${attrKey}-${escapeNonword(item)}`"
-                />
-              </label>
-              <button class="compact" @click="checkSibling">
-                <span>{{ item }}</span>
-              </button>
+
+      <form
+        id="main-filter__attr-fieldsets"
+        class="main-filter__attr-fieldsets"
+        @submit.prevent="getAttrFilterList"
+      >
+        <template v-for="(attrLabel, attrKey) in attrLabels" :key="`fieldset--${attrKey}`">
+          <fieldset class="fieldset" :class="`fieldset--${attrKey}`">
+            <hr />
+            <div class="fieldset__scroll-track">
+              <div
+                class="fieldset__item"
+                v-for="item of Array.from(attrSets[attrKey]).sort(collator.compare)"
+                :key="`${attrKey}-${escapeNonword(item)}`"
+              >
+                <label class="button compact">
+                  <input
+                    type="checkbox"
+                    :value="item"
+                    :name="attrKey"
+                    :checked="isChecked(attrKey, item)"
+                    :id="`${attrKey}-${escapeNonword(item)}`"
+                  />
+                </label>
+                <button class="compact" @click="checkSibling">
+                  <span>{{ item }}</span>
+                </button>
+              </div>
             </div>
-          </div>
-          <button
-            class="transparent"
-            v-if="filterStore.attrFilter[attrKey]"
-            @click="[filterStore.resetAttrFilter(attrKey)]"
-          >
-            <i class="bi bi-trash3"></i><span>Usuń</span>
-          </button>
-        </fieldset>
+            <button
+              class="transparent"
+              v-if="filterStore.attrFilter[attrKey]"
+              @click="[filterStore.resetAttrFilter(attrKey)]"
+            >
+              <i class="bi bi-trash3"></i><span>Usuń</span>
+            </button>
+          </fieldset>
+        </template>
       </form>
-      <footer class="filter-window__footer">
-        <button
-          class=""
-          @click="filterStore.prevFilter"
-          :disabled="filterStore.currentFilterIndex <= 0"
-        >
+      <footer class="dialog__footer">
+        <button @click="filterStore.prevFilter" :disabled="filterStore.currentFilterIndex <= 0">
           <i class="bi bi-arrow-counterclockwise"></i>
           <span>{{ filterStore.currentFilterIndex }}</span>
         </button>
         <button
-          class=""
           @click="filterStore.nextFilter"
           :disabled="filterStore.currentFilterIndex >= filterStore.filterHistory.length - 1"
         >
           <i class="bi bi-arrow-clockwise"></i>
           <span>{{ filterStore.filterHistory.length - 1 - filterStore.currentFilterIndex }}</span>
         </button>
-        <button
-          class=""
-          type="reset"
-          @click="filterStore.resetAllFilters"
-          :disabled="!appliedFiltersCount"
-        >
+        <button type="reset" @click="filterStore.resetAllFilters" :disabled="!appliedFiltersCount">
           <i class="bi bi-trash3"></i>
           <span>{{ appliedFiltersCount }}</span>
         </button>
-        <button class="cta" type="submit" @click="[formSubmit('filter__attr-list'), closeModal()]">
+        <button
+          class="cta"
+          type="submit"
+          @click="[formSubmit('main-filter__attr-fieldsets'), closeModal()]"
+        >
           <i class="bi bi-search"></i>
           <span>{{ stockItems.length }}</span>
         </button>
@@ -235,7 +230,7 @@ body:has(dialog[open]) {
   background-color: var(--bg-color);
 }
 
-.filter-window__header {
+.dialog__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -243,12 +238,12 @@ body:has(dialog[open]) {
   width: 100%;
 }
 
-.filter-window__header .close-button {
+.dialog__header .close-button {
   font-size: 1.5rem;
   cursor: pointer;
 }
 
-.filter-window__footer {
+.dialog__footer {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -257,27 +252,28 @@ body:has(dialog[open]) {
   margin-block: 1rem 1rem;
 }
 
-.filter__text-filter--wrapper {
-  margin-block: 1rem;
+.main-filter__search-input--wrapper {
+  margin-block: 0.5rem;
   width: min(100%, 60ch);
   height: 4ch;
 }
 
-.filter__text-filter {
+.main-filter__search-input {
   position: absolute;
   inset: 0;
 }
 
-.filter__attr-list {
+.main-filter__attr-fieldsets {
   display: grid;
   grid-auto-flow: column;
-  grid-template-rows: auto auto 1fr;
+  grid-template-columns: repeat(autofit, 1fr);
+  grid-template-rows: auto auto auto 1fr;
   width: 100%;
   overflow-x: scroll;
 }
 
-.filter__attr-set {
-  grid-row: 1 / 4;
+.fieldset {
+  grid-row: 1 / 5;
   display: flex;
   flex-direction: column;
 
@@ -286,33 +282,50 @@ body:has(dialog[open]) {
   border: none;
 }
 
-.scroll-track {
-  overflow-x: clip;
-  overflow-y: auto;
-  /* margin-bottom: 1rem; */
-}
-
-.setKey-faceGroup {
-  grid-row: 1 / 2;
-}
-.setKey-glueType {
-  grid-row: 2 / 3;
-  grid-column: 1 / 2;
-}
-
-.filter__attr-set h4 {
-  margin: 1ch auto;
-}
-
-.filter__attr-set > button,
-.filter__attr-set > .button {
+.fieldset > button,
+.fieldset > .button {
   margin-inline: auto;
   width: 100%;
 }
 
-.filter__attr-item {
+.fieldset__scroll-track {
+  overflow-x: clip;
+  overflow-y: auto;
+}
+
+.fieldset--faceGroup {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+.fieldset--glueType {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+.fieldset--footSize {
+  grid-column: 1 / 2;
+  grid-row: 3 / 4;
+}
+
+.fieldset__item {
   display: flex;
   align-items: center;
   width: 100%;
 }
+
+/** */
+/* .main-filter__attr-fieldsets .bi {
+  grid-row: 1/2;
+  position: sticky;
+  inset: 0rem;
+  color: var(--accent-light);
+  color: transparent;
+  display: block;
+  width: min-content;
+} */
+
+/* .main-filter__attr-fieldsets .bi:nth-of-type(9) {
+  color: var(--accent-light);
+} */
 </style>
