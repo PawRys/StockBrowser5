@@ -253,7 +253,7 @@ body:has(dialog[open]) {
 }
 
 .main-filter__search-input--wrapper {
-  margin-block: 0.5rem;
+  margin-block: 0.5rem 1rem;
   width: min(100%, 60ch);
   height: 4ch;
 }
