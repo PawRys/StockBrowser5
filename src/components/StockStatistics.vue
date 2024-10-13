@@ -79,23 +79,26 @@ const collection = [
     ]
   },
   {
-    label: 'F/W - F/F',
+    label: 'Melaminy',
     stats: [
-      { label: 'Razem', filter_fn: (item: Plywood) => item.attr.faceGroup === 'laminat' },
       {
-        label: 'H+',
-        filter_fn: (item: Plywood) =>
-          item.attr.faceGroup === 'laminat' && item.attr.faceType.match(/\b(Heksa)\b/)
+        label: 'Razem',
+        filter_fn: (item: Plywood) => item.attr.faceType?.match(/M\/M/i)
       },
       {
-        label: 'F/W',
+        label: 'White',
         filter_fn: (item: Plywood) =>
-          item.attr.faceGroup === 'laminat' && item.attr.faceType.match(/\b(W)\b/)
+          item.attr.faceType?.match(/M\/M/i) && item.attr.color?.match(/\bwhite\b/i)
       },
       {
-        label: 'F/F',
+        label: 'Opal',
         filter_fn: (item: Plywood) =>
-          item.attr.faceGroup === 'laminat' && !item.attr.faceType.match(/\b(W|Heksa)\b/)
+          item.attr.faceType?.match(/M\/M/i) && item.attr.color?.match(/\bopal white\b/i)
+      },
+      {
+        label: 'C.less',
+        filter_fn: (item: Plywood) =>
+          item.attr.faceType?.match(/M\/M/i) && item.attr.color?.match(/\bc\.less\b/i)
       }
     ]
   },
@@ -121,6 +124,27 @@ const collection = [
     ]
   },
   {
+    label: 'F/W - F/F',
+    stats: [
+      { label: 'Razem', filter_fn: (item: Plywood) => item.attr.faceGroup === 'laminat' },
+      {
+        label: 'H+',
+        filter_fn: (item: Plywood) =>
+          item.attr.faceGroup === 'laminat' && item.attr.faceType.match(/\b(Heksa)\b/)
+      },
+      {
+        label: 'F/W',
+        filter_fn: (item: Plywood) =>
+          item.attr.faceGroup === 'laminat' && item.attr.faceType.match(/\b(W)\b/)
+      },
+      {
+        label: 'F/F',
+        filter_fn: (item: Plywood) =>
+          item.attr.faceGroup === 'laminat' && !item.attr.faceType.match(/\b(W|Heksa)\b/)
+      }
+    ]
+  },
+  {
     label: 'Brown',
     stats: [
       {
@@ -141,25 +165,6 @@ const collection = [
         label: 'F/F',
         filter_fn: (item: Plywood) =>
           item.attr.color?.match(/\bbrown\b/i) && !item.attr.faceType.match(/\b(W|Heksa)\b/)
-      }
-    ]
-  },
-  {
-    label: 'White',
-    stats: [
-      {
-        label: 'Razem',
-        filter_fn: (item: Plywood) => item.attr.color?.match(/\bwhite\b/i)
-      },
-      {
-        label: 'F/W',
-        filter_fn: (item: Plywood) =>
-          item.attr.color?.match(/\bwhite\b/i) && item.attr.faceType.match(/\b(W|Heksa)\b/)
-      },
-      {
-        label: 'F/F',
-        filter_fn: (item: Plywood) =>
-          item.attr.color?.match(/\bwhite\b/i) && !item.attr.faceType.match(/\b(W|Heksa)\b/)
       }
     ]
   },
