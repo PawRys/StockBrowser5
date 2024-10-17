@@ -55,6 +55,7 @@ function warehauseWarning() {
 <style scoped>
 .data-status {
   display: flex;
+  align-items: baseline;
   gap: 1ch;
 }
 
