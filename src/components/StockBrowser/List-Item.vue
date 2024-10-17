@@ -36,7 +36,7 @@ provide('basePrice', basePrice)
         </span>
         <span>{{ `${item.attr.glueType}` }}</span>
         <span>{{ `${item.attr.footSize}` }}</span>
-        <span>{{ `${item.attr.faceGroup}` }}</span>
+        <span>{{ `${item.attr.faceType}` }}</span>
       </div>
 
       <div class="header--item-name" v-html="`${itemPurchase} - ${itemName}`"></div>
