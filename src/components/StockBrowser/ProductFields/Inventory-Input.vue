@@ -58,14 +58,20 @@ const isFilledWithExpr = () => {
   return item.value.inventory?.[unit as keyof typeof item.value.inventory] ? true : false
 }
 
-async function reduceEval(el: KeyboardEvent) {
-  const target = el.target as HTMLInputElement
-  const normalExpr = userInput.value
-  const reducedExpr = reduceExpr(userInput.value)
+async function reduceUserInput(event: Event) {
+  const target = event.target as HTMLInputElement
+  const normalExpr = target.value
+  const reducedExpr = reduceExpr(target.value)
   const offset = normalExpr.length - reducedExpr.length
-  const caret = (target.selectionStart || 0) - offset
+  const caretStart = (target.selectionStart || 0) - offset
   await Promise.resolve((userInput.value = reducedExpr))
-  target.setSelectionRange(caret, caret)
+  target.setSelectionRange(caretStart, caretStart)
+}
+
+async function autoResize(event: Event) {
+  const target = event.target as HTMLTextAreaElement
+  await Promise.resolve((target.style.height = 'auto'))
+  target.style.height = target.scrollHeight + 3 + 'px'
 }
 </script>
 
@@ -81,20 +87,21 @@ async function reduceEval(el: KeyboardEvent) {
   </div>
 
   <div class="inventory-input" v-else>
-    <input
-      type="text"
+    <textarea
+      rows="1"
       class="user-input"
       v-model="userInput"
-      @keyup="reduceEval"
+      @input="reduceUserInput($event)"
+      @focus="autoResize($event)"
+      @keyup="autoResize($event)"
       @blur="isEdited = false"
-      @focus="($event.target as HTMLInputElement).select()"
       @keydown.esc="($event.target as HTMLInputElement).blur()"
-      @keydown.enter="($event.target as HTMLInputElement).select()"
-      @vue:mounted="$el.querySelector('input')?.focus()"
+      @keydown.prevent.enter="($event.target as HTMLInputElement).select()"
+      @vue:mounted="$el.querySelector('.user-input')?.focus()"
     />
     <span class="input-summary">
       <i v-if="saving" class="bi bi-floppy2-fill saving"></i>
-      <span v-else>{{ ` = ` }}</span>
+      <span>{{ ` = ` }}</span>
       {{ evalMath(userInput as string).toFixed(zeroFix) }}
       <small v-html="unitLabel"></small>
     </span>
@@ -108,32 +115,47 @@ async function reduceEval(el: KeyboardEvent) {
   grid-row: 2/3;
 }
 
+:is(.inventory-display, .inventory-input):nth-child(4) {
+  grid-column: 1/2;
+}
+
+:is(.inventory-display, .inventory-input):nth-child(5) {
+  grid-column: 2/3;
+}
+
+:is(.inventory-display, .inventory-input):nth-child(6) {
+  grid-column: 3/4;
+}
+
 .inventory-display .bi {
   color: var(--accent-light);
 }
 
-.inventory-input {
+:is(#fakeId, .inventory-input) {
   grid-column: 1 / -1;
-  position: absolute;
   z-index: 1;
 
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 1ch;
-  width: 100%;
-  height: 100%;
 
   background-color: var(--bg-color);
 }
 
 .user-input {
-  text-align: right;
+  width: 100%;
+  /* min-height: 1rem; */
+  max-height: 6rem;
+  overflow: auto;
 }
 
 .saving {
-  place-self: center;
-  font-size: 0.8rem;
-  color: var(--accent-lighter);
+  /* place-self: center; */
+  position: absolute;
+  right: 0.5ch;
+  z-index: 1;
+  background-color: var(--bg-color);
+  color: var(--accent-light);
 }
 
 .input-summary {
