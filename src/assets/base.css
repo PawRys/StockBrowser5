@@ -98,8 +98,14 @@ body {
   /* font-family: 'Barlow', sans-serif; */
   /* font-family: 'Barlow Semi Condensed', sans-serif; */
 
-  font-size: 112.5%;
+  font-size: 112%;
   color-scheme: light dark;
+}
+
+@media (max-width: 500px) {
+  body {
+    font-size: 122%;
+  }
 }
 
 #app {
