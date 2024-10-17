@@ -168,9 +168,16 @@ export function downloadFile(file: string, data: string, type: string) {
 }
 
 export function setRandomUUID() {
+  function uuidv4() {
+    return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, (c) =>
+      (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16)
+    )
+  }
   const UUID = localStorage.getItem('SB5_UUID') || ''
   const UUIDpattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(UUID)
+
   if (UUIDpattern === false) {
-    localStorage.setItem('SB5_UUID', crypto.randomUUID())
+    // localStorage.setItem('SB5_UUID', crypto.randomUUID()) // doesnt work on network http
+    localStorage.setItem('SB5_UUID', uuidv4())
   }
 }
