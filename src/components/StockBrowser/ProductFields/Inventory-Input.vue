@@ -72,6 +72,7 @@ async function autoResize(event: Event) {
   const target = event.target as HTMLTextAreaElement
   await Promise.resolve((target.style.height = 'auto'))
   target.style.height = target.scrollHeight + 3 + 'px'
+  target.scrollTop = target.scrollHeight
 }
 </script>
 
