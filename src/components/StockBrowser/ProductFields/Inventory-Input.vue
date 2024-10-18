@@ -145,7 +145,7 @@ async function autoResize(event: Event) {
 
 .user-input {
   width: 100%;
-  /* min-height: 1rem; */
+  min-height: fit-content;
   text-align: right;
   max-height: 6rem;
   overflow: auto;
