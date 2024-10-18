@@ -90,12 +90,13 @@ async function autoResize(event: Event) {
   <div class="inventory-input" v-else>
     <textarea
       rows="1"
+      inputmode="none"
       class="user-input"
       v-model="userInput"
       @input="reduceUserInput($event)"
       @focus="autoResize($event)"
       @keyup="autoResize($event)"
-      @blur="isEdited = false"
+      @blur="isEdited = !false"
       @keydown.esc="($event.target as HTMLInputElement).blur()"
       @keydown.prevent.enter="($event.target as HTMLInputElement).select()"
       @vue:mounted="$el.querySelector('.user-input')?.focus()"
