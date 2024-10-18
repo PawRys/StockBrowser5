@@ -116,15 +116,15 @@ async function autoResize(event: Event) {
   grid-row: 2/3;
 }
 
-:is(.inventory-display, .inventory-input):nth-child(4) {
+.inventory-display:nth-child(4) {
   grid-column: 1/2;
 }
 
-:is(.inventory-display, .inventory-input):nth-child(5) {
+.inventory-display:nth-child(5) {
   grid-column: 2/3;
 }
 
-:is(.inventory-display, .inventory-input):nth-child(6) {
+.inventory-display:nth-child(6) {
   grid-column: 3/4;
 }
 
@@ -132,7 +132,7 @@ async function autoResize(event: Event) {
   color: var(--accent-light);
 }
 
-:is(#fakeId, .inventory-input) {
+.inventory-input {
   grid-column: 1 / -1;
   z-index: 1;
 
@@ -146,6 +146,7 @@ async function autoResize(event: Event) {
 .user-input {
   width: 100%;
   /* min-height: 1rem; */
+  text-align: right;
   max-height: 6rem;
   overflow: auto;
 }
