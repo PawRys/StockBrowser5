@@ -76,16 +76,16 @@ export function scrollTo(element: string, remOffset: number) {
 export function reduceExpr(expr: string): string {
   expr = expr.replace(/,/gi, '.')
   expr = expr.replace(/[^-+*/.0-9()@#$%&=]/gi, '')
-  expr = expr.replace(/\b([-+])\b/gi, '$1\u200B')
-  expr = expr.replace(/\B(\.)/gi, '0$1')
-  expr = expr.replace(/(\d)(\()/gi, '$1*$2')
-  expr = expr.replace(/(\))(\d)/gi, '$1*$2')
-  expr = expr.replace(/(\))(\()/gi, '$1*$2')
-  expr = expr.replace(/[*/]([*/])/, '$1')
   while (/--|\+\+|-\+|\+-/.test(expr)) {
     expr = expr.replace(/-\+|\+-/, '-')
     expr = expr.replace(/--|\+\+/, '+')
   }
+  // expr = expr.replace(/([-+])\b/gi, '$1\u200B')
+  expr = expr.replace(/\B(\.)/gi, '0$1')
+  expr = expr.replace(/(\d)(\()/gi, '$1*$2')
+  expr = expr.replace(/(\))(\d)/gi, '$1*$2')
+  expr = expr.replace(/(\))(\()/gi, '$1*$2')
+  expr = expr.replace(/[/*]([/*])/, '$1')
   return expr
 }
 

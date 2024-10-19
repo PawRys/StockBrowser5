@@ -5,7 +5,6 @@ import { useStockStore } from '@/stores/stockStore'
 import { setInventoryStatus } from '@/exports/stockUpdateExports'
 import { evalMath, calcQuant, reduceExpr } from '@/exports/common_functions'
 
-import VirtualKeyboard from '@/components/MathKeyboard.vue'
 import MathKeyboard from '@/components/MathKeyboard.vue'
 
 const props = defineProps<{
@@ -78,10 +77,33 @@ async function autoResize(event: Event) {
   target.scrollTop = target.scrollHeight
 }
 
-function test(val: string) {
-  const el = document.querySelector('.user-input') as HTMLTextAreaElement
-  el.value += val
-  userInput.value += val
+function insertCharacter(key: string) {
+  const el = document.querySelector('.math-keyboard') as HTMLTextAreaElement
+  const text = el.value
+  const caretStart = el.selectionStart
+  const caretEnd = el.selectionEnd
+
+  if (key === 'ArrowLeft') {
+    el.setSelectionRange(caretStart - 1, caretEnd - 1)
+  }
+  if (key === 'ArrowRight') {
+    el.setSelectionRange(caretStart + 1, caretEnd + 1)
+  }
+  if (key === 'Backspace') {
+    const textBeforeSelection = text.substring(0, caretStart - 1)
+    const textAfterSelection = text.substring(caretEnd)
+    el.value = textBeforeSelection + textAfterSelection
+    el.setSelectionRange(caretStart - 1, caretEnd - 1)
+  }
+  if (key.match(/[-+*/,.0-9()]/)) {
+    const textBeforeSelection = text.substring(0, caretStart)
+    const textAfterSelection = text.substring(caretEnd)
+    el.value = textBeforeSelection + key + textAfterSelection
+    el.setSelectionRange(caretStart + key.length, caretEnd + key.length)
+  }
+  console.log(el.value.split(''))
+  el.dispatchEvent(new Event('input', { bubbles: true }))
+  el.dispatchEvent(new Event('keydown', { bubbles: true }))
 }
 </script>
 
@@ -100,15 +122,15 @@ function test(val: string) {
     <textarea
       rows="1"
       inputmode="none"
-      class="user-input"
+      class="user-input math-keyboard"
       v-model="userInput"
-      @change="reduceUserInput($event)"
+      @input="reduceUserInput($event)"
       @focus="autoResize($event)"
-      @keyup="autoResize($event)"
-      @blur="isEdited = !false"
+      @keydown="autoResize($event)"
       @keydown.esc="($event.target as HTMLInputElement).blur()"
       @keydown.prevent.enter="($event.target as HTMLInputElement).select()"
       @vue:mounted="$el.querySelector('.user-input')?.focus()"
+      @blur="isEdited = false"
     />
     <span class="input-summary">
       <i v-if="saving" class="bi bi-floppy2-fill saving"></i>
@@ -116,8 +138,7 @@ function test(val: string) {
       {{ evalMath(userInput as string).toFixed(zeroFix) }}
       <small v-html="unitLabel"></small>
     </span>
-
-    <MathKeyboard @keyboard-press="test" />
+    <MathKeyboard v-if="isEdited" @keyboard-press="insertCharacter" />
   </div>
 </template>
 
@@ -161,6 +182,10 @@ function test(val: string) {
   text-align: right;
   max-height: 6rem;
   overflow: auto;
+
+  white-space: pre-wrap; /* Keep spacing and allow wrapping */
+  word-wrap: break-word; /* Allow breaking inside long words */
+  overflow-wrap: break-word;
 }
 
 .saving {

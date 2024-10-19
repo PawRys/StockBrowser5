@@ -10,24 +10,24 @@ const buttons = [
   { value: '8', html: '8' },
   { value: '9', html: '9' },
   { value: '/', html: '/' },
-  { value: 'backspace', html: '<i class="bi bi-backspace"></i>' },
+  { value: 'Backspace', html: '<i class="bi bi-backspace"></i>' },
 
   { value: '4', html: '4' },
   { value: '5', html: '5' },
   { value: '6', html: '6' },
   { value: '*', html: '*' },
-  { value: 'larrow', html: '<i class="bi bi-arrow-left-short"></i>' },
+  { value: 'ArrowLeft', html: '<i class="bi bi-arrow-left-short"></i>' },
 
   { value: '1', html: '1' },
   { value: '2', html: '2' },
   { value: '3', html: '3' },
-  { value: '+', html: '+' },
-  { value: 'rarrow', html: '<i class="bi bi-arrow-right-short"></i>' },
+  { value: '-', html: '-' },
+  { value: 'ArrowRight', html: '<i class="bi bi-arrow-right-short"></i>' },
 
   { value: '0', html: '0' },
   { value: '.', html: '.' },
   { value: '(', html: '(' },
-  { value: '-', html: '-' },
+  { value: '+', html: '+' },
   { value: ')', html: ')' }
 ]
 </script>
@@ -35,21 +35,29 @@ const buttons = [
 <template>
   <section id="keyboard">
     <template v-for="button in buttons" :key="`button-${button.value}`">
-      <button @click="emitValue(button.value)" v-html="button.html"></button>
+      <button @pointerdown.prevent="emitValue(button.value)" v-html="button.html"></button>
     </template>
   </section>
 </template>
 
 <style scoped>
 #keyboard {
+  grid-column: 1/4;
+  /* grid-row: 4/5; */
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  gap: 0.5ch;
 
-  position: fixed;
-  bottom: 0;
+  place-self: center;
+  /* position: fixed; */
+  bottom: 1ch;
 
-  background-color: chartreuse;
-  padding: 1rem;
-  border: solid 1px red;
+  background-color: var(--bg-color);
+  padding: 0.5ch;
+  border-radius: 1ch;
+}
+
+#keyboard button {
+  width: 100%;
 }
 </style>

@@ -148,6 +148,10 @@ hr {
   /* transition-duration: var(--very-fast); */
 }
 
+:is(button, .button):active {
+  filter: contrast(0.8);
+}
+
 :is(button, .button).compact {
   padding: 0.5ch 1ch;
   min-height: 3ch;
