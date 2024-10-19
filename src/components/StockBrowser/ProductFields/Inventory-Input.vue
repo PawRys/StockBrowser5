@@ -103,6 +103,7 @@ function insertCharacter(key: string) {
   }
   console.log(el.value.split(''))
   el.dispatchEvent(new Event('input', { bubbles: true }))
+  el.dispatchEvent(new Event('keyup', { bubbles: true }))
   el.dispatchEvent(new Event('keydown', { bubbles: true }))
 }
 </script>
@@ -126,7 +127,7 @@ function insertCharacter(key: string) {
       v-model="userInput"
       @input="reduceUserInput($event)"
       @focus="autoResize($event)"
-      @keydown="autoResize($event)"
+      @keyup="autoResize($event)"
       @keydown.esc="($event.target as HTMLInputElement).blur()"
       @keydown.prevent.enter="($event.target as HTMLInputElement).select()"
       @vue:mounted="$el.querySelector('.user-input')?.focus()"
