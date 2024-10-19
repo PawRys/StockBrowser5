@@ -11,7 +11,6 @@ import StockUpdate from '@/components/StockUpdate.vue'
 import StockShare from '@/components/StockShare.vue'
 import StockManager from '@/components/StockManager.vue'
 import DataStats from '@/components/StockBrowser/DataStats.vue'
-import VirtualKeyboard from '@/components/VirtualKeyboard.vue'
 
 const refreshMainComponent = ref(0)
 provide('refreshMainComponent', refreshMainComponent)
@@ -81,7 +80,6 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
     </p>
   </footer>
 
-  <!-- <VirtualKeyboard /> -->
   <widget-container-modal />
 </template>
 

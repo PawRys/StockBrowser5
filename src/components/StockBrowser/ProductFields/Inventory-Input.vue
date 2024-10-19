@@ -2,8 +2,11 @@
 import _ from 'lodash'
 import { ref, computed, defineProps, watch, toRefs } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
-import { evalMath, calcQuant, reduceExpr } from '@/exports/common_functions'
 import { setInventoryStatus } from '@/exports/stockUpdateExports'
+import { evalMath, calcQuant, reduceExpr } from '@/exports/common_functions'
+
+import VirtualKeyboard from '@/components/MathKeyboard.vue'
+import MathKeyboard from '@/components/MathKeyboard.vue'
 
 const props = defineProps<{
   item: Plywood
@@ -74,6 +77,12 @@ async function autoResize(event: Event) {
   target.style.height = target.scrollHeight + 3 + 'px'
   target.scrollTop = target.scrollHeight
 }
+
+function test(val: string) {
+  const el = document.querySelector('.user-input') as HTMLTextAreaElement
+  el.value += val
+  userInput.value += val
+}
 </script>
 
 <template>
@@ -93,7 +102,7 @@ async function autoResize(event: Event) {
       inputmode="none"
       class="user-input"
       v-model="userInput"
-      @input="reduceUserInput($event)"
+      @change="reduceUserInput($event)"
       @focus="autoResize($event)"
       @keyup="autoResize($event)"
       @blur="isEdited = !false"
@@ -107,6 +116,8 @@ async function autoResize(event: Event) {
       {{ evalMath(userInput as string).toFixed(zeroFix) }}
       <small v-html="unitLabel"></small>
     </span>
+
+    <MathKeyboard @keyboard-press="test" />
   </div>
 </template>
 
