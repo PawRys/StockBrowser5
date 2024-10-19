@@ -52,9 +52,10 @@ const buttons = [
   /* position: fixed; */
   bottom: 1ch;
 
-  background-color: var(--bg-color);
-  padding: 0.5ch;
+  margin-top: 1rem;
   border-radius: 1ch;
+  padding: 0.5ch;
+  background-color: var(--bg-color);
 }
 
 #keyboard button {
