@@ -19,31 +19,37 @@ const reactiveItems = computed(() =>
 )
 </script>
 <template>
-  <div class="toolbar">
-    <span class="filter-count">{{ `Wyników: ${stockItems.length}` }}</span>
-    <Paginate :show="['setPage']" />
-  </div>
-
-  <ul class="product-list">
-    <ListItem
-      v-for="(item, index) in reactiveItems"
-      :key="escapeNonword(item.value.id)"
-      :item="item"
-      :index="index + pageStart + 1"
-    />
-  </ul>
-
-  <div class="toolbar">
-    <Paginate :show="['setPage']" />
-  </div>
-  <ListSummary />
+  <section class="list-container">
+    <div class="toolbar">
+      <span class="filter-count">{{ `Wyników: ${stockItems.length}` }}</span>
+      <Paginate :show="['setPage']" />
+    </div>
+    <ul class="product-list">
+      <ListItem
+        v-for="(item, index) in reactiveItems"
+        :key="escapeNonword(item.value.id)"
+        :item="item"
+        :index="index + pageStart + 1"
+      />
+    </ul>
+    <div class="toolbar">
+      <Paginate :show="['setPage']" />
+    </div>
+    <ListSummary />
+  </section>
 </template>
 
 <style scoped>
+.list-container {
+  padding: 1ch;
+  border-radius: 1ch;
+  background: var(--bg2-color);
+}
+
 ul {
   margin-inline: auto;
   margin-block: 0;
-  padding: 0.1ch 1ch;
+  padding: 0;
   background: var(--bg2-color);
 }
 
@@ -67,17 +73,6 @@ li:hover {
   gap: 1ch;
   margin-inline: auto;
   width: auto;
-  background: var(--bg2-color);
-}
-
-.toolbar:first-of-type {
-  padding: 1ch 1ch 0 1ch;
-  border-radius: 1ch 1ch 0 0;
-}
-
-.toolbar:last-of-type {
-  padding: 0 1ch 1ch 1ch;
-  border-radius: 0 0 1ch 1ch;
 }
 
 .filter-count {

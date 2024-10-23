@@ -43,19 +43,18 @@ const buttons = [
 <style scoped>
 #keyboard {
   grid-column: 1/4;
-  /* grid-row: 4/5; */
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 0.5ch;
 
   place-self: center;
-  /* position: fixed; */
   bottom: 1ch;
 
   margin-top: 1rem;
   border-radius: 1ch;
   padding: 0.5ch;
   background-color: var(--bg-color);
+  font-size: 1.1em;
 }
 
 #keyboard button {

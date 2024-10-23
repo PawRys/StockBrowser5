@@ -117,6 +117,7 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
   width: 100%;
 
   position: sticky;
+  z-index: 1;
   bottom: 0;
 }
 
