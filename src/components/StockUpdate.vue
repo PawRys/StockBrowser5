@@ -88,7 +88,12 @@ async function submit(e: Event): Promise<void> {
   <section id="stock-update" class="stock-update--backdrop">
     <h2>Wczytywanie danych</h2>
     <form id="myform" @submit.prevent="submit">
-      <textarea class="text-box" name="textBox" v-model="textbox"></textarea>
+      <textarea
+        class="text-box"
+        name="textBox"
+        v-model="textbox"
+        placeholder="Wpisz tutaj"
+      ></textarea>
       <input type="text" class="message-box" name="message-box" v-model="messagebox" disabled />
       <div class="buttonbar">
         <button type="button" @click="clear">
