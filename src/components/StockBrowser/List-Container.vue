@@ -35,8 +35,8 @@ const reactiveItems = computed(() =>
 
   <div class="toolbar">
     <Paginate :show="['setPage']" />
-    <ListSummary />
   </div>
+  <ListSummary />
 </template>
 
 <style scoped>

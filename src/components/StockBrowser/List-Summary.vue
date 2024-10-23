@@ -115,6 +115,9 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
   background: var(--bg2-color);
   padding: 1ch;
   width: 100%;
+
+  position: sticky;
+  bottom: 0;
 }
 
 .list-summary hr {

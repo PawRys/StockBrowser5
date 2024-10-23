@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useStockStore } from '@/stores/stockStore'
 import { useFilterStore } from '@/stores/filterStore'
 import { hasReservations } from '@/exports/common_functions'
 
+const { items: stockItems } = storeToRefs(useStockStore())
 const statusList = [
   { label: 'Zerowy', icon: 'bi bi-0-square', show: true },
   { label: 'Całkowity', icon: 'bi bi-boxes', show: true },
@@ -11,6 +14,7 @@ const statusList = [
 
 const isActive = computed(() => useFilterStore().inventoryFilter)
 const random = Math.round(Math.random() * 1000000)
+const hasZeroStatusInventory = ref(false)
 
 function toggleInventoryFilter(item: string) {
   let filter = useFilterStore().inventoryFilter
@@ -18,6 +22,23 @@ function toggleInventoryFilter(item: string) {
     ? (useFilterStore().inventoryFilter = filter.replace(item, '').trim())
     : (useFilterStore().inventoryFilter = `${filter} ${item}`.trim())
 }
+
+watch(
+  stockItems,
+  () => {
+    const localData = JSON.parse(localStorage.getItem('SB5_stockList') || '[]') as Plywood[]
+
+    let test = false
+    for (const item of localData) {
+      if (item.quantityStatus === 0 && item.inventoryStatus !== 'pusty') {
+        test = true
+        break
+      }
+    }
+    hasZeroStatusInventory.value = test
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
@@ -27,7 +48,7 @@ function toggleInventoryFilter(item: string) {
       :class="{ active: isActive.match(/OK/) }"
       @click="toggleInventoryFilter('OK')"
     >
-      <i class="bi bi-check-lg"></i>
+      <i class="bi bi-emoji-smile"></i>
     </button>
     <button
       class="button switch compact"
@@ -38,7 +59,12 @@ function toggleInventoryFilter(item: string) {
     </button>
 
     <template v-for="(item, index) in statusList" :key="`status-${index}-${random}`">
-      <label v-if="item.show" class="button switch compact" tabindex="0">
+      <label
+        v-if="item.show"
+        class="button switch compact"
+        :class="{ hasZeroInventory: index === 0 && hasZeroStatusInventory }"
+        tabindex="0"
+      >
         <input
           :type="'radio'"
           :value="index"
@@ -62,5 +88,16 @@ function toggleInventoryFilter(item: string) {
 
 .button {
   flex-direction: column;
+}
+
+.hasZeroInventory::after {
+  content: '';
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 1rem;
+  background-color: var(--cta-color);
+  position: absolute;
+  top: -0.1rem;
+  right: -0.1rem;
 }
 </style>

@@ -29,7 +29,7 @@ onMounted(() => {
 const appWindowsList = {
   StockBrowser: { component: StockBrowser, label: 'Towary', icon: 'bi bi-box-seam' },
   StockUpdate: { component: StockUpdate, label: 'Wczytaj', icon: 'bi bi-cloud-download' },
-  StockShare: { component: StockShare, label: 'Udostępnij', icon: 'bi bi-cloud-upload' },
+  StockShare: { component: StockShare, label: 'Udostępnij', icon: 'bi bi-share' },
   StockStats: { component: StockStatistics, label: 'Statystyki', icon: 'bi bi-clipboard-data' },
   StockManager: { component: StockManager, label: 'Zarządzaj', icon: 'bi bi-gear' }
 }
