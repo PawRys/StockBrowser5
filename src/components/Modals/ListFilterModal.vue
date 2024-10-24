@@ -130,9 +130,9 @@ const appliedFiltersCount = computed(() => {
           <i class="bi bi-x-square-fill"></i>
         </button>
       </header>
-      <div class="main-filter__search-input--wrapper">
+      <div class="text-filter--wrapper">
         <input
-          class="main-filter__search-input"
+          class="text-filter"
           type="search"
           name="textSearch"
           placeholder="Szukane słowo"
@@ -141,11 +141,7 @@ const appliedFiltersCount = computed(() => {
         />
       </div>
 
-      <form
-        id="main-filter__attr-fieldsets"
-        class="main-filter__attr-fieldsets"
-        @submit.prevent="getAttrFilterList"
-      >
+      <form id="attribute-filter" class="attribute-filter" @submit.prevent="getAttrFilterList">
         <template v-for="(attrLabel, attrKey) in attrLabels" :key="`fieldset--${attrKey}`">
           <fieldset class="fieldset" :class="`fieldset--${attrKey}`">
             <hr v-if="attrKey.match(/footSize|glueType/)" />
@@ -195,11 +191,7 @@ const appliedFiltersCount = computed(() => {
           <i class="bi bi-trash3"></i>
           <span>{{ appliedFiltersCount }}</span>
         </button>
-        <button
-          class="cta"
-          type="submit"
-          @click="[formSubmit('main-filter__attr-fieldsets'), closeModal()]"
-        >
+        <button class="cta" type="submit" @click="[formSubmit('attribute-filter'), closeModal()]">
           <i class="bi bi-search"></i>
           <span>{{ stockItems.length }}</span>
         </button>
@@ -207,12 +199,6 @@ const appliedFiltersCount = computed(() => {
     </div>
   </div>
 </template>
-
-<style>
-body:has(dialog[open]) {
-  overflow: hidden;
-}
-</style>
 
 <style scoped>
 .dialog {
@@ -255,18 +241,18 @@ body:has(dialog[open]) {
   margin-block: 1rem 1rem;
 }
 
-.main-filter__search-input--wrapper {
+.text-filter--wrapper {
   margin-block: 0.5rem 1rem;
   width: min(100%, 60ch);
   height: 4ch;
 }
 
-.main-filter__search-input {
+.text-filter {
   position: absolute;
   inset: 0;
 }
 
-.main-filter__attr-fieldsets {
+.attribute-filter {
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: repeat(autofit, 1fr);
@@ -318,7 +304,7 @@ body:has(dialog[open]) {
 }
 
 /** */
-/* .main-filter__attr-fieldsets .bi {
+/* .attribute-filter .bi {
   grid-row: 1/2;
   position: sticky;
   inset: 0rem;
@@ -328,7 +314,7 @@ body:has(dialog[open]) {
   width: min-content;
 } */
 
-/* .main-filter__attr-fieldsets .bi:nth-of-type(9) {
+/* .attribute-filter .bi:nth-of-type(9) {
   color: var(--accent-light);
 } */
 </style>
