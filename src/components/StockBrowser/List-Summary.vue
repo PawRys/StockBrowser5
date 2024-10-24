@@ -152,6 +152,12 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
   margin-left: auto;
 }
 
+@media (max-width: 600px) {
+  .list-summary header h4 {
+    display: none;
+  }
+}
+
 .list-summary .field {
   font-size: 1.2rem;
 }
