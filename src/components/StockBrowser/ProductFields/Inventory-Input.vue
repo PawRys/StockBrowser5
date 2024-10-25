@@ -61,9 +61,10 @@ const isFilledWithExpr = () => {
 }
 
 async function reduceUserInput(event: Event) {
+  const isBacksapce = (event as InputEvent).inputType === 'deleteContentBackward' ? true : false
   const target = event.target as HTMLInputElement
   const normalExpr = target.value
-  const reducedExpr = reduceExpr(target.value)
+  const reducedExpr = isBacksapce ? target.value : reduceExpr(target.value)
   const offset = normalExpr.length - reducedExpr.length
   const caretStart = (target.selectionStart || 0) - offset
   await Promise.resolve((userInput.value = reducedExpr))
@@ -82,6 +83,7 @@ function insertCharacter(key: string) {
   const text = el.value
   const caretStart = el.selectionStart
   const caretEnd = el.selectionEnd
+  let eventInputType = ''
 
   if (key === 'ArrowLeft') {
     el.setSelectionRange(caretStart - 1, caretEnd - 1)
@@ -94,6 +96,7 @@ function insertCharacter(key: string) {
     const textAfterSelection = text.substring(caretEnd)
     el.value = textBeforeSelection + textAfterSelection
     el.setSelectionRange(caretStart - 1, caretEnd - 1)
+    eventInputType = 'deleteContentBackward'
   }
   if (key.match(/[-+*/,.0-9()]/)) {
     const textBeforeSelection = text.substring(0, caretStart)
@@ -101,10 +104,9 @@ function insertCharacter(key: string) {
     el.value = textBeforeSelection + key + textAfterSelection
     el.setSelectionRange(caretStart + key.length, caretEnd + key.length)
   }
-  console.log(el.value.split(''))
-  el.dispatchEvent(new Event('input', { bubbles: true }))
-  el.dispatchEvent(new Event('keyup', { bubbles: true }))
-  el.dispatchEvent(new Event('keydown', { bubbles: true }))
+  el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: eventInputType }))
+  el.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, key: key }))
+  el.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: key }))
 }
 
 function scrollToParent(event: Event) {
@@ -138,9 +140,8 @@ function scrollToParent(event: Event) {
       inputmode="none"
       class="user-input math-keyboard"
       v-model="userInput"
-      @input="reduceUserInput($event)"
+      @input="[autoResize($event), reduceUserInput($event)]"
       @focus="[autoResize($event), scrollToParent($event)]"
-      @keyup="autoResize($event)"
       @keydown.esc="($event.target as HTMLInputElement).blur()"
       @keydown.prevent.enter="($event.target as HTMLInputElement).select()"
       @vue:mounted="$el.querySelector('.user-input')?.focus()"
