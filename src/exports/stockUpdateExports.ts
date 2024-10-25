@@ -266,17 +266,14 @@ function getColor(text: string, faceType: string | undefined): string | undefine
 
   /* Apply defaults if no color specified */
   if (results.size === 0) {
-    if (faceType === 'F/F') results.add('d.brown')
-    if (faceType === 'F/W') results.add('d.brown')
-    if (faceType === 'W/W') results.add('d.brown')
-    if (faceType === 'F/F II') results.add('d.brown')
-    if (faceType === 'F/W II') results.add('d.brown')
-    if (faceType === 'W/W II') results.add('d.brown')
-    if (faceType === 'Heksa') results.add('d.brown')
-    if (faceType === 'M/M') results.add('white')
-    if (faceType === 'Poliform') results.add('(nieznany)')
-    if (faceType === 'PPL') results.add('(nieznany)')
-    if (faceType === 'PQF') results.add('(nieznany)')
+    if (faceType?.match('F/F')) results.add('d.brown')
+    if (faceType?.match('F/W')) results.add('d.brown')
+    if (faceType?.match('W/W')) results.add('d.brown')
+    if (faceType?.match('Heksa')) results.add('d.brown')
+    if (faceType?.match('M/M')) results.add('white')
+    if (faceType?.match('Poliform')) results.add('(nieznany)')
+    if (faceType?.match('PPL')) results.add('(nieznany)')
+    if (faceType?.match('PQF')) results.add('(nieznany)')
   }
 
   // if (results.size === 0 && faceType) results.add('(brak)')
