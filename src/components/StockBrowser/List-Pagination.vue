@@ -4,7 +4,7 @@ import { usePageStore } from '@/stores/paginateStore'
 
 const pageSizeOptions = [1, 10, 20, 50, 100]
 const scrollTarget = '#scrolltoptarget'
-const remOffset = -2
+const pxOffset = 0
 
 const props = defineProps<{
   show?: ('setPageSize' | 'setPage')[]
@@ -15,18 +15,18 @@ function setPrevPage() {
   if (usePageStore().activePage > 1) {
     usePageStore().activePage--
   }
-  scrollTo(scrollTarget, remOffset)
+  scrollTo(scrollTarget, pxOffset)
 }
 function setNextPage() {
   if (usePageStore().activePage < usePageStore().pageCount) {
     usePageStore().activePage++
   }
-  scrollTo(scrollTarget, remOffset)
+  scrollTo(scrollTarget, pxOffset)
 }
 function setPageNum(e: Event) {
   const target = e.target as HTMLSelectElement
   usePageStore().activePage = Number(target.value)
-  scrollTo(scrollTarget, remOffset)
+  scrollTo(scrollTarget, pxOffset)
 }
 </script>
 

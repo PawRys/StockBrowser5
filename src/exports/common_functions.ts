@@ -57,17 +57,17 @@ export function escapeNonword(string: string) {
     .join('')
 }
 
-export function scrollTo(element: string, remOffset: number) {
+export function scrollTo(element: string, pxOffset: number) {
   const el = document.querySelector(element)
   const rect = el?.getBoundingClientRect()
   const { scrollY } = window
   const rootFontSize = window.getComputedStyle(document.documentElement).fontSize
   const rootFontSizeValue = parseFloat(rootFontSize)
-  remOffset = remOffset || 0
+  pxOffset = pxOffset || 0
   if (rect) {
     window.scrollTo({
       // top: el.offsetTop,
-      top: scrollY + rect.top + rootFontSizeValue * remOffset,
+      top: scrollY + rect.top + pxOffset,
       behavior: 'smooth'
     })
   }

@@ -26,7 +26,7 @@ provide('basePrice', basePrice)
 </script>
 
 <template>
-  <li class="listItem">
+  <li class="listItem" :id="`listItem-${index}`">
     <header>
       <span class="header--item-index">{{ `${index}. ` }}</span>
 

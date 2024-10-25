@@ -3,7 +3,13 @@ import _ from 'lodash'
 import { ref, computed, defineProps, watch, toRefs } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
 import { setInventoryStatus } from '@/exports/stockUpdateExports'
-import { evalMath, calcQuant, reduceExpr } from '@/exports/common_functions'
+import {
+  evalMath,
+  calcQuant,
+  reduceExpr,
+  scrollTo,
+  escapeNonword
+} from '@/exports/common_functions'
 
 import MathKeyboard from '@/components/MathKeyboard.vue'
 
@@ -106,9 +112,16 @@ function insertCharacter(key: string) {
   el.dispatchEvent(new Event('keyup', { bubbles: true }))
   el.dispatchEvent(new Event('keydown', { bubbles: true }))
 }
+
+function scrollToParent(event: Event) {
+  const evTarget = event.target as HTMLTextAreaElement
+  const parentId = evTarget.closest('.listItem')?.id
+  const floatingToolbar = document.querySelector('#floating-toolbar')
+  scrollTo(`#${parentId}`, -1 * (floatingToolbar?.clientHeight || 0))
+}
 </script>
 
-<template>
+<template :id="`listItem-${escapeNonword(item.id)}`">
   <div
     class="inventory-display field"
     v-if="!isEdited"
@@ -126,7 +139,7 @@ function insertCharacter(key: string) {
       class="user-input math-keyboard"
       v-model="userInput"
       @input="reduceUserInput($event)"
-      @focus="autoResize($event)"
+      @focus="[autoResize($event), scrollToParent($event)]"
       @keyup="autoResize($event)"
       @keydown.esc="($event.target as HTMLInputElement).blur()"
       @keydown.prevent.enter="($event.target as HTMLInputElement).select()"
