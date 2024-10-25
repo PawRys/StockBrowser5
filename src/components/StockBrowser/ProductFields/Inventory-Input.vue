@@ -3,13 +3,7 @@ import _ from 'lodash'
 import { ref, computed, defineProps, watch, toRefs } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
 import { setInventoryStatus } from '@/exports/stockUpdateExports'
-import {
-  evalMath,
-  calcQuant,
-  reduceExpr,
-  scrollTo,
-  escapeNonword
-} from '@/exports/common_functions'
+import { evalMath, calcQuant, reduceExpr, scrollTo } from '@/exports/common_functions'
 
 import MathKeyboard from '@/components/MathKeyboard.vue'
 
@@ -115,9 +109,15 @@ function insertCharacter(key: string) {
 
 function scrollToParent(event: Event) {
   const evTarget = event.target as HTMLTextAreaElement
-  const parentId = evTarget.closest('.listItem')?.id
+  const targetsParent = evTarget.closest('.listItem') as HTMLElement
   const floatingToolbar = document.querySelector('#floating-toolbar')
-  scrollTo(`#${parentId}`, -1 * (floatingToolbar?.clientHeight || 0))
+  const targetsParentMarginTop = window
+    .getComputedStyle(targetsParent)
+    .marginTop.replace(/[^0-9,.]/g, '')
+    .replace(',', '.')
+
+  const offset = -1 * (floatingToolbar?.clientHeight || 0) - Number(targetsParentMarginTop)
+  scrollTo(`#${targetsParent?.id}`, offset)
 }
 </script>
 

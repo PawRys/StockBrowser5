@@ -54,7 +54,7 @@ const { listView } = storeToRefs(usePreferencesStore())
   /* width: fit-content; */
 
   background-color: var(--bg-color);
-  border-radius: 0 0 1ch 1ch;
+  /* border-radius: 0 0 1ch 1ch; */
   font-size: 1.1rem;
 }
 

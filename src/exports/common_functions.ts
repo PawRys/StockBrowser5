@@ -61,8 +61,8 @@ export function scrollTo(element: string, pxOffset: number) {
   const el = document.querySelector(element)
   const rect = el?.getBoundingClientRect()
   const { scrollY } = window
-  const rootFontSize = window.getComputedStyle(document.documentElement).fontSize
-  const rootFontSizeValue = parseFloat(rootFontSize)
+  // const rootFontSize = window.getComputedStyle(document.documentElement).fontSize
+  // const rootFontSizeValue = parseFloat(rootFontSize)
   pxOffset = pxOffset || 0
   if (rect) {
     window.scrollTo({
