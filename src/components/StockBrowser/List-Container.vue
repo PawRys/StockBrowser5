@@ -53,18 +53,6 @@ ul {
   background: var(--bg2-color);
 }
 
-li {
-  list-style: none;
-  margin-block: 1ch;
-  background-color: var(--bg-color);
-  padding: 1ch 1ch;
-  border-radius: 1ch;
-}
-
-li:hover {
-  box-shadow: inset 0 0 0 2px var(--cta-color);
-}
-
 .toolbar {
   display: flex;
   flex-wrap: wrap;

@@ -69,6 +69,22 @@ provide('basePrice', basePrice)
 </template>
 
 <style scoped>
+.listItem {
+  list-style: none;
+  margin-block: 1ch;
+  background-color: var(--bg-color);
+  padding: 1ch 1ch;
+  border-radius: 1ch;
+}
+
+.listItem:hover {
+  box-shadow: inset 0 0 0 2px var(--accent-lighter);
+}
+
+.listItem:has(:focus-within) {
+  box-shadow: inset 0 0 0 2px var(--cta-color);
+}
+
 header {
   display: grid;
   grid-template-columns: auto auto 1fr;
