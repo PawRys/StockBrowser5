@@ -122,24 +122,24 @@ const appliedFiltersCount = computed(() => {
   <div class="dialog-backdrop">
     <div id="main-filter" class="dialog">
       <header class="dialog__header">
-        <div>
-          <!-- empty div -->
+        <!-- empty div -->
+        <!-- <div>
+        </div> -->
+        <div class="text-filter--wrapper">
+          <input
+            class="text-filter"
+            type="search"
+            name="textSearch"
+            placeholder="Szukane słowo"
+            @keypress.enter="($event.target as HTMLInputElement).blur()"
+            v-model="filterStore.textFilter"
+          />
         </div>
-        <QuantityStatus />
+
         <button class="close-button compact" @click="closeModal()">
           <i class="bi bi-x-square-fill"></i>
         </button>
       </header>
-      <div class="text-filter--wrapper">
-        <input
-          class="text-filter"
-          type="search"
-          name="textSearch"
-          placeholder="Szukane słowo"
-          @keypress.enter="($event.target as HTMLInputElement).blur()"
-          v-model="filterStore.textFilter"
-        />
-      </div>
 
       <form id="attribute-filter" class="attribute-filter" @submit.prevent="getAttrFilterList">
         <template v-for="(attrLabel, attrKey) in attrLabels" :key="`fieldset--${attrKey}`">
@@ -195,6 +195,8 @@ const appliedFiltersCount = computed(() => {
           <i class="bi bi-search"></i>
           <span>{{ stockItems.length }}</span>
         </button>
+
+        <QuantityStatus />
       </footer>
     </div>
   </div>
