@@ -244,7 +244,7 @@ const appliedFiltersCount = computed(() => {
 }
 
 .text-filter--wrapper {
-  margin-block: 0.5rem 1rem;
+  margin-block: 0.5rem;
   width: min(100%, 60ch);
   height: 4ch;
 }
@@ -259,6 +259,7 @@ const appliedFiltersCount = computed(() => {
   grid-auto-flow: column;
   grid-template-columns: repeat(autofit, 1fr);
   grid-template-rows: auto auto auto 1fr;
+  margin-top: 1ch;
   width: 100%;
   overflow-x: scroll;
 }
