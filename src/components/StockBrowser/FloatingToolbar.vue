@@ -51,7 +51,7 @@ const { listView } = storeToRefs(usePreferencesStore())
 
   margin: auto;
   padding: 1ch;
-  width: fit-content;
+  /* width: fit-content; */
 
   background-color: var(--bg-color);
   border-radius: 0 0 1ch 1ch;
