@@ -175,6 +175,7 @@ const appliedFiltersCount = computed(() => {
           </fieldset>
         </template>
       </form>
+
       <footer class="dialog__footer">
         <button @click="filterStore.prevFilter" :disabled="filterStore.currentFilterIndex <= 0">
           <i class="bi bi-arrow-counterclockwise"></i>
@@ -207,7 +208,7 @@ const appliedFiltersCount = computed(() => {
   display: grid;
   justify-items: center;
   place-content: center;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto 1fr auto;
 
   position: fixed;
   z-index: 999;
