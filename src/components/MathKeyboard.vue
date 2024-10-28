@@ -31,12 +31,29 @@ const buttons = [
   { value: '+', html: '+' },
   { value: ')', html: ')' }
 ]
+
+function addAnimation(event: Event) {
+  const button = event.target as HTMLElement
+  button.classList.remove('clicked')
+  void button.offsetWidth
+  button.classList.add('clicked')
+}
+
+function removeAnimation(event: Event) {
+  const button = event.target as HTMLElement
+  button.classList.remove('clicked')
+}
 </script>
 
 <template>
   <section id="keyboard">
     <template v-for="button in buttons" :key="`button-${button.value}`">
-      <button v-html="button.html" @pointerdown.prevent="emitValue(button.value)"></button>
+      <button
+        @click="addAnimation"
+        @animationend="removeAnimation"
+        v-html="button.html"
+        @pointerdown.prevent="emitValue(button.value)"
+      ></button>
     </template>
   </section>
 </template>
@@ -65,5 +82,29 @@ const buttons = [
 
 #keyboard button {
   width: 100%;
+}
+
+#keyboard button.clicked {
+  z-index: 999;
+}
+
+#keyboard button::after {
+  content: '';
+  position: absolute;
+  z-index: 999;
+  inset: 0;
+  border-radius: 1ch;
+}
+
+#keyboard button.clicked::after {
+  animation-name: noticable;
+  animation-duration: 150ms;
+}
+
+@keyframes noticable {
+  100% {
+    border: 2px solid var(--accent-lighter);
+    inset: -0.5rem;
+  }
 }
 </style>
