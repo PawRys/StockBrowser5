@@ -78,10 +78,10 @@ function handleTouchEnd(event: TouchEvent, buttonValue: string) {
     <template v-for="button in buttons" :key="`button-${button.value}`">
       <button
         @click="addAnimation"
+        @animationend="removeAnimation"
         @touchstart.prevent="handleTouchStart"
         @touchmove.prevent="handleTouchMove"
         @touchend.prevent="handleTouchEnd($event, button.value)"
-        @animationend="removeAnimation"
         v-html="button.html"
       ></button>
     </template>
@@ -99,7 +99,7 @@ function handleTouchEnd(event: TouchEvent, buttonValue: string) {
   bottom: 1ch;
 
   margin-top: 1rem;
-  margin-inline: 3rem;
+  /* margin-inline: 3rem; */
   border-radius: 1ch;
   padding: 0.5ch;
   background-color: var(--bg-color);
