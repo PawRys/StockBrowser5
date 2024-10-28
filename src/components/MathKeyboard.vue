@@ -43,6 +43,34 @@ function removeAnimation(event: Event) {
   const button = event.target as HTMLElement
   button.classList.remove('clicked')
 }
+
+const touchStartX = ref(0)
+const touchStartY = ref(0)
+const isSwipe = ref(false)
+const SWIPE_THRESHOLD = 10
+
+function handleTouchStart(event: TouchEvent) {
+  const touch = event.touches[0]
+  touchStartX.value = touch.clientX
+  touchStartY.value = touch.clientY
+  isSwipe.value = false
+}
+
+function handleTouchMove(event: TouchEvent) {
+  const touch = event.touches[0]
+  const diffX = Math.abs(touch.clientX - touchStartX.value)
+  const diffY = Math.abs(touch.clientY - touchStartY.value)
+
+  if (diffX > SWIPE_THRESHOLD || diffY > SWIPE_THRESHOLD) {
+    isSwipe.value = true
+  }
+}
+
+function handleTouchEnd(event: TouchEvent, buttonValue: string) {
+  if (!isSwipe.value) {
+    emitValue(buttonValue)
+  }
+}
 </script>
 
 <template>
@@ -50,9 +78,11 @@ function removeAnimation(event: Event) {
     <template v-for="button in buttons" :key="`button-${button.value}`">
       <button
         @click="addAnimation"
+        @touchstart.prevent="handleTouchStart"
+        @touchmove.prevent="handleTouchMove"
+        @touchend.prevent="handleTouchEnd($event, button.value)"
         @animationend="removeAnimation"
         v-html="button.html"
-        @pointerdown.prevent="emitValue(button.value)"
       ></button>
     </template>
   </section>
