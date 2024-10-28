@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 const emit = defineEmits(['keyboardPress']) // Define the event
 
 const emitValue = (value: unknown) => {
@@ -35,7 +36,7 @@ const buttons = [
 <template>
   <section id="keyboard">
     <template v-for="button in buttons" :key="`button-${button.value}`">
-      <button @pointerdown.prevent="emitValue(button.value)" v-html="button.html"></button>
+      <button v-html="button.html" @pointerdown.prevent="emitValue(button.value)"></button>
     </template>
   </section>
 </template>
@@ -44,17 +45,22 @@ const buttons = [
 #keyboard {
   grid-column: 1/4;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   gap: 0.5ch;
 
   place-self: center;
   bottom: 1ch;
 
   margin-top: 1rem;
+  margin-inline: 3rem;
   border-radius: 1ch;
   padding: 0.5ch;
   background-color: var(--bg-color);
   font-size: 1.1em;
+}
+
+#keyboard button:nth-child(5n + 1) {
+  grid-column: 2/3;
 }
 
 #keyboard button {

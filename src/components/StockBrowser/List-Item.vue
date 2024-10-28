@@ -68,6 +68,12 @@ provide('basePrice', basePrice)
   </li>
 </template>
 
+<style>
+body:has(.listItem:focus-within) {
+  overflow: hidden;
+}
+</style>
+
 <style scoped>
 .listItem {
   list-style: none;
@@ -83,6 +89,31 @@ provide('basePrice', basePrice)
 
 .listItem:has(:focus-within) {
   box-shadow: inset 0 0 0 2px var(--cta-color);
+}
+
+.listItem:has(~ .listItem:focus-within),
+.listItem:focus-within ~ .listItem {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.listItem:focus-within::after {
+  font-family: bootstrap-icons !important;
+  font-style: normal;
+  font-weight: 400 !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -0.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: '\f628';
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 9;
+  padding: 0.6rem;
 }
 
 header {
