@@ -92,7 +92,7 @@ function handleTouchEnd(event: TouchEvent, buttonValue: string) {
 #keyboard {
   grid-column: 1/4;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 0.5ch;
 
   place-self: center;
@@ -106,9 +106,9 @@ function handleTouchEnd(event: TouchEvent, buttonValue: string) {
   font-size: 1.1em;
 }
 
-#keyboard button:nth-child(5n + 1) {
+/* #keyboard button:nth-child(5n + 1) {
   grid-column: 2/3;
-}
+} */
 
 #keyboard button {
   width: 100%;
