@@ -66,10 +66,17 @@ function handleTouchMove(event: TouchEvent) {
   }
 }
 
-function handleTouchEnd(event: TouchEvent, buttonValue: string) {
+function handleTouchEnd(event: Event, buttonValue: string) {
   if (!isSwipe.value) {
+    // const el = event.target as HTMLElement
+    // el.click()
     emitValue(buttonValue)
   }
+}
+
+function triggerTouch(event: Event) {
+  const el = event.target as HTMLElement
+  el.click()
 }
 </script>
 
@@ -77,7 +84,7 @@ function handleTouchEnd(event: TouchEvent, buttonValue: string) {
   <section id="keyboard">
     <template v-for="button in buttons" :key="`button-${button.value}`">
       <button
-        @click="addAnimation"
+        @mousedown.prevent="[addAnimation, emitValue(button.value)]"
         @animationend="removeAnimation"
         @touchstart.prevent="handleTouchStart"
         @touchmove.prevent="handleTouchMove"
