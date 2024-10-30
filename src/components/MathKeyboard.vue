@@ -77,11 +77,11 @@ function handleTouchEnd(event: Event, buttonValue: string) {
   <section id="keyboard">
     <template v-for="button in buttons" :key="`button-${button.value}`">
       <button
-        @mousedown.prevent="[addAnimation, emitValue(button.value)]"
         @animationend="removeAnimation"
         @touchstart.prevent="handleTouchStart"
         @touchmove.prevent="handleTouchMove"
-        @touchend.prevent="handleTouchEnd($event, button.value)"
+        @touchend.prevent="[addAnimation($event), handleTouchEnd($event, button.value)]"
+        @mousedown.prevent="[addAnimation($event), handleTouchEnd($event, button.value)]"
         v-html="button.html"
       ></button>
     </template>
