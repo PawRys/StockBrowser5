@@ -68,15 +68,8 @@ function handleTouchMove(event: TouchEvent) {
 
 function handleTouchEnd(event: Event, buttonValue: string) {
   if (!isSwipe.value) {
-    // const el = event.target as HTMLElement
-    // el.click()
     emitValue(buttonValue)
   }
-}
-
-function triggerTouch(event: Event) {
-  const el = event.target as HTMLElement
-  el.click()
 }
 </script>
 
