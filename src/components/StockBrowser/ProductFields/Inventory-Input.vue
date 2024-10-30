@@ -93,10 +93,16 @@ function insertCharacter(key: string) {
     el.setSelectionRange(pos, pos)
   }
   if (key === 'Backspace') {
-    const textBeforeSelection = text.substring(0, caretStart - 1)
-    const textAfterSelection = text.substring(caretEnd)
+    let removeStart = caretStart
+    let removeEnd = caretEnd
+    if (caretStart === caretEnd) {
+      removeStart = caretStart - 1
+      removeEnd = caretEnd
+    }
+    const textBeforeSelection = text.substring(0, removeStart)
+    const textAfterSelection = text.substring(removeEnd)
     el.value = textBeforeSelection + textAfterSelection
-    el.setSelectionRange(caretStart - 1, caretEnd - 1)
+    el.setSelectionRange(removeStart, removeEnd)
     eventInputType = 'deleteContentBackward'
   }
   if (key.match(/[-+*/,.0-9()]/)) {
