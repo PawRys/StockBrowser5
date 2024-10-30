@@ -89,7 +89,8 @@ function insertCharacter(key: string) {
     el.setSelectionRange(caretStart - 1, caretEnd - 1)
   }
   if (key === 'ArrowRight') {
-    el.setSelectionRange(caretStart + 1, caretEnd + 1)
+    const pos = caretStart < text.length ? caretStart + 1 : 0
+    el.setSelectionRange(pos, pos)
   }
   if (key === 'Backspace') {
     const textBeforeSelection = text.substring(0, caretStart - 1)
