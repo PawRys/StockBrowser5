@@ -69,6 +69,7 @@ function handleTouchMove(event: TouchEvent) {
 function handleTouchEnd(event: Event, buttonValue: string) {
   if (!isSwipe.value) {
     emitValue(buttonValue)
+    addAnimation(event)
   }
 }
 </script>
@@ -80,8 +81,8 @@ function handleTouchEnd(event: Event, buttonValue: string) {
         @animationend="removeAnimation"
         @touchstart.prevent="handleTouchStart"
         @touchmove.prevent="handleTouchMove"
-        @touchend.prevent="[addAnimation($event), handleTouchEnd($event, button.value)]"
-        @mousedown.prevent="[addAnimation($event), handleTouchEnd($event, button.value)]"
+        @touchend.prevent="handleTouchEnd($event, button.value)"
+        @mousedown.prevent="handleTouchEnd($event, button.value)"
         v-html="button.html"
       ></button>
     </template>
