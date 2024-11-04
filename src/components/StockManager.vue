@@ -26,7 +26,7 @@ async function exportDB() {
   // await promptModal(AhaOKModal, { text: msg })
   setRandomUUID()
 
-  const file = `StockBrowserBackup-${new Date().toJSON().split('T')[0]}.txt`
+  const file = `StanyBackup-${new Date().toJSON().split('T')[0]}.txt`
   const stockData = {
     stockDate: localStorage.getItem('SB5_stockDate') || '',
     stockWarehause: localStorage.getItem('SB5_stockWarehause') || '',
