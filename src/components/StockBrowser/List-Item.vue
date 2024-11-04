@@ -69,7 +69,7 @@ provide('basePrice', basePrice)
 </template>
 
 <style>
-body:has(.listItem:focus-within) {
+:is(html, body):has(.listItem:focus-within) {
   overflow: hidden;
 }
 </style>
