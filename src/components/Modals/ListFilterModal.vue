@@ -177,27 +177,32 @@ const appliedFiltersCount = computed(() => {
       </form>
 
       <footer class="dialog__footer">
-        <button @click="filterStore.prevFilter" :disabled="filterStore.currentFilterIndex <= 0">
-          <i class="bi bi-arrow-counterclockwise"></i>
-          <span>{{ filterStore.currentFilterIndex }}</span>
-        </button>
-        <button
-          @click="filterStore.nextFilter"
-          :disabled="filterStore.currentFilterIndex >= filterStore.filterHistory.length - 1"
-        >
-          <i class="bi bi-arrow-clockwise"></i>
-          <span>{{ filterStore.filterHistory.length - 1 - filterStore.currentFilterIndex }}</span>
-        </button>
-        <button type="reset" @click="filterStore.resetAllFilters" :disabled="!appliedFiltersCount">
-          <i class="bi bi-trash3"></i>
-          <span>{{ appliedFiltersCount }}</span>
-        </button>
-        <button class="cta" type="submit" @click="[formSubmit('attribute-filter'), closeModal()]">
-          <i class="bi bi-search"></i>
-          <span>{{ stockItems.length }}</span>
-        </button>
-
         <QuantityStatus />
+        <div>
+          <button @click="filterStore.prevFilter" :disabled="filterStore.currentFilterIndex <= 0">
+            <i class="bi bi-arrow-counterclockwise"></i>
+            <span>{{ filterStore.currentFilterIndex }}</span>
+          </button>
+          <button
+            @click="filterStore.nextFilter"
+            :disabled="filterStore.currentFilterIndex >= filterStore.filterHistory.length - 1"
+          >
+            <i class="bi bi-arrow-clockwise"></i>
+            <span>{{ filterStore.filterHistory.length - 1 - filterStore.currentFilterIndex }}</span>
+          </button>
+          <button
+            type="reset"
+            @click="filterStore.resetAllFilters"
+            :disabled="!appliedFiltersCount"
+          >
+            <i class="bi bi-trash3"></i>
+            <span>{{ appliedFiltersCount }}</span>
+          </button>
+          <button class="cta" type="submit" @click="[formSubmit('attribute-filter'), closeModal()]">
+            <i class="bi bi-search"></i>
+            <span>{{ stockItems.length }}</span>
+          </button>
+        </div>
       </footer>
     </div>
   </div>
