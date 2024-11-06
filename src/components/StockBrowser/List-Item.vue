@@ -70,7 +70,7 @@ provide('basePrice', basePrice)
 
 <style>
 :is(html, body):has(.listItem:focus-within) {
-  overflow: hidden;
+  overflow: clip;
 }
 </style>
 
