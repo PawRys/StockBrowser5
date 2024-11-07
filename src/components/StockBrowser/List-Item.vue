@@ -88,14 +88,17 @@ provide('basePrice', basePrice)
 }
 
 .listItem:has(:focus-within) {
-  box-shadow: inset 0 0 0 2px var(--cta-color);
+  box-shadow:
+    inset 0 0 0 2px var(--cta-color),
+    0 0 0 100vmax var(--accent-lightest);
+  z-index: 999;
 }
 
-.listItem:has(~ .listItem:focus-within),
+/* .listItem:has(~ .listItem:focus-within),
 .listItem:focus-within ~ .listItem {
   opacity: 0.3;
   pointer-events: none;
-}
+} */
 
 .listItem:focus-within::after {
   font-family: bootstrap-icons !important;
