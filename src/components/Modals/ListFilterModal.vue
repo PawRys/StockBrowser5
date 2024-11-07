@@ -130,7 +130,7 @@ const appliedFiltersCount = computed(() => {
             class="text-filter"
             type="search"
             name="textSearch"
-            placeholder="Szukane słowo"
+            placeholder="Szukaj tekstowo"
             @keypress.enter="($event.target as HTMLInputElement).blur()"
             v-model="filterStore.textFilter"
           />
@@ -181,14 +181,14 @@ const appliedFiltersCount = computed(() => {
         <div>
           <button @click="filterStore.prevFilter" :disabled="filterStore.currentFilterIndex <= 0">
             <i class="bi bi-arrow-counterclockwise"></i>
-            <span>{{ filterStore.currentFilterIndex }}</span>
+            <!-- <span>{{ filterStore.currentFilterIndex }}</span> -->
           </button>
           <button
             @click="filterStore.nextFilter"
             :disabled="filterStore.currentFilterIndex >= filterStore.filterHistory.length - 1"
           >
             <i class="bi bi-arrow-clockwise"></i>
-            <span>{{ filterStore.filterHistory.length - 1 - filterStore.currentFilterIndex }}</span>
+            <!-- <span>{{ filterStore.filterHistory.length - 1 - filterStore.currentFilterIndex }}</span> -->
           </button>
           <button
             type="reset"
@@ -241,10 +241,9 @@ const appliedFiltersCount = computed(() => {
 }
 
 .dialog__footer {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.4ch;
+  display: grid;
+  justify-items: center;
+  gap: 1ch;
 
   margin-block: 1rem 1rem;
 }
