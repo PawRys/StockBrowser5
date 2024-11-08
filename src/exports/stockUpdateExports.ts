@@ -3,7 +3,8 @@
 import _ from 'lodash'
 import { php_server_url } from '@/exports/urls'
 
-import { calcPrice, calcQuant } from './common_functions'
+import { calcPrice, calcQuant } from '@/exports/common_functions'
+import { createDBbackup } from '@/exports/stackManagerExports'
 import { promptModal } from 'jenesius-vue-modal'
 import InventoryMerge from '@/components/Modals/InventoryMergeModal.vue'
 
@@ -359,6 +360,7 @@ export async function mergeStocks(
   let modal = <string | unknown>''
   if (hasInventory(incomingData)) modal = await promptModal(InventoryMerge)
 
+  if (modal === 'cloud' || modal === 'merge') createDBbackup()
   if (modal === 'local') incomingData = deleteInventory(incomingData || [])
   if (modal === 'cloud') localData = deleteInventory(localData || [])
 

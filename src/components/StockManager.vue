@@ -3,12 +3,13 @@ import * as XLSX from 'xlsx'
 import { ref } from 'vue'
 import { calcQuant } from '@/exports/common_functions'
 import CryptoJS from 'crypto-js'
-import { downloadFile } from '@/exports/common_functions'
-import { setRandomUUID } from '@/exports/common_functions'
+// import { downloadFile } from '@/exports/common_functions'
+// import { setRandomUUID } from '@/exports/common_functions'
 
 import { promptModal } from 'jenesius-vue-modal'
 import YepNopeModal from '@/components/Modals/YepNopeModal.vue'
 // import AhaOKModal from '@/components/Modals/AhaOKModal.vue'
+import { createDBbackup } from '@/exports/stackManagerExports'
 
 import { useStockStore } from '@/stores/stockStore'
 const { updateData } = useStockStore()
@@ -20,36 +21,40 @@ function passClickTo(query: string) {
   element.click()
 }
 
-async function exportDB() {
-  // const msg = `W ciasteczkach zostanie zapisany unikalny dla tego urządzenia klucz.
-  // Usunięcie ciasteczek spowoduje brak możliwości przywracania kopii zapasowych.`
-  // await promptModal(AhaOKModal, { text: msg })
-  setRandomUUID()
-
-  const file = `StanyBackup-${new Date().toJSON().split('T')[0]}.txt`
-  const stockData = {
-    stockDate: localStorage.getItem('SB5_stockDate') || '',
-    stockWarehause: localStorage.getItem('SB5_stockWarehause') || '',
-    stockList: JSON.parse(localStorage.getItem('SB5_stockList') || '[]')
-  }
-
-  const stockDataString = JSON.stringify(stockData)
-
-  const type = 'application/json; charset=UTF-8'
-  const encryptedData = CryptoJS.AES.encrypt(
-    stockDataString,
-    localStorage.getItem('SB5_UUID') as string
-  ).toString()
-
-  try {
-    downloadFile(file, encryptedData, type)
-  } catch (error) {
-    console.error(`**exportIDB()**`, error)
-    messageBox.value = `❌ Błąd podczas zapisywania bazy danych.`
-  }
+async function createBackup() {
+  messageBox.value = (await createDBbackup()) as string
 }
 
-function importDB(event: Event) {
+// async function createDBbackup() {
+//   // const msg = `W ciasteczkach zostanie zapisany unikalny dla tego urządzenia klucz.
+//   // Usunięcie ciasteczek spowoduje brak możliwości przywracania kopii zapasowych.`
+//   // await promptModal(AhaOKModal, { text: msg })
+//   setRandomUUID()
+
+//   const file = `StanyBackup-${new Date().toJSON().split('T')[0]}.txt`
+//   const stockData = {
+//     stockDate: localStorage.getItem('SB5_stockDate') || '',
+//     stockWarehause: localStorage.getItem('SB5_stockWarehause') || '',
+//     stockList: JSON.parse(localStorage.getItem('SB5_stockList') || '[]')
+//   }
+
+//   const stockDataString = JSON.stringify(stockData)
+
+//   const type = 'application/json; charset=UTF-8'
+//   const encryptedData = CryptoJS.AES.encrypt(
+//     stockDataString,
+//     localStorage.getItem('SB5_UUID') as string
+//   ).toString()
+
+//   try {
+//     downloadFile(file, encryptedData, type)
+//   } catch (error) {
+//     console.error(`**exportIDB()**`, error)
+//
+//   }
+// }
+
+function loadDBbackup(event: Event) {
   const target = event.target as HTMLInputElement
   const file = target.files?.[0]
   if (!file) return
@@ -148,7 +153,7 @@ function saveToXLSX(data: any[]) {
     <h2>Zarządzaj bazą danych</h2>
 
     <div class="button-container">
-      <button class="" @click="exportDB()">
+      <button class="" @click="createBackup()">
         <i class="bi bi-floppy2-fill"></i>
         <span>Utwórz kopię zapasową</span>
       </button>
@@ -162,7 +167,7 @@ function saveToXLSX(data: any[]) {
         type="file"
         name="import-backup"
         id="import-backup"
-        @change="importDB($event)"
+        @change="loadDBbackup($event)"
       />
 
       <!-- <button class="" @click="downloadCSV('file.csv', csvData())"> -->
