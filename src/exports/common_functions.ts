@@ -100,9 +100,9 @@ export function evalMath(expr: string): number {
   }
 
   expr = expr ? expr : ''
-  expr = reduceExpr(expr)
-  expr = expr.replace(/\(\)|[@#$%&=]|\u200B/gi, '')
+  expr = expr.replace(/\(\)|[@#$%&= ]|\u200B/gi, '')
   expr = expr.replace(/\B\.\B/gi, '0')
+  expr = reduceExpr(expr)
   const regexpParenthesis = /\(([^()]+)\)/i
   const regexpMultiply = /\d+(\.\d+)?[*/][+-]?\d+(\.\d+)?/i
   const regexpAddition = /[+-]?\d+(\.\d+)?/gi
