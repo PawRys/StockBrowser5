@@ -3,7 +3,7 @@
 import _ from 'lodash'
 import { php_server_url } from '@/exports/urls'
 
-import { calcPrice, calcQuant } from '@/exports/common_functions'
+import { calcPrice, calcQuant, evalMath } from '@/exports/common_functions'
 import { createDBbackup } from '@/exports/stackManagerExports'
 import { promptModal } from 'jenesius-vue-modal'
 import InventoryMerge from '@/components/Modals/InventoryMergeModal.vue'
@@ -348,8 +348,13 @@ function setQuantityStatus(item: Plywood) {
 }
 
 function setInventoryCubicSum(item: Plywood) {
-  if (!item.inventoryCubicSum) return (item.inventoryCubicSum = 0)
-  return item.inventoryCubicSum
+  const cub = calcQuant(item.size, evalMath(item.inventory?.m3 || '0'), 'm3', 'm3')
+  const sqr = calcQuant(item.size, evalMath(item.inventory?.m2 || '0'), 'm2', 'm3')
+  const pcs = calcQuant(item.size, evalMath(item.inventory?.szt || '0'), 'szt', 'm3')
+  return cub + sqr + pcs
+
+  // if (!item.inventoryCubicSum) return (item.inventoryCubicSum = 0)
+  // return item.inventoryCubicSum
 }
 
 export async function mergeStocks(
