@@ -75,10 +75,9 @@ export function scrollTo(element: string, pxOffset: number) {
 
 export function reduceExpr(expr: string): string {
   expr = expr.replace(/,/gi, '.')
-  while (/(--|-\+|\+-)/.test(expr)) {
+  while (/(--|\+\+|-\+|\+-)/.test(expr)) {
     expr = expr.replace(/-\+|\+-/, '-')
-    expr = expr.replace(/--/, '+')
-    // expr = expr.replace(/ {2,}/, ' ')
+    expr = expr.replace(/--|\+\+/, '+')
   }
   expr = expr.replace(/[^-+*/.0-9()@#$%&=]/gi, '')
   // expr = expr.replace(/([-+])\b/gi, '$1\u200B') //zero width space
