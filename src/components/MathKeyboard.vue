@@ -17,19 +17,19 @@ const buttons = [
   { value: '5', html: '5' },
   { value: '6', html: '6' },
   { value: '*', html: '*' },
-  { value: 'ArrowLeft', html: '<i class="bi bi-arrow-left-short"></i>' },
+  { value: '(', html: '(' },
 
   { value: '1', html: '1' },
   { value: '2', html: '2' },
   { value: '3', html: '3' },
   { value: '-', html: '-' },
-  { value: 'ArrowRight', html: '<i class="bi bi-arrow-right-short"></i>' },
+  { value: ')', html: ')' },
 
   { value: '0', html: '0' },
   { value: '.', html: '.' },
-  { value: '(', html: '(' },
+  { value: 'ArrowLeft', html: '<i class="bi bi-arrow-left-short"></i>' },
   { value: '+', html: '+' },
-  { value: ')', html: ')' }
+  { value: 'ArrowRight', html: '<i class="bi bi-arrow-right-short"></i>' }
 ]
 
 function addAnimation(event: Event) {
