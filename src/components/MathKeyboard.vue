@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-const emit = defineEmits(['keyboardPress']) // Define the event
-
-const emitValue = (value: unknown) => {
-  emit('keyboardPress', value) // Emit event with a value
-}
 
 const buttons = [
   { value: '7', html: '7' },
@@ -68,7 +63,6 @@ function handleTouchMove(event: TouchEvent) {
 
 function handleTouchEnd(event: Event, buttonValue: string) {
   if (!isSwipe.value) {
-    // emitValue(buttonValue)
     insertCharacter(buttonValue)
     addAnimation(event)
   }
