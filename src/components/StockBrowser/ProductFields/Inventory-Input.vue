@@ -112,7 +112,7 @@ function scrollToParent(event: Event) {
     <textarea
       rows="1"
       inputmode="none"
-      class="user-input math-keyboard"
+      class="user-input"
       v-model="userInput"
       @input="[autoResize($event), reduceUserInput($event)]"
       @focus="[autoResize($event), scrollToParent($event)]"

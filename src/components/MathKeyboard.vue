@@ -131,13 +131,14 @@ function insertCharacter(key: string) {
   grid-template-columns: repeat(5, 1fr);
   gap: 0.5ch;
 
+  position: absolute;
   place-self: center;
-  bottom: 1ch;
+  top: 8rem;
 
   margin-top: 1rem;
   /* margin-inline: 3rem; */
   border-radius: 1ch;
-  padding: 0.5ch;
+  padding: 1ch;
   background-color: var(--bg-color);
   font-size: 1.1em;
 }
