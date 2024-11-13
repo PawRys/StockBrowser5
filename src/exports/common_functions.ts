@@ -73,7 +73,7 @@ export function scrollTo(element: string, pxOffset: number) {
   }
 }
 
-export function reduceExpr(expr: string): string {
+export function prettierExpression(expr: string): string {
   expr = expr.replace(/,/gi, '.')
   expr = expr.replace(/[^-+*/.0-9()@#$%&= ]/gi, '')
   while (/(--|\+\+|-\+|\+-|[/*]([/*]))/.test(expr)) {
@@ -81,8 +81,6 @@ export function reduceExpr(expr: string): string {
     expr = expr.replace(/--|\+\+/, '+')
     expr = expr.replace(/[/*]([/*])/, '$1')
   }
-  // expr = expr.replace(/([-+])\b/gi, '$1\u200B') //zero width space
-  // expr = expr.replace(/\b([-+])/gi, ' $1') //regular space
   expr = expr.replace(/\B(\.)/gi, '0$1')
   expr = expr.replace(/(\d)(\()/gi, '$1*$2')
   expr = expr.replace(/(\))(\d)/gi, '$1*$2')
@@ -100,9 +98,9 @@ export function evalMath(expr: string): number {
   }
 
   expr = expr ? expr : ''
-  expr = expr.replace(/\(\)|[@#$%&= ]|\u200B/gi, '')
+  expr = expr.replace(/\(\)|[@#$%&= ]|\u200B/gi, '') // remove unwanted chars
   expr = expr.replace(/\B\.\B/gi, '0')
-  expr = reduceExpr(expr)
+  expr = prettierExpression(expr)
   const regexpParenthesis = /\(([^()]+)\)/i
   const regexpMultiply = /\d+(\.\d+)?[*/][+-]?\d+(\.\d+)?/i
   const regexpAddition = /[+-]?\d+(\.\d+)?/gi

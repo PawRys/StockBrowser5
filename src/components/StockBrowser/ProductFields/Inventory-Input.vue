@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { ref, computed, defineProps, watch, toRefs } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
 import { setInventoryStatus } from '@/exports/stockUpdateExports'
-import { evalMath, calcQuant, reduceExpr, scrollTo } from '@/exports/common_functions'
+import { evalMath, calcQuant, prettierExpression, scrollTo } from '@/exports/common_functions'
 
 import MathKeyboard from '@/components/MathKeyboard.vue'
 
@@ -66,7 +66,7 @@ async function reduceUserInput(event: Event) {
   const normalExpr = target.value
   const resultExpr = isBacksapce
     ? target.value
-    : reduceExpr(target.value)
+    : prettierExpression(target.value)
         .replace(/ {1,}/gi, '')
         .replace(/([-+][0-9])/gi, ' $1')
   // const resultExpr = normalExpr
