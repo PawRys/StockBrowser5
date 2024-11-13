@@ -80,7 +80,7 @@ export function reduceExpr(expr: string): string {
     expr = expr.replace(/-\+|\+-/, '-')
     expr = expr.replace(/--|\+\+/, '+')
   }
-  // expr = expr.replace(/([-+])\b/gi, '$1\u200B')
+  // expr = expr.replace(/([-+])\b/gi, '$1\u200B') //zero width space
   expr = expr.replace(/\B(\.)/gi, '0$1')
   expr = expr.replace(/(\d)(\()/gi, '$1*$2')
   expr = expr.replace(/(\))(\d)/gi, '$1*$2')

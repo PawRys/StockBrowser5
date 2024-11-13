@@ -64,10 +64,10 @@ async function reduceUserInput(event: Event) {
   const isBacksapce = (event as InputEvent).inputType === 'deleteContentBackward' ? true : false
   const target = event.target as HTMLInputElement
   const normalExpr = target.value
-  const reducedExpr = isBacksapce ? target.value : reduceExpr(target.value)
-  const offset = normalExpr.length - reducedExpr.length
+  const resultExpr = isBacksapce ? target.value : reduceExpr(target.value)
+  const offset = normalExpr.length - resultExpr.length
   const caretStart = (target.selectionStart || 0) - offset
-  await Promise.resolve((userInput.value = reducedExpr))
+  await Promise.resolve((userInput.value = resultExpr))
   target.setSelectionRange(caretStart, caretStart)
 }
 
@@ -76,44 +76,6 @@ async function autoResize(event: Event) {
   await Promise.resolve((target.style.height = 'auto'))
   target.style.height = target.scrollHeight + 3 + 'px'
   target.scrollTop = target.scrollHeight
-}
-
-function insertCharacter(key: string) {
-  const el = document.querySelector('.math-keyboard') as HTMLTextAreaElement
-  const text = el.value
-  const caretStart = el.selectionStart
-  const caretEnd = el.selectionEnd
-  let eventInputType = ''
-
-  if (key === 'ArrowLeft') {
-    el.setSelectionRange(caretStart - 1, caretEnd - 1)
-  }
-  if (key === 'ArrowRight') {
-    const pos = caretStart < text.length ? caretStart + 1 : 0
-    el.setSelectionRange(pos, pos)
-  }
-  if (key === 'Backspace') {
-    let removeStart = caretStart
-    let removeEnd = caretEnd
-    if (caretStart === caretEnd) {
-      removeStart = caretStart - 1
-      removeEnd = caretEnd
-    }
-    const textBeforeSelection = text.substring(0, removeStart)
-    const textAfterSelection = text.substring(removeEnd)
-    el.value = textBeforeSelection + textAfterSelection
-    el.setSelectionRange(removeStart, removeEnd)
-    eventInputType = 'deleteContentBackward'
-  }
-  if (key.match(/[-+*/,.0-9()]/)) {
-    const textBeforeSelection = text.substring(0, caretStart)
-    const textAfterSelection = text.substring(caretEnd)
-    el.value = textBeforeSelection + key + textAfterSelection
-    el.setSelectionRange(caretStart + key.length, caretEnd + key.length)
-  }
-  el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: eventInputType }))
-  el.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, key: key }))
-  el.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: key }))
 }
 
 function scrollToParent(event: Event) {
@@ -160,7 +122,7 @@ function scrollToParent(event: Event) {
       {{ evalMath(userInput as string).toFixed(zeroFix) }}
       <small v-html="unitLabel"></small>
     </span>
-    <MathKeyboard v-if="isEdited" @keyboard-press="insertCharacter" />
+    <MathKeyboard v-if="isEdited" />
   </div>
 </template>
 

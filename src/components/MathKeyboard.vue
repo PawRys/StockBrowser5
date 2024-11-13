@@ -68,8 +68,49 @@ function handleTouchMove(event: TouchEvent) {
 
 function handleTouchEnd(event: Event, buttonValue: string) {
   if (!isSwipe.value) {
-    emitValue(buttonValue)
+    // emitValue(buttonValue)
+    insertCharacter(buttonValue)
     addAnimation(event)
+  }
+}
+
+function insertCharacter(key: string) {
+  const el = document.querySelector(':focus') as HTMLInputElement | HTMLTextAreaElement | null
+  if (el && 'value' in el) {
+    const text = el.value
+    const caretStart = el.selectionStart || 0
+    const caretEnd = el.selectionEnd || 0
+    let dispatchInputType = ''
+
+    if (key === 'ArrowLeft') {
+      el.setSelectionRange(caretStart - 1, caretEnd - 1)
+    }
+    if (key === 'ArrowRight') {
+      const pos = caretStart < text.length ? caretStart + 1 : 0
+      el.setSelectionRange(pos, pos)
+    }
+    if (key === 'Backspace') {
+      let removeStart = caretStart
+      let removeEnd = caretEnd
+      if (caretStart === caretEnd) {
+        removeStart = caretStart - 1
+        removeEnd = caretEnd
+      }
+      const textBeforeSelection = text.substring(0, removeStart)
+      const textAfterSelection = text.substring(removeEnd)
+      el.value = textBeforeSelection + textAfterSelection
+      el.setSelectionRange(removeStart, removeEnd)
+      dispatchInputType = 'deleteContentBackward'
+    }
+    if (key.match(/[-+*/,.0-9()]/)) {
+      const textBeforeSelection = text.substring(0, caretStart)
+      const textAfterSelection = text.substring(caretEnd)
+      el.value = textBeforeSelection + key + textAfterSelection
+      el.setSelectionRange(caretStart + key.length, caretEnd + key.length)
+    }
+    el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: dispatchInputType }))
+    el.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, key: key }))
+    el.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: key }))
   }
 }
 </script>
