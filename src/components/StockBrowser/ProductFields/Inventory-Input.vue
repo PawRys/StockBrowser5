@@ -66,9 +66,9 @@ async function reduceUserInput(event: Event) {
   const normalExpr = target.value
   const resultExpr = isBacksapce ? target.value : reduceExpr(target.value)
   const offset = normalExpr.length - resultExpr.length
-  const caretStart = (target.selectionStart || 0) - offset
+  const caretPosition = (target.selectionStart || 0) - offset
   await Promise.resolve((userInput.value = resultExpr))
-  target.setSelectionRange(caretStart, caretStart)
+  target.setSelectionRange(caretPosition, caretPosition)
 }
 
 async function autoResize(event: Event) {
@@ -109,7 +109,7 @@ function scrollToParent(event: Event) {
       inputmode="none"
       class="user-input math-keyboard"
       v-model="userInput"
-      @input="[autoResize($event), reduceUserInput($event)]"
+      @keyup="[autoResize($event), reduceUserInput($event)]"
       @focus="[autoResize($event), scrollToParent($event)]"
       @keydown.esc="($event.target as HTMLInputElement).blur()"
       @keydown.prevent.enter="($event.target as HTMLInputElement).select()"
