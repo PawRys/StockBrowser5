@@ -75,18 +75,19 @@ export function scrollTo(element: string, pxOffset: number) {
 
 export function reduceExpr(expr: string): string {
   expr = expr.replace(/,/gi, '.')
-  while (/(--|\+\+|-\+|\+-)/.test(expr)) {
+  expr = expr.replace(/[^-+*/.0-9()@#$%&= ]/gi, '')
+  while (/(--|\+\+|-\+|\+-|[/*]([/*]))/.test(expr)) {
     expr = expr.replace(/-\+|\+-/, '-')
     expr = expr.replace(/--|\+\+/, '+')
+    expr = expr.replace(/[/*]([/*])/, '$1')
   }
-  expr = expr.replace(/[^-+*/.0-9()@#$%&=]/gi, '')
   // expr = expr.replace(/([-+])\b/gi, '$1\u200B') //zero width space
-  // expr = expr.replace(/\b([-+])/gi, ' $1') //zero width space
+  // expr = expr.replace(/\b([-+])/gi, ' $1') //regular space
   expr = expr.replace(/\B(\.)/gi, '0$1')
   expr = expr.replace(/(\d)(\()/gi, '$1*$2')
   expr = expr.replace(/(\))(\d)/gi, '$1*$2')
   expr = expr.replace(/(\))(\()/gi, '$1*$2')
-  expr = expr.replace(/[/*]([/*])/, '$1')
+  expr = expr.replace(/(\d) (\d)/gi, '$1$2')
   return expr
 }
 

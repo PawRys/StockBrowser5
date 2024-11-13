@@ -61,10 +61,15 @@ const isFilledWithExpr = () => {
 }
 
 async function reduceUserInput(event: Event) {
+  console.log((event as InputEvent).inputType)
+
   const isBacksapce = (event as InputEvent).inputType === 'deleteContentBackward' ? true : false
   const target = event.target as HTMLInputElement
   const normalExpr = target.value
-  const resultExpr = isBacksapce ? target.value : reduceExpr(target.value)
+  const resultExpr = isBacksapce
+    ? target.value
+    : reduceExpr(target.value).replace(/\b([-+])/gi, ' $1')
+  // const resultExpr = normalExpr
   const offset = normalExpr.length - resultExpr.length
   const caretPosition = (target.selectionStart || 0) - offset
   await Promise.resolve((userInput.value = resultExpr))
@@ -109,7 +114,7 @@ function scrollToParent(event: Event) {
       inputmode="none"
       class="user-input math-keyboard"
       v-model="userInput"
-      @keyup="[autoResize($event), reduceUserInput($event)]"
+      @input="[autoResize($event), reduceUserInput($event)]"
       @focus="[autoResize($event), scrollToParent($event)]"
       @keydown.esc="($event.target as HTMLInputElement).blur()"
       @keydown.prevent.enter="($event.target as HTMLInputElement).select()"
