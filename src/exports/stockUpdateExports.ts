@@ -323,6 +323,22 @@ export function deleteInventory(data: Plywood[]): Plywood[] {
   })
 }
 
+function setQuantityStatus(item: Plywood) {
+  const aviable_status = item.quantityCubicAviable || 0 > 0 ? 2 : null
+  const total_status = item.quantityCubicTotal > 0 ? 1 : null
+  return aviable_status || total_status || 0
+}
+
+function setInventoryCubicSum(item: Plywood) {
+  const cub = calcQuant(item.size, evalMath(item.inventory?.m3 || '0'), 'm3', 'm3')
+  const sqr = calcQuant(item.size, evalMath(item.inventory?.m2 || '0'), 'm2', 'm3')
+  const pcs = calcQuant(item.size, evalMath(item.inventory?.szt || '0'), 'szt', 'm3')
+  return cub + sqr + pcs
+
+  // if (!item.inventoryCubicSum) return (item.inventoryCubicSum = 0)
+  // return item.inventoryCubicSum
+}
+
 export function setInventoryStatus(item: Plywood) {
   const threshold = 0.62
   const quantityTotalPcs = calcQuant(item.size, item.quantityCubicTotal, 'm3', 'szt')
@@ -339,22 +355,6 @@ export function setInventoryStatus(item: Plywood) {
     if (diff > threshold) status = 'nadmiar'
   }
   return status
-}
-
-function setQuantityStatus(item: Plywood) {
-  const aviable_status = item.quantityCubicAviable || 0 > 0 ? 2 : null
-  const total_status = item.quantityCubicTotal > 0 ? 1 : null
-  return aviable_status || total_status || 0
-}
-
-function setInventoryCubicSum(item: Plywood) {
-  const cub = calcQuant(item.size, evalMath(item.inventory?.m3 || '0'), 'm3', 'm3')
-  const sqr = calcQuant(item.size, evalMath(item.inventory?.m2 || '0'), 'm2', 'm3')
-  const pcs = calcQuant(item.size, evalMath(item.inventory?.szt || '0'), 'szt', 'm3')
-  return cub + sqr + pcs
-
-  // if (!item.inventoryCubicSum) return (item.inventoryCubicSum = 0)
-  // return item.inventoryCubicSum
 }
 
 export async function mergeStocks(
