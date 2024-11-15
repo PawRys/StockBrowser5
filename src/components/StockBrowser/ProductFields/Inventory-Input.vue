@@ -68,7 +68,7 @@ async function reduceUserInput(event: Event) {
     ? target.value
     : prettierExpression(target.value)
         .replace(/ {1,}/gi, '')
-        .replace(/([-+][0-9])/gi, ' $1')
+        .replace(/([-+]+[0-9])/gi, ' $1')
   // const resultExpr = normalExpr
   const offset = normalExpr.length - resultExpr.length
   const caretPosition = (target.selectionStart || 0) - offset
