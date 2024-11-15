@@ -52,6 +52,13 @@ provide('basePrice', basePrice)
       <Price class="price" :item="item" :unit="'purchase'" />
       <Price class="price" :item="item" :unit="'marg'" />
       <Price class="price" :item="item" :unit="'perc'" />
+      <div v-if="item.size === '(?)'" class="warn">
+        <span>
+          ❗ Brak rozmiaru w opisie sklejki. <br />Popraw opis w Symfonii wg schematu:
+          [grubość]x[wymiar A]x[wymiar B] <br />
+          przykładowo <b>6,5x1250x2500</b> bez spacji!
+        </span>
+      </div>
     </section>
 
     <section class="inventory" v-if="listView === 'inventory'">
@@ -64,6 +71,13 @@ provide('basePrice', basePrice)
       <InventoryDiff class="quantity" :item="item" :unit="'m3'" />
       <InventoryDiff class="quantity" :item="item" :unit="'m2'" />
       <InventoryDiff class="quantity" :item="item" :unit="'szt'" />
+      <div v-if="item.size === '(?)'" class="warn">
+        <span>
+          ❗ Brak rozmiaru w opisie sklejki. <br />Popraw opis w Symfonii wg schematu:
+          [grubość]x[wymiar A]x[wymiar B] <br />
+          przykładowo <b>6,5x1250x2500</b> bez spacji!
+        </span>
+      </div>
     </section>
   </li>
 </template>
@@ -75,6 +89,24 @@ provide('basePrice', basePrice)
 </style>
 
 <style scoped>
+.warn {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+
+  background-color: var(--bg-color);
+  text-align: center;
+  line-height: 1.5;
+  font-size: 1.2rem;
+}
+
+.warn b {
+  display: inline;
+}
+
 .listItem {
   list-style: none;
   margin-block: 1ch;
