@@ -78,16 +78,6 @@ async function submit(e: Event): Promise<void> {
 
   console.timeEnd('/// total submit time')
 }
-// const someobj = {}
-// console.log(JSON.parse(JSON.stringify(someobj)))
-
-// _.merge(someobj.inventory, { m3: `cos innego` })
-// console.log(JSON.parse(JSON.stringify(someobj)))
-
-// const a: string | undefined = ''
-// const b: string | undefined = undefined
-// const c: string | undefined = ' '
-// console.log(a?.trim() === '' ? 1 : 0, b?.trim() === '' ? 1 : 0, c?.trim() === '' ? 1 : 0)
 </script>
 
 <template>
