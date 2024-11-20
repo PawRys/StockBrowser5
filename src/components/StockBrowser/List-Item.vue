@@ -116,12 +116,12 @@ provide('basePrice', basePrice)
 }
 
 .listItem:hover {
-  box-shadow: inset 0 0 0 2px var(--accent-lighter);
+  box-shadow: inset 0 0 0 2px var(--cta-color);
 }
 
 .listItem:has(:focus-within) {
   box-shadow:
-    inset 0 0 0 2px var(--cta-color),
+    inset 0 0 0 2px var(--accent-lighter),
     0 0 0 100vmax var(--accent-lightest);
   z-index: 999;
 }
