@@ -91,7 +91,7 @@ provide('basePrice', basePrice)
 <style scoped>
 .warn {
   position: absolute;
-  z-index: 1;
+  z-index: 0;
   inset: 0;
 
   display: grid;
