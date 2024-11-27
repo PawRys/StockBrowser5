@@ -6,7 +6,6 @@ import { setInventoryStatus, setQuantityStatus } from '@/exports/stockUpdateExpo
 import { evalMath, calcQuant, prettierExpression, scrollTo } from '@/exports/common_functions'
 
 import MathKeyboard from '@/components/MathKeyboard.vue'
-import type QuantityStatusSwitch from '../QuantityStatusSwitch.vue'
 
 const props = defineProps<{
   item: Plywood

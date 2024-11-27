@@ -43,9 +43,9 @@ provide('basePrice', basePrice)
     </header>
 
     <section class="prices" v-if="listView === 'prices'">
-      <InventoryStock class="quantity" :item="item" :unit="'m3'" :quantityStatus="statusFilter" />
-      <InventoryStock class="quantity" :item="item" :unit="'m2'" :quantityStatus="statusFilter" />
-      <InventoryStock class="quantity" :item="item" :unit="'szt'" :quantityStatus="statusFilter" />
+      <InventoryStock class="quantity" :item="item" :unit="'m3'" :statusFilter="statusFilter" />
+      <InventoryStock class="quantity" :item="item" :unit="'m2'" :statusFilter="statusFilter" />
+      <InventoryStock class="quantity" :item="item" :unit="'szt'" :statusFilter="statusFilter" />
       <Price class="price" :item="item" :unit="'m3'" />
       <Price class="price" :item="item" :unit="'m2'" />
       <Price class="price" :item="item" :unit="'szt'" />
@@ -62,9 +62,9 @@ provide('basePrice', basePrice)
     </section>
 
     <section class="inventory" v-if="listView === 'inventory'">
-      <InventoryStock class="quantity" :item="item" :unit="'m3'" :quantityStatus="statusFilter" />
-      <InventoryStock class="quantity" :item="item" :unit="'m2'" :quantityStatus="statusFilter" />
-      <InventoryStock class="quantity" :item="item" :unit="'szt'" :quantityStatus="statusFilter" />
+      <InventoryStock class="quantity" :item="item" :unit="'m3'" :statusFilter="statusFilter" />
+      <InventoryStock class="quantity" :item="item" :unit="'m2'" :statusFilter="statusFilter" />
+      <InventoryStock class="quantity" :item="item" :unit="'szt'" :statusFilter="statusFilter" />
       <InventoryInput class="quantity" :item="item" :unit="'m3'" />
       <InventoryInput class="quantity" :item="item" :unit="'m2'" />
       <InventoryInput class="quantity" :item="item" :unit="'szt'" />
