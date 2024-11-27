@@ -2,10 +2,11 @@
 import _ from 'lodash'
 import { ref, computed, defineProps, watch, toRefs } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
-import { setInventoryStatus } from '@/exports/stockUpdateExports'
+import { setInventoryStatus, setQuantityStatus } from '@/exports/stockUpdateExports'
 import { evalMath, calcQuant, prettierExpression, scrollTo } from '@/exports/common_functions'
 
 import MathKeyboard from '@/components/MathKeyboard.vue'
+import type QuantityStatusSwitch from '../QuantityStatusSwitch.vue'
 
 const props = defineProps<{
   item: Plywood
@@ -33,6 +34,7 @@ const debouncedUpdate = _.debounce((item, userInput) => {
   _.merge(item.value, { inventory: { [unit]: userInput.value || '' } })
   _.merge(item.value, { inventoryCubicSum: totalInventoryCubicSum.value || 0 })
   _.merge(item.value, { inventoryStatus: setInventoryStatus(item.value) })
+  _.merge(item.value, { quantityStatus: setQuantityStatus(item.value) })
   useStockStore().updateItem(item.value)
   saving.value = false
 }, 500)

@@ -323,10 +323,17 @@ export function deleteInventory(data: Plywood[]): Plywood[] {
   })
 }
 
-function setQuantityStatus(item: Plywood) {
+export function setQuantityStatus(item: Plywood) {
+  const inventory_status = item.inventoryStatus
   const aviable_status = item.quantityCubicAviable || 0 > 0 ? 2 : null
   const total_status = item.quantityCubicTotal > 0 ? 1 : null
-  return aviable_status || total_status || 0
+  const quantity_status = aviable_status || total_status || 0
+
+  if (quantity_status === 0 && inventory_status === 'nadmiar') {
+    return 1
+  } else {
+    return quantity_status
+  }
 }
 
 function setInventoryCubicSum(item: Plywood) {
