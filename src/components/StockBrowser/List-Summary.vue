@@ -29,7 +29,7 @@ const summaryDiff = (unit: string) => {
 const zerooutFilteredInventory = async () => {
   const msg = `<b>Zerowanie inwentaryzacji</b><br>
   Ilość zerowanych pozycji: <b>${filledInventoryCount()} z ${useStockStore().items.length}</b> filtrowanych`
-  if (!(await promptModal(YepNopeModal, { text: msg }))) return
+  if (!(await promptModal(YepNopeModal, { text: msg, heading: `Wyzerować?` }))) return
 
   const storedItems = JSON.parse(localStorage.getItem('SB5_stockList') || '[]')
   const filteredItems = useStockStore().items

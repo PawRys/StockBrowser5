@@ -2,6 +2,7 @@
 import { Modal } from 'jenesius-vue-modal'
 const props = defineProps<{
   text?: string
+  heading?: string
 }>()
 </script>
 
@@ -9,7 +10,8 @@ const props = defineProps<{
   <div class="dialog-backdrop">
     <div class="dialog">
       <p class="red-font" v-html="props.text"></p>
-      <h3>Czy jesteś pewien?</h3>
+      <h3 v-if="heading" v-html="heading"></h3>
+      <h3 v-else>Czy jesteś pewien?</h3>
       <div class="button-bar">
         <button @click="$emit(Modal.EVENT_PROMPT, true)">
           <i class="bi bi-check-square"></i>
