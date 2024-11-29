@@ -6,7 +6,7 @@ import { useStockStore } from '@/stores/stockStore'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
 import { calcQuant } from '@/exports/common_functions'
-import { setInventoryStatus } from '@/exports/stockUpdateExports'
+import { setInventoryStatus, setQuantityStatus } from '@/exports/stockUpdateExports'
 
 import { promptModal } from 'jenesius-vue-modal'
 import YepNopeModal from '@/components/Modals/YepNopeModal.vue'
@@ -39,6 +39,7 @@ const zerooutFilteredInventory = async () => {
         delete storedItem.inventoryCubicSum
         delete storedItem.inventory
         storedItem.inventoryStatus = setInventoryStatus(storedItem)
+        storedItem.quantityStatus = setQuantityStatus(storedItem)
       }
     })
   })
