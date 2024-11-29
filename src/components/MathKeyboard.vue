@@ -112,14 +112,15 @@ function insertCharacter(key: string) {
 <template>
   <section id="keyboard">
     <template v-for="button in buttons" :key="`button-${button.value}`">
-      <button
+      <span
+        class="button"
         @animationend="removeAnimation"
         @touchstart.prevent="handleTouchStart"
         @touchmove.prevent="handleTouchMove"
         @touchend.prevent="handleTouchEnd($event, button.value)"
         @mousedown.prevent="handleTouchEnd($event, button.value)"
         v-html="button.html"
-      ></button>
+      ></span>
     </template>
   </section>
 </template>
