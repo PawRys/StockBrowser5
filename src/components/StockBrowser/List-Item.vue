@@ -122,15 +122,9 @@ provide('basePrice', basePrice)
 .listItem:has(:focus-within) {
   box-shadow:
     inset 0 0 0 2px var(--accent-lighter),
-    0 0 0 100vmax var(--accent-lightest);
+    0 0 0 100vmax color-mix(in srgb, var(--accent-lightest), transparent 5%);
   z-index: 999;
 }
-
-/* .listItem:has(~ .listItem:focus-within),
-.listItem:focus-within ~ .listItem {
-  opacity: 0.3;
-  pointer-events: none;
-} */
 
 .listItem:focus-within::after {
   font-family: bootstrap-icons !important;
