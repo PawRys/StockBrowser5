@@ -67,10 +67,16 @@ async function reduceUserInput(event: Event) {
   const normalExpr = target.value
   const resultExpr = isBacksapce
     ? target.value
-    : prettierExpression(target.value)
-        .replace(/ {1,}/gi, '')
-        .replace(/([-+]+[0-9])/gi, ' $1')
+    : target.value.replace(/ {1,}/gi, '').replace(/([-+][0-9])/gi, ' $1')
+
+  // const resultExpr = isBacksapce
+  //   ? target.value
+  //   : prettierExpression(target.value)
+  //       .replace(/ {1,}/gi, '')
+  //       .replace(/([-+]+[0-9])/gi, ' $1')
+
   // const resultExpr = normalExpr
+
   const offset = normalExpr.length - resultExpr.length
   const caretPosition = (target.selectionStart || 0) - offset
   await Promise.resolve((userInput.value = resultExpr))
