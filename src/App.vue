@@ -12,6 +12,19 @@ import StockShare from '@/components/StockShare.vue'
 import StockManager from '@/components/StockManager.vue'
 import DataStats from '@/components/StockBrowser/DataStats.vue'
 
+/** PopState event = previous filter */
+/** cant get it to work */
+//
+// import { useFilterStore } from '@/stores/filterStore'
+// const filterStore = useFilterStore()
+// history.pushState(null, null, location.href)
+// document.addEventListener('popstate', function () {
+//   history.pushState(null, null, location.href)
+//   alert('popstate')
+//   filterStore.prevFilter
+// })
+/** PopState event END */
+
 const refreshMainComponent = ref(0)
 provide('refreshMainComponent', refreshMainComponent)
 
