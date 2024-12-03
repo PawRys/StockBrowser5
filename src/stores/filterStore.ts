@@ -25,10 +25,12 @@ export const useFilterStore = defineStore(
 
     function applyFilters(filters: any) {
       filters = JSON.parse(filters)
-      statusFilter.value = filters[0]
-      inventoryFilter.value = filters[1]
-      textFilter.value = filters[2]
-      attrFilter.value = filters[3]
+      // statusFilter.value = filters[0]
+      // inventoryFilter.value = filters[1]
+      // textFilter.value = filters[2]
+      // attrFilter.value = filters[3]
+      textFilter.value = filters[0]
+      attrFilter.value = filters[1]
     }
 
     function prevFilter() {
@@ -46,7 +48,8 @@ export const useFilterStore = defineStore(
     }
 
     watch(
-      [statusFilter, inventoryFilter, textFilter, attrFilter],
+      // [statusFilter, inventoryFilter, textFilter, attrFilter],
+      [textFilter, attrFilter],
       (filters) => {
         // To avoid pushing duplicates
         const lastFilter = filterHistory.value[currentFilterIndex.value]
