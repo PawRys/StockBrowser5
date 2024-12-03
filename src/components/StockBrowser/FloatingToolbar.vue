@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
+// import { storeToRefs } from 'pinia'
 import { useFilterStore } from '@/stores/filterStore'
-import { usePreferencesStore } from '@/stores/preferencesStore'
+// import { usePreferencesStore } from '@/stores/preferencesStore'
 
 import { promptModal } from 'jenesius-vue-modal'
 import ListSettingsModal from '@/components/Modals/ListSettingsModal.vue'
 import ListFilterModal from '@/components/Modals/ListFilterModal.vue'
 
 const filterStore = useFilterStore()
-const { listView } = storeToRefs(usePreferencesStore())
+// const { listView } = storeToRefs(usePreferencesStore())
 </script>
 
 <template>
@@ -25,12 +25,12 @@ const { listView } = storeToRefs(usePreferencesStore())
       <i class="bi bi-trash3"></i>
     </button>
 
-    <button v-if="listView === 'prices'" @click="listView = 'inventory'">
+    <!-- <button v-if="listView === 'prices'" @click="listView = 'inventory'">
       <i class="bi bi-coin"></i>
     </button>
     <button v-if="listView === 'inventory'" @click="listView = 'prices'">
       <i class="bi bi-calculator"></i>
-    </button>
+    </button> -->
 
     <button @click="promptModal(ListSettingsModal)">
       <i class="bi bi-three-dots-vertical"></i>

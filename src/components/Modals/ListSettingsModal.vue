@@ -3,6 +3,10 @@ import { closeModal } from 'jenesius-vue-modal'
 import VatSwitch from '@/components/StockBrowser/VatSwitch.vue'
 import Sorting from '@/components/StockBrowser/List-Sorting.vue'
 import Paginate from '@/components/StockBrowser/List-Pagination.vue'
+
+import { storeToRefs } from 'pinia'
+import { usePreferencesStore } from '@/stores/preferencesStore'
+const { listView } = storeToRefs(usePreferencesStore())
 </script>
 
 <template>
@@ -14,6 +18,16 @@ import Paginate from '@/components/StockBrowser/List-Pagination.vue'
         </button>
       </header>
       <section>
+        <h4>Tryb wyświetlania</h4>
+        <section>
+          <button v-if="listView === 'prices'" @click="listView = 'inventory'">
+            <i class="bi bi-coin"></i> <span>Kalkulator cen</span>
+          </button>
+          <button v-if="listView === 'inventory'" @click="listView = 'prices'">
+            <i class="bi bi-calculator"></i> <span>Kalkulator stanów</span>
+          </button>
+        </section>
+
         <h4>Ilość wyników</h4>
         <section class="toolbar">
           <Paginate :show="['setPageSize']" /><span class="pagination-label">na stronę</span>
@@ -34,10 +48,16 @@ import Paginate from '@/components/StockBrowser/List-Pagination.vue'
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
+  justify-items: left;
   gap: 0 1ch;
 }
+
 #listSettings > section > h4::after {
   content: ':';
+}
+
+#listSettings > section > h4 {
+  justify-self: right;
 }
 
 .pagination-label {
