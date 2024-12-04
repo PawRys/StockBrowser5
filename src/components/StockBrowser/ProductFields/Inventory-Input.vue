@@ -62,10 +62,14 @@ const isFilledWithExpr = () => {
 }
 
 async function reduceUserInput(event: Event) {
-  const isBacksapce = (event as InputEvent).inputType === 'deleteContentBackward' ? true : false
+  const removeChar = (event as InputEvent).inputType.match(
+    /deleteContentBackward|deleteContentForward/
+  )
+    ? true
+    : false
   const target = event.target as HTMLInputElement
   const normalExpr = target.value
-  const resultExpr = isBacksapce
+  const resultExpr = removeChar
     ? target.value
     : target.value
         .replace(/ {1,}/gi, '')
