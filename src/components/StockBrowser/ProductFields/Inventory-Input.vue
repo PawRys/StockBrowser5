@@ -72,6 +72,7 @@ async function reduceUserInput(event: Event) {
         .replace(/([-+][0-9])/gi, ' $1')
         .replace(/([0-9])([(])/gi, '$1*$2')
         .replace(/([)])([0-9])/gi, '$1*$2')
+        .replace(/([)])([(])/gi, '$1*$2')
 
   // const resultExpr = isBacksapce
   //   ? target.value
