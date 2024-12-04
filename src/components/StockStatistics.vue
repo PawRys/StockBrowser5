@@ -110,16 +110,16 @@ const collection = [
         filter_fn: (item: Plywood) => item.attr.color?.match(/\bc\.less|honey|opal\b/i)
       },
       {
-        label: 'C.less',
-        filter_fn: (item: Plywood) => item.attr.color?.match(/\bc\.less\b/i)
+        label: 'Honey',
+        filter_fn: (item: Plywood) => item.attr.color?.match(/\bhoney\b/i)
       },
       {
         label: 'Opal',
         filter_fn: (item: Plywood) => item.attr.color?.match(/\bopal\b/i)
       },
       {
-        label: 'Honey',
-        filter_fn: (item: Plywood) => item.attr.color?.match(/\bhoney\b/i)
+        label: 'C.less',
+        filter_fn: (item: Plywood) => item.attr.color?.match(/\bc\.less\b/i)
       }
     ]
   },
