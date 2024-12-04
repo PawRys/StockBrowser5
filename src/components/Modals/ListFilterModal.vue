@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import _ from 'lodash'
+
 import { watch, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { closeModal } from 'jenesius-vue-modal'
@@ -128,12 +130,19 @@ const appliedFiltersCount = computed(() => {
         <div class="text-filter--wrapper">
           <input
             class="text-filter"
-            type="search"
+            type="text"
             name="textSearch"
             placeholder="Szukaj tekstowo"
             @keypress.enter="($event.target as HTMLInputElement).blur()"
             v-model="filterStore.textFilter"
           />
+          <button
+            class="transparent"
+            v-if="filterStore.textFilter !== ''"
+            @click="filterStore.textFilter = ''"
+          >
+            <i class="bi bi-trash3"></i>
+          </button>
         </div>
 
         <button class="close-button compact" @click="closeModal()">
@@ -252,11 +261,14 @@ const appliedFiltersCount = computed(() => {
   margin-block: 0.5rem;
   width: min(100%, 60ch);
   height: 4ch;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .text-filter {
-  position: absolute;
-  inset: 0;
+  /* position: absolute;
+  inset: 0; */
+  flex-grow: 1;
 }
 
 .attribute-filter {
