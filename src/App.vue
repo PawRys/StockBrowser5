@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, provide } from 'vue'
+import { ref, computed, onMounted, provide, onUnmounted } from 'vue'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 import { container as WidgetContainerModal } from 'jenesius-vue-modal'
 import { setRandomUUID } from '@/exports/common_functions'
@@ -16,6 +16,7 @@ import DataStats from '@/components/StockBrowser/DataStats.vue'
 /** cant get it to work */
 //
 // import { useFilterStore } from '@/stores/filterStore'
+// import { once } from 'lodash'
 // const filterStore = useFilterStore()
 // history.pushState(null, null, location.href)
 // document.addEventListener('popstate', function () {
@@ -29,6 +30,14 @@ const refreshMainComponent = ref(0)
 provide('refreshMainComponent', refreshMainComponent)
 
 onMounted(() => {
+  // window.addEventListener(
+  //   'popstate',
+  //   function (event) {
+  //     useFilterStore().applyFilters(event.state)
+  //   },
+  //   { once: true }
+  // )
+
   document.querySelectorAll('[tabindex]').forEach((item) => {
     ;(item as HTMLElement).addEventListener('keydown', (ev: KeyboardEvent) => {
       if (ev.key === 'Enter' || ev.key === ' ') {
@@ -37,6 +46,10 @@ onMounted(() => {
       }
     })
   })
+})
+
+onUnmounted(() => {
+  // window.removeEventListener('popstate')
 })
 
 const appWindowsList = {

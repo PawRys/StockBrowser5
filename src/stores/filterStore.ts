@@ -59,6 +59,8 @@ export const useFilterStore = defineStore(
           if (currentFilterIndex.value < filterHistory.value.length - 1) {
             filterHistory.value.splice(currentFilterIndex.value + 1)
           }
+          // history.pushState(currentFilter, '', location.href)
+          // console.log(history)
           filterHistory.value.push(currentFilter) // Push a deep copy to avoid reactivity issues
           currentFilterIndex.value = filterHistory.value.length - 1
         }
@@ -75,6 +77,7 @@ export const useFilterStore = defineStore(
       attrFilter,
       resetAttrFilter,
       resetAllFilters,
+      applyFilters,
       prevFilter,
       nextFilter
     }
