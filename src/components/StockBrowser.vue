@@ -18,50 +18,42 @@ function condition(): string {
 
 <template>
   <section id="stock-list">
-    <div class="notdata" v-if="condition() === 'nodatabase'">
-      <h3>Baza danych jest pusta.</h3>
+    <div class="notdata" v-if="condition() !== 'data'">
+      <h3 v-if="condition() === 'nodatabase'">Baza danych jest pusta.</h3>
+      <h3 v-if="condition() === 'trymore'">
+        Nie znaleziono takiego produktu w stanach handlowych <i class="bi bi-box"></i>
+      </h3>
+      <h3 v-if="condition() === 'tryzero'">
+        Nie znaleziono takiego produktu w stanach całkowitych <i class="bi bi-boxes"></i>
+      </h3>
+      <h3 v-if="condition() === 'notexist'">Wygląda na to, że taka sklejka nie istnieje 🤔</h3>
+
       <p>
-        <button class="cta" @click="usePreferencesStore().activeWindow = 'StockUpdate'">
+        <button
+          v-if="condition() === 'nodatabase'"
+          class="cta"
+          @click="usePreferencesStore().activeWindow = 'StockUpdate'"
+        >
           <i class="bi bi-download"></i>
           <span>Dodaj</span>
         </button>
+
+        <!-- <button v-if="condition().match(//)" @click="useFilterStore().prevFilter">
+          <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij filtr</span>
+        </button> -->
+
+        <button v-if="condition().match(/trymore/)" @click="useFilterStore().statusFilter = 1">
+          <i class="bi bi-boxes"></i><span>Pokaż stan całkowity</span>
+        </button>
+
+        <button v-if="condition().match(/tryzero/)" @click="useFilterStore().statusFilter = 0">
+          <i class="bi bi-0-circle"></i><span>Pokaż stan zerowy</span>
+        </button>
+
+        <button v-if="condition() !== 'nodatabase'" @click="useFilterStore().resetAllFilters">
+          <i class="bi bi-trash3"></i><span>Resetuj filtry</span>
+        </button>
       </p>
-    </div>
-
-    <div class="notdata" v-if="condition() === 'trymore'">
-      <h3>Nie znaleziono takiego produktu w stanach handlowych <i class="bi bi-box"></i></h3>
-      <button class="" @click="useFilterStore().prevFilter">
-        <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij filtr</span>
-      </button>
-      <button class="" @click="useFilterStore().statusFilter = 1">
-        <i class="bi bi-boxes"></i><span>Pokaż stan całkowity</span>
-      </button>
-      <button class="" @click="useFilterStore().resetAllFilters">
-        <i class="bi bi-trash3"></i><span>Resetuj filtry</span>
-      </button>
-    </div>
-
-    <div class="notdata" v-if="condition() === 'tryzero'">
-      <h3>Nie znaleziono takiego produktu w stanach całkowitych <i class="bi bi-boxes"></i></h3>
-      <button class="" @click="useFilterStore().prevFilter">
-        <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij filtr</span>
-      </button>
-      <button class="" @click="useFilterStore().statusFilter = 0">
-        <i class="bi bi-0-circle"></i><span>Pokaż stan zerowy</span>
-      </button>
-      <button class="" @click="useFilterStore().resetAllFilters">
-        <i class="bi bi-trash3"></i><span>Resetuj filtry</span>
-      </button>
-    </div>
-
-    <div class="notdata notexist" v-if="condition() === 'notexist'">
-      <h3>Wygląda na to, że taka sklejka nie istnieje 🤔</h3>
-      <button class="light" @click="useFilterStore().prevFilter">
-        <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij filtr</span>
-      </button>
-      <button class="light" @click="useFilterStore().resetAllFilters">
-        <i class="bi bi-trash3"></i><span>Resetuj filtry</span>
-      </button>
     </div>
 
     <div v-show="condition() === 'data'" id="scrolltoptarget">
