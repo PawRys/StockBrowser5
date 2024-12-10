@@ -226,7 +226,7 @@ function showHTML(rowFilter: Function, colFilter: Function) {
 
 <template>
   <section id="stock-stats">
-    <h2>Staystyki produktów</h2>
+    <h2>Statystyki produktów</h2>
 
     <div class="toolbar">
       <button
