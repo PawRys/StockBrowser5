@@ -310,7 +310,7 @@ export function zeroOutReservations(data: Plywood[]): Plywood[] {
 export function hasInventory(stockList: Plywood[]): Boolean {
   if (!stockList) return false
   for (const row of stockList) {
-    if (row.inventory) return true
+    if (row.inventoryCubicSum && row.inventoryCubicSum !== 0) return true
   }
   return false
 }
