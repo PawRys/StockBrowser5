@@ -125,17 +125,21 @@ function prepareData() {
 
       Status: item.inventoryStatus,
 
-      'Symfonia ma [m3]': quantCub.toFixed(3),
-      'Magazyn ma [m3]': invCub.toFixed(3),
-      'Różnica [m3]': (invCub - quantCub).toFixed(3),
+      '[m3] Symfonia': quantCub.toFixed(3),
+      '[m3] Magazyn': invCub.toFixed(3),
+      '[m3] Różnica': (invCub - quantCub).toFixed(3),
 
-      'Symfonia ma [m2]': quantSqr.toFixed(4),
-      'Magazyn ma [m2]': invSqr.toFixed(4),
-      'Różnica [m2]': (invSqr - quantSqr).toFixed(4),
+      '[m2] Symfonia': quantSqr.toFixed(4),
+      '[m2] Magazyn': invSqr.toFixed(4),
+      '[m2] Różnica': (invSqr - quantSqr).toFixed(4),
 
-      'Symfonia ma [szt]': quantPcs.toFixed(1),
-      'Magazyn ma [szt]': invPcs.toFixed(1),
-      'Różnica [szt]': (invPcs - quantPcs).toFixed(1)
+      '[szt] Symfonia': quantPcs.toFixed(1),
+      '[szt] Magazyn': invPcs.toFixed(1),
+      '[szt] Różnica': (invPcs - quantPcs).toFixed(1),
+
+      '[m3] Spis z nat.': item.inventory?.m3 || '0',
+      '[m2] Spis z nat.': item.inventory?.m2 || '0',
+      '[szt] Spis z nat.': item.inventory?.szt || '0'
     }
   })
 }
