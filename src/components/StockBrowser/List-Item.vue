@@ -55,7 +55,7 @@ provide('basePrice', basePrice)
       <div v-if="item.size === '(?)'" class="warn">
         <span>
           ❗ Brak rozmiaru w opisie sklejki. Popraw opis w Symfonii wg schematu:
-          <b>[grubość]</b>x<b>[wymiar A]</b>x<b>[wymiar B]</b> bez spacji!
+          <b>[grubość]</b>x<b>[wymiar_A]</b>x<b>[wymiar_B]</b> bez spacji!
         </span>
       </div>
     </section>
@@ -73,7 +73,7 @@ provide('basePrice', basePrice)
       <div v-if="item.size === '(?)'" class="warn">
         <span>
           ❗ Brak rozmiaru w opisie sklejki. Popraw opis w Symfonii wg schematu:
-          <b>[grubość]</b>x<b>[wymiar A]</b>x<b>[wymiar B]</b> bez spacji!
+          <b>[grubość]</b>x<b>[wymiar_A]</b>x<b>[wymiar_B]</b> bez spacji!
         </span>
       </div>
     </section>
