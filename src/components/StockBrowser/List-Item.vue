@@ -54,7 +54,7 @@ provide('basePrice', basePrice)
       <Price class="price" :item="item" :unit="'perc'" />
       <div v-if="item.size === '(?)'" class="warn">
         <span>
-          ❗ Brak rozmiaru w opisie sklejki. <br />Popraw opis w Symfonii wg schematu:
+          ❗ Brak rozmiaru w opisie sklejki. Popraw opis w Symfonii wg schematu:
           <b>[grubość]</b>x<b>[wymiar A]</b>x<b>[wymiar B]</b> bez spacji!
         </span>
       </div>
@@ -72,7 +72,7 @@ provide('basePrice', basePrice)
       <InventoryDiff class="quantity" :item="item" :unit="'szt'" />
       <div v-if="item.size === '(?)'" class="warn">
         <span>
-          ❗ Brak rozmiaru w opisie sklejki. <br />Popraw opis w Symfonii wg schematu:
+          ❗ Brak rozmiaru w opisie sklejki. Popraw opis w Symfonii wg schematu:
           <b>[grubość]</b>x<b>[wymiar A]</b>x<b>[wymiar B]</b> bez spacji!
         </span>
       </div>
