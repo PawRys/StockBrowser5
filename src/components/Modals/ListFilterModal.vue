@@ -271,7 +271,7 @@ const appliedFiltersCount = computed(() => {
 .attribute-filter {
   display: grid;
   grid-auto-flow: column;
-  grid-template-columns: repeat(autofit, 1fr);
+  /* grid-template-columns: repeat(autofit, 1fr); */
   grid-template-rows: auto auto auto 1fr;
   margin-top: 1ch;
   width: 100%;
@@ -285,11 +285,20 @@ const appliedFiltersCount = computed(() => {
 
   margin: 0;
   padding: 0 1ch;
+  height: min-content;
   border: none;
+
+  position: sticky;
+  bottom: 0;
+  top: 0;
 }
 
 .fieldset h4 {
+  position: sticky;
+  z-index: 1;
+  top: 0;
   margin-block: 0.5ch;
+  background-color: var(--bg-color);
   font-size: 0.9em;
 }
 
@@ -305,18 +314,27 @@ const appliedFiltersCount = computed(() => {
 }
 
 .fieldset--faceGroup {
+  position: relative;
   grid-column: 1 / 2;
   grid-row: 1 / 2;
 }
 
 .fieldset--footSize {
+  position: relative;
   grid-column: 1 / 2;
   grid-row: 2 / 3;
 }
 
-.fieldset--glueType {
+.fieldset--color {
+  position: relative;
   grid-column: 1 / 2;
   grid-row: 3 / 4;
+}
+
+.fieldset--glueType {
+  position: relative;
+  grid-column: 1 / 2;
+  grid-row: 4 / 5;
 }
 
 .fieldset__item {
