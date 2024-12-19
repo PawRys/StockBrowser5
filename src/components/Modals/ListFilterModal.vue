@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import _ from 'lodash'
-
 import { watch, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { closeModal } from 'jenesius-vue-modal'
-
 import { useStockStore } from '@/stores/stockStore'
 import { useFilterStore } from '@/stores/filterStore'
-
 import { escapeNonword } from '@/exports/common_functions'
 
 import QuantityStatus from '@/components/StockBrowser/QuantityStatusSwitch.vue'
@@ -153,7 +149,8 @@ const appliedFiltersCount = computed(() => {
       <form id="attribute-filter" class="attribute-filter" @submit.prevent="getAttrFilterList">
         <template v-for="(attrLabel, attrKey) in attrLabels" :key="`fieldset--${attrKey}`">
           <fieldset class="fieldset" :class="`fieldset--${attrKey}`">
-            <hr v-if="attrKey.match(/footSize|glueType/)" />
+            <!-- <hr v-if="attrKey.match(/footSize|glueType/)" /> -->
+            <h4>{{ attrLabel }}</h4>
             <div class="fieldset__scroll-track">
               <div
                 class="fieldset__item"
@@ -289,6 +286,11 @@ const appliedFiltersCount = computed(() => {
   margin: 0;
   padding: 0 1ch;
   border: none;
+}
+
+.fieldset h4 {
+  margin-block: 0.5ch;
+  font-size: 0.9em;
 }
 
 .fieldset > button,

@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { ref, computed, defineProps, watch, toRefs } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
 import { setInventoryStatus, setQuantityStatus } from '@/exports/stockUpdateExports'
-import { evalMath, calcQuant, prettierExpression, scrollTo } from '@/exports/common_functions'
+import { evalMath, calcQuant, scrollTo } from '@/exports/common_functions'
 
 import MathKeyboard from '@/components/MathKeyboard.vue'
 

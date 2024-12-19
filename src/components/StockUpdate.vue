@@ -2,6 +2,7 @@
 import _ from 'lodash'
 import { ref, watch } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
+import { scrollTo } from '@/exports/common_functions'
 import {
   defineDataType,
   convertToArray,
@@ -89,6 +90,7 @@ async function submit(e: Event): Promise<void> {
         name="textBox"
         v-model="textbox"
         placeholder="Wpisz tutaj"
+        @focus="scrollTo(`#stock-update`, -50)"
       ></textarea>
       <input type="text" class="message-box" name="message-box" v-model="messagebox" disabled />
       <div class="buttonbar">

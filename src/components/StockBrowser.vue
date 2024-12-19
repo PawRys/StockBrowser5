@@ -19,6 +19,8 @@ function condition(): string {
 <template>
   <section id="stock-list">
     <div class="notdata" v-if="condition() !== 'data'">
+      <FloatingToolbar v-if="condition() !== 'nodatabase'" />
+
       <h3 v-if="condition() === 'nodatabase'">Baza danych jest pusta.</h3>
       <h3 v-if="condition() === 'trymore'">
         Nie znaleziono takiego produktu w stanach handlowych <i class="bi bi-box"></i>
@@ -42,17 +44,17 @@ function condition(): string {
           <i class="bi bi-arrow-counterclockwise"></i><span>Cofnij filtr</span>
         </button> -->
 
-        <button v-if="condition().match(/trymore/)" @click="useFilterStore().statusFilter = 1">
+        <!-- <button v-if="condition().match(/trymore/)" @click="useFilterStore().statusFilter = 1">
           <i class="bi bi-boxes"></i><span>Pokaż stan całkowity</span>
-        </button>
+        </button> -->
 
-        <button v-if="condition().match(/tryzero/)" @click="useFilterStore().statusFilter = 0">
+        <!-- <button v-if="condition().match(/tryzero/)" @click="useFilterStore().statusFilter = 0">
           <i class="bi bi-0-circle"></i><span>Pokaż stan zerowy</span>
-        </button>
+        </button> -->
 
-        <button v-if="condition() !== 'nodatabase'" @click="useFilterStore().resetAllFilters">
+        <!-- <button v-if="condition() !== 'nodatabase'" @click="useFilterStore().resetAllFilters">
           <i class="bi bi-trash3"></i><span>Resetuj filtry</span>
-        </button>
+        </button> -->
       </p>
     </div>
 
