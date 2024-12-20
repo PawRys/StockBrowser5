@@ -287,10 +287,6 @@ const appliedFiltersCount = computed(() => {
   padding: 0 1ch;
   height: min-content;
   border: none;
-
-  position: sticky;
-  bottom: 0;
-  top: 0;
 }
 
 .fieldset h4 {
