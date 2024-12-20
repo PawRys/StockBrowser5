@@ -281,6 +281,7 @@ const appliedFiltersCount = computed(() => {
 
 .form-column {
   display: grid;
+  grid-template-rows: auto auto auto 1fr;
   height: 100%;
   overflow-y: auto;
 }
