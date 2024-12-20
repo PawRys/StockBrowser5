@@ -28,19 +28,6 @@ const attrSets = {
   faceGroup: new Set() as Set<string>
 }
 
-// const attrLabels = {
-//   faceGroup: 'Grupa',
-//   glueType: 'Klej',
-//   footSize: 'Rozmiar',
-//   sizeT: 'Grubość',
-//   faceType: 'Klasa',
-//   color: 'Kolor',
-//   sizeA: 'Wym A',
-//   sizeB: 'Wym B',
-//   // sizeAB: 'Wymiar',
-//   woodType: 'Gatunek'
-// }
-
 const formColumns = {
   col_1: { faceGroup: 'Grupa', footSize: 'Rozmiar', color: 'Kolor', glueType: 'Klej' },
   col_2: { sizeT: 'Grubość' },
