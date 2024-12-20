@@ -224,6 +224,7 @@ const appliedFiltersCount = computed(() => {
 .dialog {
   display: grid;
   justify-items: center;
+  justify-content: center;
   grid-template-rows: auto 1fr auto;
 
   position: fixed;
