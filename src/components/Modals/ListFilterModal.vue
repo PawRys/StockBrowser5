@@ -28,17 +28,26 @@ const attrSets = {
   faceGroup: new Set() as Set<string>
 }
 
-const attrLabels = {
-  faceGroup: 'Grupa',
-  glueType: 'Klej',
-  footSize: 'Rozmiar',
-  sizeT: 'Grubość',
-  faceType: 'Klasa',
-  color: 'Kolor',
-  sizeA: 'Wym A',
-  sizeB: 'Wym B',
-  // sizeAB: 'Wymiar',
-  woodType: 'Gatunek'
+// const attrLabels = {
+//   faceGroup: 'Grupa',
+//   glueType: 'Klej',
+//   footSize: 'Rozmiar',
+//   sizeT: 'Grubość',
+//   faceType: 'Klasa',
+//   color: 'Kolor',
+//   sizeA: 'Wym A',
+//   sizeB: 'Wym B',
+//   // sizeAB: 'Wymiar',
+//   woodType: 'Gatunek'
+// }
+
+const formColumns = {
+  col_1: { faceGroup: 'Grupa', footSize: 'Rozmiar', color: 'Kolor', glueType: 'Klej' },
+  col_2: { sizeT: 'Grubość' },
+  col_3: { faceType: 'Klasa' },
+  col_4: { sizeA: 'Wym A' },
+  col_5: { sizeB: 'Wym B' },
+  col_6: { woodType: 'Gatunek' }
 }
 
 watch(
@@ -146,40 +155,50 @@ const appliedFiltersCount = computed(() => {
         </button>
       </header>
 
-      <form id="attribute-filter" class="attribute-filter" @submit.prevent="getAttrFilterList">
-        <template v-for="(attrLabel, attrKey) in attrLabels" :key="`fieldset--${attrKey}`">
-          <fieldset class="fieldset" :class="`fieldset--${attrKey}`">
-            <!-- <hr v-if="attrKey.match(/footSize|glueType/)" /> -->
-            <h4>{{ attrLabel }}</h4>
-            <div class="fieldset__scroll-track">
-              <div
-                class="fieldset__item"
-                v-for="item of Array.from(attrSets[attrKey]).sort(collator.compare)"
-                :key="`${attrKey}-${escapeNonword(item)}`"
-              >
-                <label class="button compact">
-                  <input
-                    type="checkbox"
-                    :value="item"
-                    :name="attrKey"
-                    :checked="isChecked(attrKey, item)"
-                    :id="`${attrKey}-${escapeNonword(item)}`"
-                  />
-                </label>
-                <button class="compact" @click="checkSibling">
-                  <span>{{ item }}</span>
-                </button>
-              </div>
+      <form
+        id="attribute-filter"
+        class="attribute-filter--off form"
+        @submit.prevent="getAttrFilterList"
+      >
+        <div class="form-column" v-for="(colValue, colKey) in formColumns" :key="`form-${colKey}`">
+          <fieldset
+            class="form-fieldset"
+            :class="`form-fieldset--${fieldsetKey}`"
+            v-for="(fieldsetLabel, fieldsetKey) in colValue"
+            :key="`fieldset-${fieldsetKey}`"
+          >
+            <h4 class="form-fieldset__h4">{{ fieldsetLabel }}</h4>
+
+            <div
+              class="form-fieldset__item"
+              v-for="item of Array.from(attrSets[fieldsetKey] as Iterable<string>).sort(
+                collator.compare
+              )"
+              :key="`${fieldsetKey}-${escapeNonword(item)}`"
+            >
+              <label class="button compact">
+                <input
+                  type="checkbox"
+                  :value="item"
+                  :name="fieldsetKey"
+                  :checked="isChecked(fieldsetKey, item)"
+                  :id="`${fieldsetKey}-${escapeNonword(item)}`"
+                />
+              </label>
+              <button class="compact" @click="checkSibling">
+                <span>{{ item }}</span>
+              </button>
             </div>
+
             <button
               class="transparent"
-              v-if="filterStore.attrFilter[attrKey]"
-              @click="[filterStore.resetAttrFilter(attrKey)]"
+              v-if="filterStore.attrFilter[fieldsetKey]"
+              @click="[filterStore.resetAttrFilter(fieldsetKey)]"
             >
               <i class="bi bi-trash3"></i><span>Usuń</span>
             </button>
           </fieldset>
-        </template>
+        </div>
       </form>
 
       <footer class="dialog__footer">
@@ -218,7 +237,6 @@ const appliedFiltersCount = computed(() => {
 .dialog {
   display: grid;
   justify-items: center;
-  place-content: center;
   grid-template-rows: auto 1fr auto;
 
   position: fixed;
@@ -263,94 +281,38 @@ const appliedFiltersCount = computed(() => {
 }
 
 .text-filter {
-  /* position: absolute;
-  inset: 0; */
   flex-grow: 1;
 }
 
-.attribute-filter {
+.form {
   display: grid;
-  grid-auto-flow: column;
-  /* grid-template-columns: repeat(autofit, 1fr); */
-  grid-template-rows: auto auto auto 1fr;
-  margin-top: 1ch;
+  grid-template-columns: repeat(6, min-content);
   width: 100%;
   overflow-x: scroll;
 }
 
-.fieldset {
-  grid-row: 1 / 5;
-  display: flex;
-  flex-direction: column;
-
-  margin: 0;
-  padding: 0 1ch;
-  height: min-content;
-  border: none;
-}
-
-.fieldset h4 {
-  position: sticky;
-  z-index: 1;
-  top: 0;
-  margin-block: 0.5ch;
-  background-color: var(--bg-color);
-  font-size: 0.9em;
-}
-
-.fieldset > button,
-.fieldset > .button {
-  margin-inline: auto;
-  width: 100%;
-}
-
-.fieldset__scroll-track {
-  overflow-x: clip;
+.form-column {
+  display: grid;
+  height: 100%;
   overflow-y: auto;
 }
 
-.fieldset--faceGroup {
-  position: relative;
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
+.form-fieldset {
+  margin: 0;
+  border: none;
+  padding: 0.5ch;
 }
 
-.fieldset--footSize {
-  position: relative;
-  grid-column: 1 / 2;
-  grid-row: 2 / 3;
-}
-
-.fieldset--color {
-  position: relative;
-  grid-column: 1 / 2;
-  grid-row: 3 / 4;
-}
-
-.fieldset--glueType {
-  position: relative;
-  grid-column: 1 / 2;
-  grid-row: 4 / 5;
-}
-
-.fieldset__item {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-/** */
-/* .attribute-filter .bi {
-  grid-row: 1/2;
+.form-fieldset__h4 {
+  margin: 0;
+  font-size: 0.9em;
   position: sticky;
-  inset: 0rem;
-  color: var(--accent-light);
-  color: transparent;
-  display: block;
-  width: min-content;
-} */
+  z-index: 1;
+  top: 0;
+  background-color: var(--bg-color);
+}
 
-/* .attribute-filter .bi:nth-of-type(9) {
-  color: var(--accent-light);
-} */
+.form-fieldset__item {
+  display: flex;
+}
 </style>
