@@ -52,9 +52,9 @@ function condition(): string {
           <i class="bi bi-0-circle"></i><span>Pokaż stan zerowy</span>
         </button> -->
 
-        <!-- <button v-if="condition() !== 'nodatabase'" @click="useFilterStore().resetAllFilters">
+        <button v-if="condition() !== 'nodatabase'" @click="useFilterStore().resetAllFilters">
           <i class="bi bi-trash3"></i><span>Resetuj filtry</span>
-        </button> -->
+        </button>
       </p>
     </div>
 
