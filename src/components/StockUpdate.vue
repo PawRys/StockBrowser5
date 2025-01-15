@@ -115,7 +115,9 @@ async function submit(e: Event): Promise<void> {
 <style scoped>
 #stock-update {
   padding: 1ch;
+  min-height: 100vh;
 }
+
 form {
   display: grid;
   gap: 1ch;
