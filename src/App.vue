@@ -99,11 +99,14 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
   <footer>
     <p>Wszelkie prawa zastrzeżone - Paweł Ryszkowski</p>
     <p>
-      Uwagi i pomoc techniczna - Paweł:
+      Uwagi i pomoc techniczna:
       <a href="mailto:pawrys.kontakt@gmail.com?subject=Pomoc%20Stock%20Browser%205" target="_blank"
         >pawrys.kontakt@gmail.com</a
       >
+      <span> - </span>
+      <a href="https://github.com/PawRys/">Github/PawRys</a>
     </p>
+    <p></p>
   </footer>
 
   <widget-container-modal />
