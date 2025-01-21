@@ -97,6 +97,9 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
   </main>
 
   <footer>
+    <p>
+      <a href="https://pawrys.github.io/PurchaseComparator/">Tester przyjęć</a>
+    </p>
     <p>Wszelkie prawa zastrzeżone - Paweł Ryszkowski</p>
     <p>
       Uwagi i pomoc techniczna:
