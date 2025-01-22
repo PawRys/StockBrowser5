@@ -73,6 +73,15 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
 
 <template>
   <header>
+        <p>
+      <a href="https://pawrys.github.io/StockBrowser5/">Stany</a>
+      <span> / </span>
+      <a href="https://pawrys.github.io/LabelGenerator/">Etykiety</a>
+      <span> / </span>
+      <a href="https://pawrys.github.io/PurchaseComparator/">Tester</a>
+    </p>
+
+
     <div class="menu-bar">
       <button
         v-for="(tab, id) in appWindowsList"
@@ -97,9 +106,6 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
   </main>
 
   <footer>
-    <p>
-      <a href="https://pawrys.github.io/PurchaseComparator/">Tester przyjęć</a>
-    </p>
     <p>Wszelkie prawa zastrzeżone - Paweł Ryszkowski</p>
     <p>
       Uwagi i pomoc techniczna:
