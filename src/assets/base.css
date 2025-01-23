@@ -87,6 +87,13 @@
   scrollbar-color: var(--accent-light) var(--bg-color);
 }
 
+a {
+  color: var(--cta-color);
+}
+a:hover {
+  color: var(--accent-light);
+}
+
 :focus {
   outline-color: orange;
 }

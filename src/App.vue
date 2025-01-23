@@ -73,14 +73,13 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
 
 <template>
   <header>
-        <p>
+    <p class="other-sites">
       <a href="https://pawrys.github.io/StockBrowser5/">Stany</a>
       <span> / </span>
       <a href="https://pawrys.github.io/LabelGenerator/">Etykiety</a>
       <span> / </span>
       <a href="https://pawrys.github.io/PurchaseComparator/">Tester</a>
     </p>
-
 
     <div class="menu-bar">
       <button
@@ -122,6 +121,10 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
 </template>
 
 <style scoped>
+.other-sites {
+  margin-block: 0 1em;
+}
+
 .top-header {
   display: flex;
   flex-wrap: wrap;
