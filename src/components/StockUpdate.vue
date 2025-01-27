@@ -91,7 +91,7 @@ async function submit(e: Event): Promise<void> {
         name="textBox"
         v-model="textbox"
         placeholder="Wpisz tutaj"
-        @focus="scrollTo(`#stock-update`, -50)"
+        @focus="scrollTo(`#stock-update`, -100)"
       ></textarea>
       <input type="text" class="message-box" name="message-box" v-model="messagebox" disabled />
       <div class="buttonbar">
