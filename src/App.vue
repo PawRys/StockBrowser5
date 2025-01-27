@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, provide, onUnmounted } from 'vue'
+import { ref, computed, onMounted, provide } from 'vue'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 import { container as WidgetContainerModal } from 'jenesius-vue-modal'
 import { setRandomUUID } from '@/exports/common_functions'
@@ -12,32 +12,10 @@ import StockShare from '@/components/StockShare.vue'
 import StockManager from '@/components/StockManager.vue'
 import DataStats from '@/components/StockBrowser/DataStats.vue'
 
-/** PopState event = previous filter */
-/** cant get it to work */
-//
-// import { useFilterStore } from '@/stores/filterStore'
-// import { once } from 'lodash'
-// const filterStore = useFilterStore()
-// history.pushState(null, null, location.href)
-// document.addEventListener('popstate', function () {
-//   history.pushState(null, null, location.href)
-//   alert('popstate')
-//   filterStore.prevFilter
-// })
-/** PopState event END */
-
 const refreshMainComponent = ref(0)
 provide('refreshMainComponent', refreshMainComponent)
 
 onMounted(() => {
-  // window.addEventListener(
-  //   'popstate',
-  //   function (event) {
-  //     useFilterStore().applyFilters(event.state)
-  //   },
-  //   { once: true }
-  // )
-
   document.querySelectorAll('[tabindex]').forEach((item) => {
     ;(item as HTMLElement).addEventListener('keydown', (ev: KeyboardEvent) => {
       if (ev.key === 'Enter' || ev.key === ' ') {
@@ -46,10 +24,6 @@ onMounted(() => {
       }
     })
   })
-})
-
-onUnmounted(() => {
-  // window.removeEventListener('popstate')
 })
 
 const appWindowsList = {
@@ -83,14 +57,14 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
 
     <div class="menu-bar">
       <button
-        v-for="(tab, id) in appWindowsList"
+        v-for="(appWindow, windowId) in appWindowsList"
         class="switch"
-        :class="{ active: usePreferencesStore().activeWindow === id }"
-        :key="id"
-        @click="usePreferencesStore().activeWindow = id"
+        :class="{ active: usePreferencesStore().activeWindow === windowId }"
+        :key="windowId"
+        @click="usePreferencesStore().activeWindow = windowId"
       >
-        <i :class="`${tab.icon}${fill(id)}`"></i>
-        <span>{{ tab.label }}</span>
+        <i :class="`${appWindow.icon}${fill(windowId)}`"></i>
+        <span>{{ appWindow.label }}</span>
       </button>
     </div>
     <div class="top-header">
