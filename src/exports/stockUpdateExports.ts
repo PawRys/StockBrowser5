@@ -174,9 +174,9 @@ function getFaceType(text: string): string | undefined {
   /*1*/ if (/s09\//gi.test(text)) result = 'WG/WG'
   /*1*/ if (/s10\//gi.test(text)) result = 'C/C'
   /*1*/ if (/s11\//gi.test(text)) result = 'Kilo'
-  /*1*/ if (/s12|s13\//gi.test(text)) result = 'F/F' // II applied in *4*
-  /*1*/ if (/s14|s15\//gi.test(text)) result = 'F/W' // II applied in *4*
-  /*1*/ if (/s16|s17\//gi.test(text)) result = 'W/W' // II applied in *4*
+  /*1*/ if (/s12\/|s13\//gi.test(text)) result = 'F/F' // II applied in *4*
+  /*1*/ if (/s14\/|s15\//gi.test(text)) result = 'F/W' // II applied in *4*
+  /*1*/ if (/s16\/|s17\//gi.test(text)) result = 'W/W' // II applied in *4*
   /*1*/ if (/s18\//gi.test(text)) result = 'CP/C'
   /*1*/ if (/s19\//gi.test(text)) result = 'M/WG'
   /*1*/ if (/s20\//gi.test(text)) result = 'F/BB'
@@ -190,13 +190,14 @@ function getFaceType(text: string): string | undefined {
   /*1*/ if (/s29\//gi.test(text)) result = 'S/CP'
   /*1*/ if (/s30\//gi.test(text)) result = 'V/V'
   /*1*/ if (/s31\//gi.test(text)) result = 'OSB3'
-  /*1*/ if (/s32\//gi.test(text)) result = 'OSB T&G'
+  /*1*/ if (/s32\//gi.test(text)) result = 'OSB T&G'
   /*1*/ if (/s35\//gi.test(text)) result = 'BB/CC'
 
   /*2.1*/ if (/\bkilo\b/gi.test(text)) result = 'Kilo'
   /*2.2*/ if (/\bPQ\b/gi.test(text)) result = 'PQ'
   /*2.3*/ if (/\bPQ\W?F\b/gi.test(text)) result = 'PQF'
   /*3*/ if (/\bF\/W\W?H\b|Heksa/gi.test(text)) result = 'Heksa'
+  /*3*/ if (/\bF\/W\W?H+\b|Heksa+|Heksa Plus/gi.test(text)) result = 'Heksa Plus'
   /*3*/ if (/\bM\/M\b|mel|\bopal white\b/gi.test(text)) result = 'M/M'
   // /*3*/ if (/\bhoney\b/gi.test(text)) result = 'Honey'
   // /*3*/ if (/\bM\/M\b|mel/gi.test(text)) result = 'M/M'
@@ -207,7 +208,7 @@ function getFaceType(text: string): string | undefined {
   /*3*/ if (/OSB/gi.test(text)) result = 'OSB'
 
   /*4*/ // !important Apply II grade at the end
-  /*4*/ if (/s13\/|s15\/|s17\//gi.test(text)) result += ' II'
+  /*4*/ if (/s13\/|s15\/|s17\/|((WT|FA|MA|W|F|M) II)/gi.test(text)) result += ' II'
 
   return result
 }
