@@ -90,7 +90,7 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
             @click="zerooutFilteredInventory()"
             :disabled="!filledInventoryCount()"
           >
-            <i class="bi bi-trash3-fill"></i>
+            <i class="bi bi-backspace-fill"></i>
             Zeruj ({{ `${filledInventoryCount()} z ${useStockStore().items.length}` }})
           </button>
         </div>
