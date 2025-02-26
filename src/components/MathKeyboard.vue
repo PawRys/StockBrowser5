@@ -133,7 +133,7 @@ function insertCharacter(key: string) {
   gap: 0.5ch;
 
   position: absolute;
-  place-self: center;
+  place-self: end center;
   top: 8rem;
 
   margin-top: 1rem;
@@ -165,11 +165,11 @@ function insertCharacter(key: string) {
 }
 
 #keyboard button.clicked::after {
-  animation-name: noticable;
+  animation-name: noticable-click;
   animation-duration: 150ms;
 }
 
-@keyframes noticable {
+@keyframes noticable-click {
   100% {
     border: 2px solid var(--accent-lighter);
     inset: -0.5rem;
