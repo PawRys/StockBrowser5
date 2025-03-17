@@ -145,10 +145,9 @@ function getVolumeUnit(input: string): VolumeUnit {
 
 function getGlueType(text: string): string | undefined {
   let result = undefined
-  if (/sucho|\bMR\b|\bINT\b/g.test(text)) result = 'MR'
+  if (/melamin|M\?M|foliowana|antypo/g.test(text)) result = 'WD'
   if (/wodo|\bWD\b|\bEXT\b|\bE\b/g.test(text)) result = 'WD'
-  if (/lamin|foliowana|antypo/g.test(text)) result = 'WD'
-  if (/melamin|M\?M/g.test(text)) result = 'WD'
+  if (/sucho|\bMR\b|\bINT\b/g.test(text)) result = 'MR'
   return result
 }
 
