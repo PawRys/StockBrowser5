@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import _ from 'lodash'
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
 import { scrollTo } from '@/exports/common_functions'
 import {
@@ -17,11 +17,16 @@ import PasteButton from '@/components/StockUpdate/PasteButton.vue'
 const messagebox = ref('')
 const datatype = ref()
 const textbox = ref('')
+const textareaRef = ref<HTMLTextAreaElement | null>(null)
 
 watch(textbox, () => {
   const { message, data } = defineDataType(textbox.value)
   datatype.value = data
   messagebox.value = message
+})
+
+onMounted(() => {
+  textareaRef.value?.focus()
 })
 
 async function paste(data: Promise<string>) {
@@ -92,6 +97,7 @@ async function submit(e: Event): Promise<void> {
         v-model="textbox"
         placeholder="Wpisz tutaj"
         @focus="scrollTo(`#stock-update`, -100)"
+        ref="textareaRef"
       ></textarea>
       <input type="text" class="message-box" name="message-box" v-model="messagebox" disabled />
       <div class="buttonbar">
