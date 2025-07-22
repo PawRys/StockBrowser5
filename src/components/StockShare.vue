@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { php_server_url } from '@/exports/urls'
 
 const messagebox = ref()
 const shareCode = ref()
 const password = ref()
+const textareaRef = ref<HTMLTextAreaElement | null>(null)
+
+onMounted(() => {
+  textareaRef.value?.focus()
+})
 
 async function shareData() {
   messagebox.value = 'Wysyłanie danych...'
@@ -52,7 +57,12 @@ async function shareData() {
   <section id="stock-share">
     <h2>Udostępnij</h2>
     <form action="javascript:void(0);">
-      <input type="password" placeholder="Hasło (opcjonalne)" v-model="password" />
+      <input
+        type="password"
+        placeholder="Hasło (opcjonalne)"
+        v-model="password"
+        ref="textareaRef"
+      />
       <button class="cta" @click="shareData">Generuj kod</button>
     </form>
     <p class="message-box">{{ messagebox }}</p>
