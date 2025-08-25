@@ -127,12 +127,17 @@ const appliedFiltersCount = computed(() => {
           </button>
         </div>
         <div class="flex-row">
-          <button @click="filterStore.prevFilter" :disabled="filterStore.currentFilterIndex <= 0">
+          <button
+            class="compact"
+            @click="filterStore.prevFilter"
+            :disabled="filterStore.currentFilterIndex <= 0"
+          >
             <i class="bi bi-arrow-counterclockwise"></i>
             <!-- <span>{{ filterStore.currentFilterIndex }}</span> -->
           </button>
 
           <button
+            class="compact"
             @click="filterStore.nextFilter"
             :disabled="filterStore.currentFilterIndex >= filterStore.filterHistory.length - 1"
           >
@@ -141,6 +146,7 @@ const appliedFiltersCount = computed(() => {
           </button>
 
           <button
+            class="compact"
             type="reset"
             @click="filterStore.resetAllFilters"
             :disabled="!appliedFiltersCount"
@@ -209,7 +215,7 @@ const appliedFiltersCount = computed(() => {
               v-model="filterStore.textFilter"
             />
             <button
-              class="transparent"
+              class="transparent compact"
               v-if="filterStore.textFilter !== ''"
               @click="filterStore.textFilter = ''"
             >
@@ -230,7 +236,7 @@ const appliedFiltersCount = computed(() => {
 <style scoped>
 .flex-row {
   display: flex;
-  /* justify-content: space-between; */
+  justify-content: center;
   align-items: center;
   gap: 1ch;
   width: 100%;
@@ -254,12 +260,11 @@ const appliedFiltersCount = computed(() => {
 }
 
 .dialog__header {
-  display: block;
-  /* display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1ch; */
+  display: flex;
+  gap: 1ch;
+  margin-bottom: 1ch;
   width: 100%;
+  flex-direction: column;
 }
 
 .dialog__header .close-button {
@@ -274,6 +279,7 @@ const appliedFiltersCount = computed(() => {
   gap: 1ch;
 
   margin-block: 1rem 1rem;
+  width: min(100%, 60ch);
 }
 
 .text-filter--wrapper {
