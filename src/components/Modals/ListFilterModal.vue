@@ -119,27 +119,36 @@ const appliedFiltersCount = computed(() => {
         <!-- empty div -->
         <!-- <div>
         </div> -->
-        <div class="text-filter--wrapper">
-          <input
-            class="text-filter"
-            type="text"
-            name="textSearch"
-            placeholder="Szukaj tekstowo"
-            @keypress.enter="($event.target as HTMLInputElement).blur()"
-            v-model="filterStore.textFilter"
-          />
-          <button
-            class="transparent"
-            v-if="filterStore.textFilter !== ''"
-            @click="filterStore.textFilter = ''"
-          >
-            <i class="bi bi-trash3"></i>
+        <div class="flex-row">
+          <QuantityStatus />
+
+          <button class="close-button compact" @click="closeModal()">
+            <i class="bi bi-x-square-fill"></i>
           </button>
         </div>
+        <div class="flex-row">
+          <button @click="filterStore.prevFilter" :disabled="filterStore.currentFilterIndex <= 0">
+            <i class="bi bi-arrow-counterclockwise"></i>
+            <!-- <span>{{ filterStore.currentFilterIndex }}</span> -->
+          </button>
 
-        <button class="close-button compact" @click="closeModal()">
-          <i class="bi bi-x-square-fill"></i>
-        </button>
+          <button
+            @click="filterStore.nextFilter"
+            :disabled="filterStore.currentFilterIndex >= filterStore.filterHistory.length - 1"
+          >
+            <i class="bi bi-arrow-clockwise"></i>
+            <!-- <span>{{ filterStore.filterHistory.length - 1 - filterStore.currentFilterIndex }}</span> -->
+          </button>
+
+          <button
+            type="reset"
+            @click="filterStore.resetAllFilters"
+            :disabled="!appliedFiltersCount"
+          >
+            <i class="bi bi-trash3"></i>
+            <span>{{ appliedFiltersCount }}</span>
+          </button>
+        </div>
       </header>
 
       <form
@@ -189,27 +198,25 @@ const appliedFiltersCount = computed(() => {
       </form>
 
       <footer class="dialog__footer">
-        <QuantityStatus />
-        <div>
-          <button @click="filterStore.prevFilter" :disabled="filterStore.currentFilterIndex <= 0">
-            <i class="bi bi-arrow-counterclockwise"></i>
-            <!-- <span>{{ filterStore.currentFilterIndex }}</span> -->
-          </button>
-          <button
-            @click="filterStore.nextFilter"
-            :disabled="filterStore.currentFilterIndex >= filterStore.filterHistory.length - 1"
-          >
-            <i class="bi bi-arrow-clockwise"></i>
-            <!-- <span>{{ filterStore.filterHistory.length - 1 - filterStore.currentFilterIndex }}</span> -->
-          </button>
-          <button
-            type="reset"
-            @click="filterStore.resetAllFilters"
-            :disabled="!appliedFiltersCount"
-          >
-            <i class="bi bi-trash3"></i>
-            <span>{{ appliedFiltersCount }}</span>
-          </button>
+        <div class="flex-row">
+          <div class="text-filter--wrapper">
+            <input
+              class="text-filter"
+              type="text"
+              name="textSearch"
+              placeholder="Szukaj tekstowo"
+              @keypress.enter="($event.target as HTMLInputElement).blur()"
+              v-model="filterStore.textFilter"
+            />
+            <button
+              class="transparent"
+              v-if="filterStore.textFilter !== ''"
+              @click="filterStore.textFilter = ''"
+            >
+              <i class="bi bi-backspace"></i>
+            </button>
+          </div>
+
           <button class="cta" type="submit" @click="[formSubmit('attribute-filter'), closeModal()]">
             <i class="bi bi-search"></i>
             <span>{{ stockItems.length }}</span>
@@ -221,6 +228,13 @@ const appliedFiltersCount = computed(() => {
 </template>
 
 <style scoped>
+.flex-row {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  gap: 1ch;
+  width: 100%;
+}
 .dialog {
   display: grid;
   justify-items: center;
@@ -240,14 +254,16 @@ const appliedFiltersCount = computed(() => {
 }
 
 .dialog__header {
-  display: flex;
+  display: block;
+  /* display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1ch;
+  gap: 1ch; */
   width: 100%;
 }
 
 .dialog__header .close-button {
+  margin-left: auto;
   font-size: 1.5rem;
   cursor: pointer;
 }
