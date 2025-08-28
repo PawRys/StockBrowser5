@@ -6,7 +6,7 @@ import Paginate from '@/components/StockBrowser/List-Pagination.vue'
 
 import { storeToRefs } from 'pinia'
 import { usePreferencesStore } from '@/stores/preferencesStore'
-const { listView } = storeToRefs(usePreferencesStore())
+const { listView, listDetails } = storeToRefs(usePreferencesStore())
 </script>
 
 <template>
@@ -38,6 +38,16 @@ const { listView } = storeToRefs(usePreferencesStore())
 
         <h4>Doliczanie VATu</h4>
         <VatSwitch class="toolbar" />
+
+        <h4>Widok detali</h4>
+        <section>
+          <button v-if="listDetails === 'compact'" @click="listDetails = 'detailed'">
+            <i class="bi bi-chevron-bar-contract"></i> <span>Detale zwinięte</span>
+          </button>
+          <button v-if="listDetails === 'detailed'" @click="listDetails = 'compact'">
+            <i class="bi bi-chevron-bar-expand"></i> <span>Detale rozwinięte</span>
+          </button>
+        </section>
       </section>
     </div>
   </div>

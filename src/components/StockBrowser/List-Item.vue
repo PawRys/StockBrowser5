@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 import { useFilterStore } from '@/stores/filterStore'
 
-const { listView } = storeToRefs(usePreferencesStore())
+const { listView, listDetails } = storeToRefs(usePreferencesStore())
 const { statusFilter } = storeToRefs(useFilterStore())
 
 import Price from '@/components/StockBrowser/ProductFields/PriceField.vue'
@@ -26,8 +26,8 @@ provide('basePrice', basePrice)
 </script>
 
 <template>
-  <li class="listItem" :id="`listItem-${index}`">
-    <header>
+  <li :class="['listItem', listDetails]" :id="`listItem-${index}`" tabindex="0">
+    <header class="itemHeader">
       <span class="header--item-index">{{ `${index}. ` }}</span>
 
       <div class="header--item-info">
@@ -42,7 +42,7 @@ provide('basePrice', basePrice)
       <div class="header--item-name" v-html="`${itemPurchase} - ${itemName}`"></div>
     </header>
 
-    <section class="prices" v-if="listView === 'prices'">
+    <section class="itemBody prices" v-if="listView === 'prices'">
       <InventoryStock class="quantity" :item="item" :unit="'m3'" :statusFilter="statusFilter" />
       <InventoryStock class="quantity" :item="item" :unit="'m2'" :statusFilter="statusFilter" />
       <InventoryStock class="quantity" :item="item" :unit="'szt'" :statusFilter="statusFilter" />
@@ -60,7 +60,7 @@ provide('basePrice', basePrice)
       </div>
     </section>
 
-    <section class="inventory" v-if="listView === 'inventory'">
+    <section class="itemBody inventory" v-if="listView === 'inventory'">
       <InventoryStock class="quantity" :item="item" :unit="'m3'" :statusFilter="statusFilter" />
       <InventoryStock class="quantity" :item="item" :unit="'m2'" :statusFilter="statusFilter" />
       <InventoryStock class="quantity" :item="item" :unit="'szt'" :statusFilter="statusFilter" />
@@ -143,15 +143,13 @@ provide('basePrice', basePrice)
   padding: 0.6rem;
 }
 
-header {
+.itemHeader {
   display: grid;
   grid-template-columns: auto auto 1fr;
   grid-template-areas:
     'indx  info'
     'indx  name';
   gap: 0.1ch 1ch;
-
-  margin-bottom: 2ch;
 }
 
 .header--item-index {
@@ -176,6 +174,18 @@ header {
   grid-area: name;
   font-size: 0.9em;
   color: var(--grey-color);
+}
+
+.itemBody {
+  margin-top: 2ch;
+}
+
+.compact > .itemBody {
+  display: none;
+}
+
+.compact:focus-within > .itemBody {
+  display: grid;
 }
 </style>
 

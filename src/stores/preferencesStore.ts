@@ -6,7 +6,8 @@ export const usePreferencesStore = defineStore(
   () => {
     const activeWindow = ref('')
     const listView = ref('inventory')
-    return { activeWindow, listView }
+    const listDetails = ref('detailed')
+    return { activeWindow, listView, listDetails }
   },
   { persist: true }
 )
