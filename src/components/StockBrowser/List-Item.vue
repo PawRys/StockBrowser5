@@ -35,10 +35,16 @@ function applyFocus(el: HTMLElement) {
     <header class="itemHeader">
       <span class="header--item-index">{{ `${index}. ` }}</span>
 
+      <span class="header--item-id">
+        <b>{{ `${item.id}` }}</b>
+      </span>
+
+      <span class="header--item-quantity">
+        <InventoryStock class="quantity" :item="item" :unit="'szt'" :statusFilter="statusFilter" />
+      </span>
+
       <div class="header--item-info">
-        <span>
-          <b>{{ `${item.id}` }}</b>
-        </span>
+        <!-- <span> </span> -->
         <span>{{ `${item.attr.glueType}` }}</span>
         <span>{{ `${item.attr.footSize}` }}</span>
         <span>{{ `${item.attr.faceType}` }}</span>
@@ -152,17 +158,27 @@ function applyFocus(el: HTMLElement) {
   display: grid;
   grid-template-columns: auto auto 1fr;
   grid-template-areas:
-    'indx  info'
-    'indx  name';
+    'index  itemid quantity'
+    'index  info info'
+    'indxx  name name';
   gap: 0.1ch 1ch;
 }
 
 .header--item-index {
-  grid-area: indx;
+  grid-area: index;
 }
 
 .header--item-info {
   grid-area: info;
+  place-self: center;
+}
+.header--item-id {
+  grid-area: itemid;
+}
+
+.header--item-quantity {
+  grid-area: quantity;
+  place-self: end;
 }
 
 .header--item-info span:not(:first-child)::before {
