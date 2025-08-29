@@ -181,6 +181,7 @@ function applyFocus(el: HTMLElement) {
   grid-area: info;
   place-self: baseline end;
   font-size: 0.9em;
+  font-weight: 700;
   color: var(--grey-color);
 }
 
