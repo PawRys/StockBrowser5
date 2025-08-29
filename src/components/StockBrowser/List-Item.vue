@@ -43,6 +43,8 @@ function applyFocus(el: HTMLElement) {
         <InventoryStock class="quantity" :item="item" :unit="'szt'" :statusFilter="statusFilter" />
       </span>
 
+      <span class="header--item-purchase" v-html="`${itemPurchase}`"></span>
+
       <div class="header--item-info">
         <!-- <span> </span> -->
         <span>{{ `${item.attr.glueType}` }}</span>
@@ -50,8 +52,9 @@ function applyFocus(el: HTMLElement) {
         <span>{{ `${item.attr.faceType}` }}</span>
       </div>
 
-      <div class="header--item-name" v-html="`${itemPurchase} - ${itemName}`"></div>
+      <div class="header--item-name" v-html="`${itemName}`"></div>
     </header>
+    <!-- <div class="header--item-name" v-html="`${itemPurchase} - ${itemName}`"></div> -->
 
     <section class="itemBody prices" v-if="listView === 'prices'">
       <InventoryStock class="quantity" :item="item" :unit="'m3'" :statusFilter="statusFilter" />
@@ -156,11 +159,10 @@ function applyFocus(el: HTMLElement) {
 
 .itemHeader {
   display: grid;
-  grid-template-columns: auto auto 1fr;
+  grid-template-columns: min-content auto 1fr;
   grid-template-areas:
-    'index  itemid quantity'
-    'index  info info'
-    'indxx  name name';
+    'index  itemid  quantity'
+    'info   name    purchase';
   gap: 0.1ch 1ch;
 }
 
@@ -170,25 +172,34 @@ function applyFocus(el: HTMLElement) {
 
 .header--item-info {
   grid-area: info;
-  place-self: center;
+  place-self: baseline end;
+  font-size: 0.9em;
+  color: var(--grey-color);
 }
+
+.header--item-info span {
+  display: block;
+  white-space: nowrap;
+}
+
 .header--item-id {
   grid-area: itemid;
+  place-self: start;
 }
 
 .header--item-quantity {
   grid-area: quantity;
-  place-self: end;
+  place-self: baseline end;
+  font-size: 0.9em;
+  /* color: var(--grey-color); */
+  white-space: nowrap;
 }
-
-.header--item-info span:not(:first-child)::before {
-  content: ' - ';
-}
-
 .header--item-purchase {
-  grid-area: prch;
+  grid-area: purchase;
+  place-self: baseline end;
   font-size: 0.9em;
   color: var(--grey-color);
+  white-space: nowrap;
 }
 
 .header--item-name {
