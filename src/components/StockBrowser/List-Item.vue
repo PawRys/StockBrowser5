@@ -47,9 +47,10 @@ function applyFocus(el: HTMLElement) {
 
       <div class="header--item-info">
         <!-- <span> </span> -->
+
         <span>{{ `${item.attr.glueType}` }}</span>
         <span>{{ `${item.attr.footSize}` }}</span>
-        <span>{{ `${item.attr.faceType}` }}</span>
+        <!-- <span>{{ `${item.attr.faceType}` }}</span> -->
       </div>
 
       <div class="header--item-name" v-html="`${itemName}`"></div>
@@ -162,12 +163,18 @@ function applyFocus(el: HTMLElement) {
   grid-template-columns: min-content auto 1fr;
   grid-template-areas:
     'index  itemid  quantity'
-    'info   name    purchase';
+    'name   name    purchase'
+    'name   name    info';
   gap: 0.1ch 1ch;
 }
 
 .header--item-index {
   grid-area: index;
+}
+
+.header--item-id {
+  grid-area: itemid;
+  place-self: start;
 }
 
 .header--item-info {
@@ -178,13 +185,9 @@ function applyFocus(el: HTMLElement) {
 }
 
 .header--item-info span {
-  display: block;
+  /* display: block; */
+  margin-left: 1ch;
   white-space: nowrap;
-}
-
-.header--item-id {
-  grid-area: itemid;
-  place-self: start;
 }
 
 .header--item-quantity {
