@@ -40,7 +40,8 @@ function applyFocus(el: HTMLElement) {
       </span>
 
       <span class="header--item-quantity">
-        <InventoryStock class="quantity" :item="item" :unit="'szt'" :statusFilter="statusFilter" />
+        <InventoryDiff class="quantity" :item="item" :unit="'szt'" />
+        <!-- <InventoryStock class="quantity" :item="item" :unit="'szt'" :statusFilter="statusFilter" /> -->
       </span>
 
       <span class="header--item-purchase" v-html="`${itemPurchase}`"></span>
