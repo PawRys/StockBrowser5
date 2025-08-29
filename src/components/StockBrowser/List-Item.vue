@@ -23,10 +23,15 @@ const roundedPurchase = Math.ceil((item.value.purchase || 0) / 10) * 10
 const itemPurchase = `<b>${roundedPurchase.toFixed(0)}<small>zł/m<sup>3</sup></small></b>`
 const basePrice: Ref<number> = ref(item.value.purchase || 0)
 provide('basePrice', basePrice)
+
+function applyFocus(el: HTMLElement) {
+  document.querySelector('.focused')?.classList.remove('focused')
+  el.classList.add('focused')
+}
 </script>
 
 <template>
-  <li :class="['listItem', listDetails]" :id="`listItem-${index}`" tabindex="0">
+  <li :class="['listItem', listDetails]" :id="`listItem-${index}`" @click="applyFocus($el)">
     <header class="itemHeader">
       <span class="header--item-index">{{ `${index}. ` }}</span>
 
@@ -184,7 +189,7 @@ provide('basePrice', basePrice)
   display: none;
 }
 
-.compact:focus-within > .itemBody {
+.compact.focused > .itemBody {
   display: grid;
 }
 </style>
