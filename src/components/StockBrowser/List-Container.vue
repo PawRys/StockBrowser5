@@ -86,7 +86,7 @@ ul {
 
 :is(.prices, .inventory, .inventory-summary) .field .bi {
   place-self: center;
-  margin-right: auto;
+  margin-right: 1ch;
   padding-right: 0.4ch;
 }
 </style>
