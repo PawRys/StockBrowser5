@@ -24,9 +24,18 @@ const itemPurchase = `<b>${roundedPurchase.toFixed(0)}<small>zł/m<sup>3</sup></
 const basePrice: Ref<number> = ref(item.value.purchase || 0)
 provide('basePrice', basePrice)
 
+// document.addEventListener('click', (event) => {
+//   console.log(event.target, document.querySelector('.focused'))
+
+//   event.stopImmediatePropagation()
+//   document.querySelector('.focused')?.classList.remove('focused')
+// })
+
 function applyFocus(el: HTMLElement) {
-  document.querySelector('.focused')?.classList.remove('focused')
-  el.classList.add('focused')
+  if (!el.classList.contains('focused')) {
+    document.querySelector('.focused')?.classList.remove('focused')
+  }
+  el.classList.toggle('focused')
 }
 </script>
 
