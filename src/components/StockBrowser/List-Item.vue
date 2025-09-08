@@ -25,10 +25,8 @@ const basePrice: Ref<number> = ref(item.value.purchase || 0)
 provide('basePrice', basePrice)
 
 function applyFocus(el: HTMLElement) {
-  if (!el.classList.contains('focused')) {
-    document.querySelector('.focused')?.classList.remove('focused')
-  }
-  el.classList.toggle('focused')
+  document.querySelector('.focused')?.classList.remove('focused')
+  el.classList.add('focused')
 }
 </script>
 
