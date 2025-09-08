@@ -151,12 +151,14 @@ function applyFocus(el: HTMLElement) {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   content: '\f628';
+  background-color: var(--accent-lighter);
+  border-radius: 5px;
 
   position: absolute;
   top: 0;
   right: 0;
   z-index: 9;
-  padding: 0.6rem;
+  padding: 0.5rem;
 }
 
 .itemHeader {
