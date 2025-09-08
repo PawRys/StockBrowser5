@@ -148,7 +148,9 @@ function scrollToParent(event: Event) {
 </template>
 
 <style scoped>
+/** */
 /* styles in List-Container.vue */
+/** */
 
 :is(.inventory-display, .inventory-input) {
   grid-row: 2/3;
