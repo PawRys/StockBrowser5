@@ -120,26 +120,44 @@ function prepareData() {
       Kod: item.id,
       Grupa: item.attr.faceGroup,
       Grubość: item.attr.sizeT,
-      Klasa: item.attr.faceType,
+      Wymiar: item.attr.sizeAB,
       Rozmiar: item.attr.footSize,
+      Klasa: item.attr.faceType,
+      Kolor: item.attr.color,
 
       Status: item.inventoryStatus,
 
-      '[m3] Symfonia': quantCub.toFixed(3),
-      '[m3] Magazyn': invCub.toFixed(3),
       '[m3] Różnica': (invCub - quantCub).toFixed(3),
-
-      '[m2] Symfonia': quantSqr.toFixed(4),
-      '[m2] Magazyn': invSqr.toFixed(4),
       '[m2] Różnica': (invSqr - quantSqr).toFixed(4),
-
-      '[szt] Symfonia': quantPcs.toFixed(1),
-      '[szt] Magazyn': invPcs.toFixed(1),
       '[szt] Różnica': (invPcs - quantPcs).toFixed(1),
+
+      '[m3] Symfonia': quantCub.toFixed(3),
+      '[m2] Symfonia': quantSqr.toFixed(4),
+      '[szt] Symfonia': quantPcs.toFixed(1),
+
+      '[m3] Magazyn': invCub.toFixed(3),
+      '[m2] Magazyn': invSqr.toFixed(4),
+      '[szt] Magazyn': invPcs.toFixed(1),
 
       '[m3] Spis z nat.': item.inventory?.m3 || '0',
       '[m2] Spis z nat.': item.inventory?.m2 || '0',
       '[szt] Spis z nat.': item.inventory?.szt || '0'
+
+      // '[m3] Symfonia': quantCub.toFixed(3),
+      // '[m3] Magazyn': invCub.toFixed(3),
+      // '[m3] Różnica': (invCub - quantCub).toFixed(3),
+
+      // '[m2] Symfonia': quantSqr.toFixed(4),
+      // '[m2] Magazyn': invSqr.toFixed(4),
+      // '[m2] Różnica': (invSqr - quantSqr).toFixed(4),
+
+      // '[szt] Symfonia': quantPcs.toFixed(1),
+      // '[szt] Magazyn': invPcs.toFixed(1),
+      // '[szt] Różnica': (invPcs - quantPcs).toFixed(1),
+
+      // '[m3] Spis z nat.': item.inventory?.m3 || '0',
+      // '[m2] Spis z nat.': item.inventory?.m2 || '0',
+      // '[szt] Spis z nat.': item.inventory?.szt || '0'
     }
   })
 }
