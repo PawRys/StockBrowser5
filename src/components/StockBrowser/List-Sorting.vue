@@ -37,17 +37,17 @@ function sortData(ev: Event) {
       </template>
     </select>
 
+    <button @click="sortDir *= -1" class="compact">
+      <i v-if="sortDir > 0" class="bi bi-sort-down-alt"></i>
+      <i v-if="sortDir < 0" class="bi bi-sort-down"></i>
+    </button>
+
     <button
       v-if="sortCol.match(/purchase|quantityCubicTotal|quantityCubicAviable|inventoryCubicSum/i)"
       @click="sortUnit = (sortUnit + 1) % sortingUnits.length"
       class="compact"
     >
       <span v-html="sortingUnits[sortUnit].replace(/(2|3)/, '<sup>$1</sup>')"></span>
-    </button>
-
-    <button @click="sortDir *= -1" class="compact">
-      <i v-if="sortDir > 0" class="bi bi-sort-down-alt"></i>
-      <i v-if="sortDir < 0" class="bi bi-sort-down"></i>
     </button>
   </section>
 </template>
