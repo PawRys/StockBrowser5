@@ -117,7 +117,6 @@ function prepareData() {
     const invPcs = calcQuant(item.size, item.inventoryCubicSum, 'm3', 'szt')
 
     return {
-      Kod: item.id,
       Grupa: item.attr.faceGroup,
       Grubość: item.attr.sizeT,
       Wymiar: item.attr.sizeAB,
@@ -126,6 +125,7 @@ function prepareData() {
       Kolor: item.attr.color,
 
       Status: item.inventoryStatus,
+      Kod: item.id,
 
       '[m3] Różnica': (invCub - quantCub).toFixed(3),
       '[m2] Różnica': (invSqr - quantSqr).toFixed(4),
