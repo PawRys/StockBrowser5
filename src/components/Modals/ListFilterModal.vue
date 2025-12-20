@@ -117,43 +117,53 @@ const appliedFiltersCount = computed(() => {
     <div id="main-filter" class="dialog">
       <header class="dialog__header">
         <!-- empty div -->
-        <!-- <div>
-        </div> -->
         <div class="flex-row">
-          <QuantityStatus />
+          <div class="fake-item"></div>
+          <div>
+            <button @click="filterStore.prevFilter" :disabled="filterStore.currentFilterIndex <= 0">
+              <i class="bi bi-arrow-counterclockwise"></i>
+              <!-- <span>{{ filterStore.currentFilterIndex }}</span> -->
+            </button>
+            <button
+              @click="filterStore.nextFilter"
+              :disabled="filterStore.currentFilterIndex >= filterStore.filterHistory.length - 1"
+            >
+              <i class="bi bi-arrow-clockwise"></i>
+              <!-- <span>{{ filterStore.filterHistory.length - 1 - filterStore.currentFilterIndex }}</span> -->
+            </button>
+            <button
+              type="reset"
+              @click="filterStore.resetAllFilters"
+              :disabled="!appliedFiltersCount"
+            >
+              <i class="bi bi-trash3"></i>
+              <span>{{ appliedFiltersCount }}</span>
+            </button>
+          </div>
 
           <button class="close-button compact" @click="closeModal()">
             <i class="bi bi-x-square-fill"></i>
           </button>
         </div>
+
         <div class="flex-row">
-          <button
-            class="compact"
-            @click="filterStore.prevFilter"
-            :disabled="filterStore.currentFilterIndex <= 0"
-          >
-            <i class="bi bi-arrow-counterclockwise"></i>
-            <!-- <span>{{ filterStore.currentFilterIndex }}</span> -->
-          </button>
-
-          <button
-            class="compact"
-            @click="filterStore.nextFilter"
-            :disabled="filterStore.currentFilterIndex >= filterStore.filterHistory.length - 1"
-          >
-            <i class="bi bi-arrow-clockwise"></i>
-            <!-- <span>{{ filterStore.filterHistory.length - 1 - filterStore.currentFilterIndex }}</span> -->
-          </button>
-
-          <button
-            class="compact"
-            type="reset"
-            @click="filterStore.resetAllFilters"
-            :disabled="!appliedFiltersCount"
-          >
-            <i class="bi bi-trash3"></i>
-            <span>{{ appliedFiltersCount }}</span>
-          </button>
+          <div class="text-filter--wrapper">
+            <input
+              class="text-filter"
+              type="text"
+              name="textSearch"
+              placeholder="Szukaj tekstowo"
+              @keypress.enter="($event.target as HTMLInputElement).blur()"
+              v-model="filterStore.textFilter"
+            />
+            <button
+              class="transparent compact"
+              v-if="filterStore.textFilter !== ''"
+              @click="filterStore.textFilter = ''"
+            >
+              <i class="bi bi-backspace"></i>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -205,25 +215,15 @@ const appliedFiltersCount = computed(() => {
 
       <footer class="dialog__footer">
         <div class="flex-row">
-          <div class="text-filter--wrapper">
-            <input
-              class="text-filter"
-              type="text"
-              name="textSearch"
-              placeholder="Szukaj tekstowo"
-              @keypress.enter="($event.target as HTMLInputElement).blur()"
-              v-model="filterStore.textFilter"
-            />
-            <button
-              class="transparent compact"
-              v-if="filterStore.textFilter !== ''"
-              @click="filterStore.textFilter = ''"
-            >
-              <i class="bi bi-backspace"></i>
-            </button>
-          </div>
+          <div class="fake-item"></div>
 
-          <button class="cta" type="submit" @click="[formSubmit('attribute-filter'), closeModal()]">
+          <QuantityStatus />
+
+          <button
+            class="cta search-button"
+            type="submit"
+            @click="[formSubmit('attribute-filter'), closeModal()]"
+          >
             <i class="bi bi-search"></i>
             <span>{{ stockItems.length }}</span>
           </button>
@@ -236,11 +236,12 @@ const appliedFiltersCount = computed(() => {
 <style scoped>
 .flex-row {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 1ch;
   width: 100%;
 }
+
 .dialog {
   display: grid;
   justify-items: center;
@@ -267,8 +268,10 @@ const appliedFiltersCount = computed(() => {
   flex-direction: column;
 }
 
+.dialog__header .fake-item {
+  width: 3rem;
+}
 .dialog__header .close-button {
-  margin-left: auto;
   font-size: 1.5rem;
   cursor: pointer;
 }
@@ -280,6 +283,9 @@ const appliedFiltersCount = computed(() => {
 
   margin-block: 1rem 1rem;
   width: min(100%, 60ch);
+}
+
+.dialog__footer .search-button {
 }
 
 .text-filter--wrapper {

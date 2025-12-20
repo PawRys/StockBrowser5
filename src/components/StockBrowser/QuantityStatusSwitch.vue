@@ -52,7 +52,7 @@ watch(
     </button> -->
 
     <button
-      class="button switch compact"
+      class="button switch"
       :class="{ active: isActive.match(/brak|nadmiar/) }"
       @click="toggleInventoryFilter('brak nadmiar')"
     >
@@ -62,7 +62,7 @@ watch(
     <template v-for="(item, index) in statusList" :key="`status-${index}-${random}`">
       <label
         v-if="item.show"
-        class="button switch compact"
+        class="button switch"
         :class="{ hasZeroInventory: index === 0 && hasZeroStatusInventory }"
         tabindex="0"
       >

@@ -78,7 +78,7 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
 
 <template>
   <section class="list-summary" v-if="listView === 'inventory'">
-    <hr />
+    <!-- <hr /> -->
     <div class="inventory-summary">
       <header>
         <h4>Sumy filtrowanych pozycji</h4>
