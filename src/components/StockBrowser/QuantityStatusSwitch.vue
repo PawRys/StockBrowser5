@@ -43,13 +43,14 @@ watch(
 
 <template>
   <section class="product-status-filter">
-    <button
+    <!-- <button
       class="button switch compact"
       :class="{ active: isActive.match(/OK/) }"
       @click="toggleInventoryFilter('OK')"
     >
       <i class="bi bi-emoji-smile"></i>
-    </button>
+    </button> -->
+
     <button
       class="button switch compact"
       :class="{ active: isActive.match(/brak|nadmiar/) }"
