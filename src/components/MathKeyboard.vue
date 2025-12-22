@@ -139,7 +139,9 @@ function insertCharacter(key: string) {
   margin-top: 1rem;
   /* margin-inline: 3rem; */
   border-radius: 1ch;
-  padding: 1ch;
+  padding: 2ch;
+  /* width: 100%; */
+
   background-color: var(--bg-color);
   font-size: 1.1em;
 }
