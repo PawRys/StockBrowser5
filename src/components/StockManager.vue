@@ -127,6 +127,8 @@ function prepareData() {
       Status: item.inventoryStatus,
       Kod: item.id,
 
+      Wartość: item.purchase || 0 * (invCub - quantCub),
+
       '[m3] Różnica': (invCub - quantCub).toFixed(3),
       '[m2] Różnica': (invSqr - quantSqr).toFixed(4),
       '[szt] Różnica': (invPcs - quantPcs).toFixed(1),
