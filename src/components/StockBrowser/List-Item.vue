@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { ref, defineProps, provide, toRefs } from 'vue'
+import { ref, provide, toRefs } from 'vue'
 import { storeToRefs } from 'pinia'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 import { useFilterStore } from '@/stores/filterStore'
