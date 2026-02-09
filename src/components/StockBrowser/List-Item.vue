@@ -39,7 +39,7 @@ function applyFocus(el: HTMLElement) {
     <span class="item-heading" :title="`${item.name}`">
       <span class="grey-font">{{ index }}.</span> {{ item.attr.footSize }} {{ item.attr.glueType }}
       <b>{{ item.size }}</b> {{ item.attr.faceType }} {{ item.attr.color }}
-      <span class="grey-font">{{ item.id }}</span>
+      <span class="grey-font item-id">{{ item.id }}</span>
       <span
         class="price-purchase"
         style="float: right"
@@ -111,35 +111,6 @@ function applyFocus(el: HTMLElement) {
     'A3 B3 C3';
 }
 
-/* .compact
-  :where(
-    .inv-stock-m3,
-    .inv-stock-m2,
-    .inv-stock-szt,
-    .inv-input-m3,
-    .inv-input-m2,
-    .inv-input-szt,
-    .inv-diff-m3,
-    .inv-diff-m2,
-    .inv-diff-szt,
-    .price-m3,
-    .price-m2,
-    .price-szt,
-    .price-marg,
-    .price-perc
-  ) {
-  display: none;
-}
-
-.list-item.compact {
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-areas: 'H1 H1 H1';
-} */
-/* 
-.list-item.compact.focused {
-  display: grid;
-} */
-
 .list-item:hover {
   box-shadow: inset 0 0 0 2px var(--cta-color);
 }
@@ -170,6 +141,10 @@ function applyFocus(el: HTMLElement) {
   right: 0;
   z-index: 9;
   padding: 9px;
+}
+
+.item-id {
+  font-size: 0.9em;
 }
 
 .item-heading {
