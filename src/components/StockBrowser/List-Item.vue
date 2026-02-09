@@ -84,6 +84,10 @@ function applyFocus(el: HTMLElement) {
   text-decoration-style: dashed;
   text-decoration-thickness: 1px;
 }
+
+.list-item .bi {
+  display: inline;
+}
 </style>
 
 <style scoped>
