@@ -37,12 +37,15 @@ function applyFocus(el: HTMLElement) {
 <template>
   <li :class="['list-item', listDetails]" :id="`list-item-${index}`" @click="applyFocus($el)">
     <span class="item-heading" :title="`${item.name}`">
-      <span class="grey-font">{{ index }}.</span> {{ item.attr.glueType }} <b>{{ item.size }}</b>
-      {{ item.attr.faceType }} {{ item.attr.color }} <b>{{ item.attr.footSize }}</b>
+      <span class="grey-font">{{ index }}.</span>
+      <span>{{ item.attr.glueType }}</span>
+      <b>{{ item.size }}</b>
+      <span>{{ item.attr.faceType }}</span>
+      <span>{{ item.attr.color }}</span>
+      <b>{{ item.attr.footSize }}</b>
       <span class="grey-font item-id">{{ item.id }}</span>
       <span
         class="price-purchase"
-        style="float: right"
         v-html="`${itemPurchase}`"
         v-if="listView === 'inventory'"
       ></span>
@@ -149,7 +152,9 @@ function applyFocus(el: HTMLElement) {
 
 .item-heading {
   grid-area: H1;
-  text-align: left;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5ch;
 }
 .item-name {
   grid-area: H2;
@@ -197,6 +202,7 @@ function applyFocus(el: HTMLElement) {
 }
 .price-purchase {
   grid-area: A3;
+  margin-left: auto;
 }
 .price-marg {
   grid-area: B3;
