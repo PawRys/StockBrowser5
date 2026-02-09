@@ -264,7 +264,9 @@ function showHTML(rowFilter: Function, colFilter: Function) {
 
 <style scoped>
 #stock-stats {
+  margin: auto;
   padding: 1ch;
+  width: min(100%, 70ch);
 }
 
 .toolbar {

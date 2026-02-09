@@ -43,6 +43,8 @@ const reactiveItems = computed(() =>
 .list-container {
   padding: 1ch;
   border-radius: 1ch;
+  margin: auto;
+  width: min(100%, 70ch);
   background: var(--bg2-color);
 }
 

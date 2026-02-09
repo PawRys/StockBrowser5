@@ -72,7 +72,9 @@ async function shareData() {
 
 <style scoped>
 #stock-share {
+  margin: auto;
   padding: 1ch;
+  width: min(100%, 70ch);
 }
 
 .share-code {

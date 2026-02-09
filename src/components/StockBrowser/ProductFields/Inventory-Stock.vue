@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, defineProps, toRefs } from 'vue'
+import { computed, toRefs } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { calcQuant } from '@/exports/common_functions'
@@ -56,9 +56,9 @@ const unitLabel = computed(() => {
 <style scoped>
 /* styles in List-Container.vue */
 
-.inventory-stock {
+/* .inventory-stock {
   grid-row: 1 / 2;
-}
+} */
 
 .bi {
   color: var(--grey-color);

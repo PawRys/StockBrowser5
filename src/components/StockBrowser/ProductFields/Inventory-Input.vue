@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import _ from 'lodash'
-import { ref, computed, defineProps, watch, toRefs } from 'vue'
+import { ref, computed, watch, toRefs } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
 import { setInventoryStatus, setQuantityStatus } from '@/exports/stockUpdateExports'
 import { evalMath, calcQuant, scrollTo } from '@/exports/common_functions'
@@ -101,7 +101,7 @@ async function autoResize(event: Event) {
 
 function scrollToParent(event: Event) {
   const evTarget = event.target as HTMLTextAreaElement
-  const targetsParent = evTarget.closest('.listItem') as HTMLElement
+  const targetsParent = evTarget.closest('.list-item') as HTMLElement
   const floatingToolbar = document.querySelector('#floating-toolbar')
   const targetsParentMarginTop = window
     .getComputedStyle(targetsParent)
@@ -124,7 +124,7 @@ function scrollToParent(event: Event) {
     {{ itemInventoryUnitSum.toFixed(zeroFix) }}<small v-html="unitLabel"></small>
   </div>
 
-  <div class="inventory-input" v-else>
+  <div class="inventory-input" style="grid-column: 1 / -1" v-else>
     <textarea
       rows="1"
       inputmode="none"
@@ -152,11 +152,11 @@ function scrollToParent(event: Event) {
 /* styles in List-Container.vue */
 /** */
 
-:is(.inventory-display, .inventory-input) {
+/* :is(.inventory-display, .inventory-input) {
   grid-row: 2/3;
-}
+} */
 
-.inventory-display:nth-child(4) {
+/* .inventory-display:nth-child(4) {
   grid-column: 1/2;
 }
 
@@ -166,7 +166,7 @@ function scrollToParent(event: Event) {
 
 .inventory-display:nth-child(6) {
   grid-column: 3/4;
-}
+} */
 
 .inventory-display .bi {
   color: var(--accent-light);

@@ -213,7 +213,9 @@ function saveToXLSX(data: any[]) {
 
 <style scoped>
 #stock-manager {
+  margin: auto;
   padding: 1ch;
+  width: min(100%, 70ch);
 }
 
 .button-container {

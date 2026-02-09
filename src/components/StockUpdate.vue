@@ -120,8 +120,10 @@ async function submit(e: Event): Promise<void> {
 
 <style scoped>
 #stock-update {
+  margin: auto;
   padding: 1ch;
   min-height: 100vh;
+  width: min(100%, 70ch);
 }
 
 form {
