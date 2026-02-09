@@ -37,8 +37,8 @@ function applyFocus(el: HTMLElement) {
 <template>
   <li :class="['list-item', listDetails]" :id="`list-item-${index}`" @click="applyFocus($el)">
     <span class="item-heading" :title="`${item.name}`">
-      <span class="grey-font">{{ index }}.</span> {{ item.attr.glueType }}
-      <b>{{ item.size }}</b> {{ item.attr.faceType }} {{ item.attr.color }} {{ item.attr.footSize }}
+      <span class="grey-font">{{ index }}.</span> {{ item.attr.glueType }} <b>{{ item.size }}</b>
+      {{ item.attr.faceType }} {{ item.attr.color }} <b>{{ item.attr.footSize }}</b>
       <span class="grey-font item-id">{{ item.id }}</span>
       <span
         class="price-purchase"
