@@ -154,6 +154,7 @@ function applyFocus(el: HTMLElement) {
   grid-area: H1;
   display: inline-flex;
   align-items: baseline;
+  flex-wrap: wrap;
   gap: 0.5ch;
 }
 .item-name {
