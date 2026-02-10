@@ -65,7 +65,11 @@ function applyFocus(el: HTMLElement) {
     <Price class="price-m2" :item="item" :unit="'m2'" v-if="listView === 'prices'" />
     <Price class="price-szt" :item="item" :unit="'szt'" v-if="listView === 'prices'" />
     <!-- <Price class="price-purchase" :item="item" :unit="'purchase'" v-if="listView === 'prices'" /> -->
-    <span class="price-purchase" v-html="`${itemPurchase}`" v-if="listView === 'prices'"></span>
+    <span
+      class="price-purchase field"
+      v-html="`${itemPurchase}`"
+      v-if="listView === 'prices'"
+    ></span>
     <Price class="price-marg" :item="item" :unit="'marg'" v-if="listView === 'prices'" />
     <Price class="price-perc" :item="item" :unit="'perc'" v-if="listView === 'prices'" />
 
@@ -90,6 +94,10 @@ function applyFocus(el: HTMLElement) {
 
 .list-item .bi {
   display: inline;
+}
+
+.list-item .field {
+  padding-inline: 0.5ch;
 }
 </style>
 
