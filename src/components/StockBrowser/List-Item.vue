@@ -108,7 +108,7 @@ function applyFocus(el: HTMLElement) {
   text-align: end;
 
   display: grid;
-  gap: 1ch;
+  gap: 0.5ch;
 
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas:
