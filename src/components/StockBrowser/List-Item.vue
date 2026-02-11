@@ -44,13 +44,10 @@ function applyFocus(el: HTMLElement) {
       <span>{{ item.attr.color }}</span>
       <b>{{ item.attr.footSize }}</b>
       <span class="grey-font item-id">{{ item.id }}</span>
-      <span
-        class="price-purchase"
-        v-html="`${itemPurchase}`"
-        v-if="listView === 'inventory'"
-      ></span>
+      <span class="price-purchase" v-html="`${itemPurchase}`" v-if="listView === 'inventory'">
+      </span>
     </span>
-    <!-- <span class="item-name grey-font">{{ item.id }}</span> -->
+    <!-- <span class="item-name grey-font">{{ item.name }}</span> -->
 
     <InvStock class="inv-stock-m3" :item="item" :unit="'m3'" :statusFilter="statusFilter" />
     <InvStock class="inv-stock-m2" :item="item" :unit="'m2'" :statusFilter="statusFilter" />
@@ -92,13 +89,13 @@ function applyFocus(el: HTMLElement) {
   text-decoration-thickness: 1px;
 }
 
-.list-item .bi {
+/* .list-item .bi {
   display: inline;
-}
+} */
 
-.list-item .field {
+/* .list-item .field {
   padding-inline: 0.5ch;
-}
+} */
 </style>
 
 <style scoped>
@@ -154,10 +151,6 @@ function applyFocus(el: HTMLElement) {
   padding: 9px;
 }
 
-.item-id {
-  font-size: 0.9em;
-}
-
 .item-heading {
   grid-area: H1;
   display: inline-flex;
@@ -165,9 +158,14 @@ function applyFocus(el: HTMLElement) {
   flex-wrap: wrap;
   gap: 0.5ch;
 }
+
+.item-id {
+  font-size: 0.9em;
+}
+
 .item-name {
   grid-area: H2;
-  text-align: left;
+  font-size: 0.9em;
 }
 
 .inv-stock-m3 {

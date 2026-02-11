@@ -72,6 +72,10 @@ ul {
 </style>
 
 <style>
+/** */
+/* styles for list items and childs */
+/** */
+
 :is(.prices, .inventory, .inventory-summary) {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -90,5 +94,19 @@ ul {
   place-self: center;
   margin-right: 1ch;
   padding-right: 0.4ch;
+}
+
+.list-item .field {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  padding: 0.2ch 0.6ch;
+  text-align: right;
+}
+
+.list-item .field .bi {
+  place-self: center;
+  margin-right: 1ch;
+  /* padding-right: 0.4ch; */
 }
 </style>
