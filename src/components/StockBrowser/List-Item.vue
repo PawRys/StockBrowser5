@@ -36,18 +36,20 @@ function applyFocus(el: HTMLElement) {
 
 <template>
   <li :class="['list-item', listDetails]" :id="`list-item-${index}`" @click="applyFocus($el)">
-    <span class="item-heading" :title="`${item.name}`">
+    <span class="item-heading-2" :title="`${item.name}`">
+      <span class="grey-font item-id">{{ item.id }}</span>
+      <span class="grey-font item-name">{{ item.name }}</span>
+    </span>
+
+    <span class="item-heading">
       <span class="grey-font">{{ index }}.</span>
       <span>{{ item.attr.glueType }}</span>
       <b>{{ item.size }}</b>
       <span>{{ item.attr.faceType }}</span>
       <span>{{ item.attr.color }}</span>
       <b>{{ item.attr.footSize }}</b>
-      <span class="grey-font item-id">{{ item.id }}</span>
-      <span class="price-purchase" v-html="`${itemPurchase}`" v-if="listView === 'inventory'">
-      </span>
     </span>
-    <!-- <span class="item-name grey-font">{{ item.name }}</span> -->
+    <span class="item-heading-3" v-html="`${itemPurchase}`" v-if="listView === 'inventory'"> </span>
 
     <InvStock class="inv-stock-m3" :item="item" :unit="'m3'" :statusFilter="statusFilter" />
     <InvStock class="inv-stock-m2" :item="item" :unit="'m2'" :statusFilter="statusFilter" />
@@ -110,13 +112,13 @@ function applyFocus(el: HTMLElement) {
   display: grid;
   gap: 0.5ch;
 
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(6, 1fr);
   grid-template-areas:
-    'H1 H1 H1'
-    'H2 H2 H2'
-    'A1 B1 C1'
-    'A2 B2 C2'
-    'A3 B3 C3';
+    'H1 H1 H1 H1 H1 H3'
+    'H2 H2 H2 H2 H2 H2'
+    'A1 A1 B1 B1 C1 C1'
+    'A2 A2 B2 B2 C2 C2'
+    'A3 A3 B3 B3 C3 C3';
 }
 
 .list-item:hover {
@@ -157,6 +159,20 @@ function applyFocus(el: HTMLElement) {
   align-items: baseline;
   flex-wrap: wrap;
   gap: 0.5ch;
+}
+
+.item-heading-2 {
+  grid-area: H2;
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow: clip;
+  gap: 0.5ch;
+}
+
+.item-heading-3 {
+  grid-area: H3;
 }
 
 .item-id {
