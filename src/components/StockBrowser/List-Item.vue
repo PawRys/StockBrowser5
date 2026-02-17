@@ -74,7 +74,7 @@ function applyFocus(el: HTMLElement) {
     <Price class="price-marg" :item="item" :unit="'marg'" v-if="listView === 'prices'" />
     <Price class="price-perc" :item="item" :unit="'perc'" v-if="listView === 'prices'" />
 
-    <div class="item-warn" v-if="item.size !== '(?)'">
+    <div class="item-warn" v-if="item.size === '(?)'">
       <span>
         ❗ Brak rozmiaru w opisie sklejki. Popraw opis w Symfonii wg schematu:
         <b>[grubość]</b>x<b>[wymiar_A]</b>x<b>[wymiar_B]</b> bez spacji!
