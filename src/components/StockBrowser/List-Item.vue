@@ -74,7 +74,7 @@ function applyFocus(el: HTMLElement) {
     <Price class="price-marg" :item="item" :unit="'marg'" v-if="listView === 'prices'" />
     <Price class="price-perc" :item="item" :unit="'perc'" v-if="listView === 'prices'" />
 
-    <div class="item-warn" v-if="item.size === '(?)'">
+    <div class="item-warn" v-if="item.size !== '(?)'">
       <span>
         ❗ Brak rozmiaru w opisie sklejki. Popraw opis w Symfonii wg schematu:
         <b>[grubość]</b>x<b>[wymiar_A]</b>x<b>[wymiar_B]</b> bez spacji!
@@ -114,14 +114,14 @@ function applyFocus(el: HTMLElement) {
   display: grid;
   gap: 0.5ch;
 
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-template-areas:
-    'H1 H1 H1 H1 H1 H1'
-    'H2 H2 H2 H2 H2 H2'
-    'H3 H3 H3 H3 H3 H3'
-    'A1 A1 B1 B1 C1 C1'
-    'A2 A2 B2 B2 C2 C2'
-    'A3 A3 B3 B3 C3 C3';
+    'H1 H1 H1'
+    'H2 H2 H2'
+    'H3 H3 H3'
+    'A1 B1 C1'
+    'A2 B2 C2'
+    'A3 B3 C3';
 }
 
 .list-item:hover {
@@ -246,9 +246,8 @@ function applyFocus(el: HTMLElement) {
 }
 
 .item-warn {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
+  grid-column: 1 / 4; /* od kolumny 1 do 3 */
+  grid-row: 2 / 7; /* od wiersza 4 do 6 */
 
   display: grid;
   place-items: center;
