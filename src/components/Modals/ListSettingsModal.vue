@@ -39,15 +39,15 @@ const { listView, listDetails } = storeToRefs(usePreferencesStore())
         <h4>Doliczanie VATu</h4>
         <VatSwitch class="toolbar" />
 
-        <!-- <h4>Widok detali</h4>
+        <h4>Widok detali</h4>
         <section>
           <button v-if="listDetails === 'compact'" @click="listDetails = 'detailed'">
-            <i class="bi bi-chevron-bar-contract"></i> <span>Detale zwinięte</span>
+            <i class="bi bi-chevron-bar-contract"></i> <span>Detale ukryte</span>
           </button>
           <button v-if="listDetails === 'detailed'" @click="listDetails = 'compact'">
-            <i class="bi bi-chevron-bar-expand"></i> <span>Detale rozwinięte</span>
+            <i class="bi bi-chevron-bar-expand"></i> <span>Detale widoczne</span>
           </button>
-        </section> -->
+        </section>
       </section>
     </div>
   </div>

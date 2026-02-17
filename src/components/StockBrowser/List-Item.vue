@@ -36,20 +36,22 @@ function applyFocus(el: HTMLElement) {
 
 <template>
   <li :class="['list-item', listDetails]" :id="`list-item-${index}`" @click="applyFocus($el)">
-    <span class="item-heading-2" :title="`${item.name}`">
+    <span class="item-heading-1" :title="`${item.name}`">
+      <span class="grey-font">{{ index }}.</span>
       <span class="grey-font item-id">{{ item.id }}</span>
-      <span class="grey-font item-name">{{ item.name }}</span>
+      <span class="item-purchase" v-html="`${itemPurchase}`" v-if="listView === 'inventory'">
+      </span>
     </span>
 
-    <span class="item-heading">
-      <span class="grey-font">{{ index }}.</span>
+    <span class="item-heading-2">
       <span>{{ item.attr.glueType }}</span>
       <b>{{ item.size }}</b>
       <span>{{ item.attr.faceType }}</span>
       <span>{{ item.attr.color }}</span>
       <b>{{ item.attr.footSize }}</b>
     </span>
-    <span class="item-heading-3" v-html="`${itemPurchase}`" v-if="listView === 'inventory'"> </span>
+
+    <span class="item-heading-3 grey-font item-name">{{ item.name }}</span>
 
     <InvStock class="inv-stock-m3" :item="item" :unit="'m3'" :statusFilter="statusFilter" />
     <InvStock class="inv-stock-m2" :item="item" :unit="'m2'" :statusFilter="statusFilter" />
@@ -114,8 +116,9 @@ function applyFocus(el: HTMLElement) {
 
   grid-template-columns: repeat(6, 1fr);
   grid-template-areas:
-    'H1 H1 H1 H1 H1 H3'
+    'H1 H1 H1 H1 H1 H1'
     'H2 H2 H2 H2 H2 H2'
+    'H3 H3 H3 H3 H3 H3'
     'A1 A1 B1 B1 C1 C1'
     'A2 A2 B2 B2 C2 C2'
     'A3 A3 B3 B3 C3 C3';
@@ -153,7 +156,7 @@ function applyFocus(el: HTMLElement) {
   padding: 9px;
 }
 
-.item-heading {
+.item-heading-1 {
   grid-area: H1;
   display: inline-flex;
   align-items: baseline;
@@ -180,8 +183,16 @@ function applyFocus(el: HTMLElement) {
 }
 
 .item-name {
-  grid-area: H2;
+  /* grid-area: H2; */
+  text-align: left;
   font-size: 0.9em;
+}
+.compact .item-name {
+  display: none;
+}
+
+.item-purchase {
+  margin-left: auto;
 }
 
 .inv-stock-m3 {
