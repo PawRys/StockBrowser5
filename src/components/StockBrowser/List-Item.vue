@@ -44,7 +44,7 @@ function applyFocus(el: HTMLElement) {
     </span>
 
     <span class="item-heading-2">
-      <b>{{ item.attr.footSize }}</b>
+      <span>{{ item.attr.footSize }}</span>
       <span>{{ item.attr.glueType }}</span>
       <b>{{ item.size }}</b>
       <span>{{ item.attr.faceType }}</span>
