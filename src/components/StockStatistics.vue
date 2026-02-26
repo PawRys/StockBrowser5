@@ -31,7 +31,7 @@ footSizeValues.unshift({ label: 'Razem', filter_fn: () => true })
 const active = ref(0)
 const collection = [
   {
-    label: 'Laminaty - Surowe',
+    label: 'Laminaty i Surowe',
     stats: [
       { label: 'Razem', filter_fn: () => true },
       { label: 'Laminaty', filter_fn: (item: Plywood) => item.attr.faceGroup === 'laminat' },
@@ -39,7 +39,7 @@ const collection = [
     ]
   },
   {
-    label: 'WD - MR',
+    label: 'WD i MR',
     stats: [
       { label: 'Razem', filter_fn: () => true },
       { label: 'WD', filter_fn: (item: Plywood) => item.attr.glueType === 'WD' },
@@ -47,7 +47,7 @@ const collection = [
     ]
   },
   {
-    label: 'Laminaty WD - MR',
+    label: 'Laminaty: WD i MR',
     stats: [
       { label: 'Razem', filter_fn: (item: Plywood) => item.attr.faceGroup === 'laminat' },
       {
@@ -63,7 +63,7 @@ const collection = [
     ]
   },
   {
-    label: 'Surowe WD - MR',
+    label: 'Surowe: WD i MR',
     stats: [
       { label: 'Razem', filter_fn: (item: Plywood) => item.attr.faceGroup === 'surowa' },
       {
@@ -124,7 +124,7 @@ const collection = [
     ]
   },
   {
-    label: 'F/W - F/F',
+    label: 'F/W i F/F',
     stats: [
       { label: 'Razem', filter_fn: (item: Plywood) => item.attr.faceGroup === 'laminat' },
       {
@@ -222,9 +222,43 @@ function showHTML(rowFilter: Function, colFilter: Function) {
   const result = stockList.filter(rowFilter).filter(colFilter).reduce(reduceCubic, 0).toFixed(0)
   return `${result}<small>m<sup>3</sup></small>`
 }
+
+const prices = stockList
+  .filter((item: Plywood) => item.quantityStatus > 0 && item.purchase)
+  .map((item: Plywood) => item.purchase!)
+  .sort((a: number, b: number) => a - b)
+
+const L = prices.length
+
+const priceStats = {
+  min: prices[0],
+  P05: prices[Math.round(L * 0.05)],
+  P25: prices[Math.round(L * 0.25)],
+  P50: prices[Math.round(L * 0.5)],
+  P75: prices[Math.round(L * 0.75)],
+  P95: prices[Math.round(L * 0.95)],
+  max: prices[L - 1]
+}
 </script>
 
 <template>
+  <section id="price-stats" v-if="L > 0">
+    <h2>Statystyki cen</h2>
+
+    <table id="price-table">
+      <tr>
+        <th>Percentyl</th>
+        <th>Zakup uśredniony</th>
+      </tr>
+      <tr v-for="(price, label) in priceStats" :key="label">
+        <th>
+          {{ label.match(/[A-Z]+/i)?.[0] ?? '' }}<sub>{{ label.match(/\d+/)?.[0] ?? '' }}</sub>
+        </th>
+        <td>{{ `${price.toFixed(2)}zł` }}</td>
+      </tr>
+    </table>
+  </section>
+
   <section id="stock-stats">
     <h2>Statystyki produktów</h2>
 
@@ -240,7 +274,7 @@ function showHTML(rowFilter: Function, colFilter: Function) {
       </button>
     </div>
 
-    <table>
+    <table id="stocks-table">
       <tr>
         <th>Formaty</th>
         <th
@@ -263,7 +297,7 @@ function showHTML(rowFilter: Function, colFilter: Function) {
 </template>
 
 <style scoped>
-#stock-stats {
+main > section {
   margin: auto;
   padding: 1ch;
   width: min(100%, 70ch);
@@ -318,5 +352,9 @@ td > div:not(:first-of-type) {
 td > div > :first-child {
   place-self: start;
   color: var(--grey-color);
+}
+
+#price-table td {
+  text-align: center;
 }
 </style>
