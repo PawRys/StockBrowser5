@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject } from 'vue'
+import { inject } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useStockStore } from '@/stores/stockStore'
@@ -15,7 +15,6 @@ import QuantityStatus from '@/components/StockBrowser/QuantityStatusSwitch.vue'
 
 import type { Ref } from 'vue'
 const refreshMainComponent = inject<Ref<number>>('refreshMainComponent')!
-const price = ref([])
 
 const { listView } = storeToRefs(usePreferencesStore())
 

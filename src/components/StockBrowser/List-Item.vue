@@ -39,8 +39,7 @@ function applyFocus(el: HTMLElement) {
     <span class="item-heading-1" :title="`${item.name}`">
       <span class="grey-font">{{ index }}.</span>
       <span class="grey-font item-id">{{ item.id }}</span>
-      <span class="item-purchase" v-html="`${itemPurchase}`" v-if="listView === 'inventory'">
-      </span>
+      <span class="item-purchase" v-html="`${itemPurchase}`"> </span>
     </span>
 
     <span class="item-heading-2">
@@ -65,12 +64,12 @@ function applyFocus(el: HTMLElement) {
     <Price class="price-m3" :item="item" :unit="'m3'" v-if="listView === 'prices'" />
     <Price class="price-m2" :item="item" :unit="'m2'" v-if="listView === 'prices'" />
     <Price class="price-szt" :item="item" :unit="'szt'" v-if="listView === 'prices'" />
-    <!-- <Price class="price-purchase" :item="item" :unit="'purchase'" v-if="listView === 'prices'" /> -->
-    <span
+    <Price class="price-purchase" :item="item" :unit="'purchase'" v-if="listView === 'prices'" />
+    <!-- <span
       class="price-purchase field"
       v-html="`${itemPurchase}`"
       v-if="listView === 'prices'"
-    ></span>
+    ></span> -->
     <Price class="price-marg" :item="item" :unit="'marg'" v-if="listView === 'prices'" />
     <Price class="price-perc" :item="item" :unit="'perc'" v-if="listView === 'prices'" />
 
