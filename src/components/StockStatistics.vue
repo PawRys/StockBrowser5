@@ -242,23 +242,6 @@ const priceStats = {
 </script>
 
 <template>
-  <section id="price-stats" v-if="L > 0">
-    <h2>Statystyki cen</h2>
-
-    <table id="price-table">
-      <tr>
-        <th>Percentyl</th>
-        <th>Zakup uśredniony</th>
-      </tr>
-      <tr v-for="(price, label) in priceStats" :key="label">
-        <th>
-          {{ label.match(/[A-Z]+/i)?.[0] ?? '' }}<sub>{{ label.match(/\d+/)?.[0] ?? '' }}</sub>
-        </th>
-        <td>{{ `${price.toFixed(2)}zł` }}</td>
-      </tr>
-    </table>
-  </section>
-
   <section id="stock-stats">
     <h2>Statystyki produktów</h2>
 
@@ -291,6 +274,23 @@ const priceStats = {
           :key="`size-col-${escapeNonword(col.label)}`"
           v-html="showHTML(size.filter_fn, col.filter_fn)"
         ></td>
+      </tr>
+    </table>
+  </section>
+
+  <section id="price-stats" v-if="L > 0">
+    <h2>Statystyki cen</h2>
+
+    <table id="price-table">
+      <tr>
+        <th>Percentyl</th>
+        <th>Zakup uśredniony</th>
+      </tr>
+      <tr v-for="(price, label) in priceStats" :key="label">
+        <th>
+          {{ label.match(/[A-Z]+/i)?.[0] ?? '' }}<sub>{{ label.match(/\d+/)?.[0] ?? '' }}</sub>
+        </th>
+        <td>{{ `${price.toFixed(2)}zł` }}</td>
       </tr>
     </table>
   </section>
