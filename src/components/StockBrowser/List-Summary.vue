@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject } from 'vue'
+import { ref, inject } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useStockStore } from '@/stores/stockStore'
@@ -15,6 +15,7 @@ import QuantityStatus from '@/components/StockBrowser/QuantityStatusSwitch.vue'
 
 import type { Ref } from 'vue'
 const refreshMainComponent = inject<Ref<number>>('refreshMainComponent')!
+const price = ref([])
 
 const { listView } = storeToRefs(usePreferencesStore())
 
@@ -74,10 +75,42 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
   if (val <= threshold) return 'red-font'
   return ''
 }
+
+const priceStats = () => {
+  const priceArray = useStockStore()
+    .items.filter((item: Plywood) => item.quantityStatus > 0 && item.purchase)
+    .map((item: Plywood) => item.purchase!)
+    .sort((a: number, b: number) => a - b)
+
+  const L = priceArray.length
+  return {
+    min: priceArray[0],
+    // P05: priceArray[Math.round(L * 0.05)],
+    P25: priceArray[Math.round(L * 0.25)],
+    P50: priceArray[Math.round(L * 0.5)],
+    P75: priceArray[Math.round(L * 0.75)],
+    // P95: priceArray[Math.round(L * 0.95)],
+    max: priceArray[L - 1]
+  }
+}
 </script>
 
 <template>
-  <section class="list-summary" v-if="listView === 'inventory'">
+  <section class="sticky price-stats" v-if="listView === 'prices'">
+    <!-- {{ priceStats() }} -->
+    <table id="price-stats-table">
+      <tr>
+        <th v-for="(price, label) of priceStats()" :key="label">
+          {{ label.match(/[A-Z]+/i)?.[0] ?? '' }}<sub>{{ label.match(/\d+/)?.[0] ?? '' }}</sub>
+        </th>
+      </tr>
+      <tr>
+        <td v-for="price of priceStats()" :key="price">{{ `${price.toFixed(0) || 0}zł` }}</td>
+      </tr>
+    </table>
+  </section>
+
+  <section class="sticky list-summary" v-if="listView === 'inventory'">
     <!-- <hr /> -->
     <div class="inventory-summary">
       <header>
@@ -112,7 +145,7 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
 </template>
 
 <style scoped>
-.list-summary {
+.sticky {
   background: var(--bg2-color);
   padding: 1ch;
   width: 100%;
@@ -165,5 +198,24 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
 
 .list-summary .green-font::before {
   content: '+';
+}
+
+#price-stats-table {
+  width: 100%;
+  /* border: solid 1px silver; */
+}
+
+#price-stats-table {
+  text-align: center;
+}
+
+th,
+td {
+  border-right: solid 1px var(--accent-light);
+}
+
+th:last-child,
+td:last-child {
+  border-right: none;
 }
 </style>
