@@ -81,16 +81,21 @@ const priceStats = () => {
     .map((item: Plywood) => item.purchase!)
     .sort((a: number, b: number) => a - b)
 
-  const L = priceArray.length
-  return {
-    min: priceArray[0],
+  const L = priceArray.length - 1
+  const result = {
+    // min: priceArray[0],
     // P05: priceArray[Math.round(L * 0.05)],
-    P25: priceArray[Math.round(L * 0.25)],
+    P10: priceArray[Math.round(L * 0.1)],
+    // P25: priceArray[Math.round(L * 0.25)],
     P50: priceArray[Math.round(L * 0.5)],
-    P75: priceArray[Math.round(L * 0.75)],
-    // P95: priceArray[Math.round(L * 0.95)],
-    max: priceArray[L - 1]
+    // P75: priceArray[Math.round(L * 0.75)],
+    P90: priceArray[Math.round(L * 0.9)]
+    // P95: priceArray[Math.round(L * 0.95)]
+    // max: priceArray[L]
   }
+
+  console.log(L, result)
+  return result
 }
 </script>
 
@@ -99,12 +104,14 @@ const priceStats = () => {
     <!-- {{ priceStats() }} -->
     <table id="price-stats-table">
       <tr>
-        <th v-for="(price, label) of priceStats()" :key="label">
-          {{ label.match(/[A-Z]+/i)?.[0] ?? '' }}<sub>{{ label.match(/\d+/)?.[0] ?? '' }}</sub>
+        <th v-for="(price, label, index) of priceStats()" :key="`price-${index}`">
+          {{ `${price?.toFixed(0) || 0}zł` }}
         </th>
       </tr>
       <tr>
-        <td v-for="price of priceStats()" :key="price">{{ `${price.toFixed(0) || 0}zł` }}</td>
+        <td v-for="(price, label, index) of priceStats()" :key="`label-${index}`">
+          {{ label.match(/[A-Z]+/i)?.[0] ?? '' }}<sub>{{ label.match(/\d+/)?.[0] ?? '' }}</sub>
+        </td>
       </tr>
     </table>
   </section>
