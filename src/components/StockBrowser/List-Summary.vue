@@ -94,7 +94,7 @@ const priceStats = () => {
     // max: priceArray[L]
   }
 
-  console.log(L, result)
+  // console.log(L, result)
   return result
 }
 </script>
