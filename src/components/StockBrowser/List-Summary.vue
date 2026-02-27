@@ -20,7 +20,6 @@ const { listView } = storeToRefs(usePreferencesStore())
 
 const filteredTotal = (unit: string) => {
   return useStockStore().items.reduce((acc: number, item: Plywood) => {
-    const totalUnitInventory = calcQuant(item.size, item.inventoryCubicSum, 'm3', unit)
     const totalUnitQuantity = calcQuant(item.size, item.quantityCubicTotal, 'm3', unit)
     return acc + totalUnitQuantity
   }, 0)
