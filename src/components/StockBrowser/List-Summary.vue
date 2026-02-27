@@ -18,7 +18,14 @@ const refreshMainComponent = inject<Ref<number>>('refreshMainComponent')!
 
 const { listView } = storeToRefs(usePreferencesStore())
 
-const summaryDiff = (unit: string) => {
+const filteredTotal = (unit: string) => {
+  return useStockStore().items.reduce((acc: number, item: Plywood) => {
+    const totalUnitInventory = calcQuant(item.size, item.inventoryCubicSum, 'm3', unit)
+    const totalUnitQuantity = calcQuant(item.size, item.quantityCubicTotal, 'm3', unit)
+    return acc + totalUnitQuantity
+  }, 0)
+}
+const filteredDiff = (unit: string) => {
   return useStockStore().items.reduce((acc: number, item: Plywood) => {
     const totalUnitInventory = calcQuant(item.size, item.inventoryCubicSum, 'm3', unit)
     const totalUnitQuantity = calcQuant(item.size, item.quantityCubicTotal, 'm3', unit)
@@ -62,7 +69,7 @@ function filledInventoryCount() {
 }
 
 function setFontColor(unit: 'm3' | 'm2' | 'szt') {
-  const val = summaryDiff(unit)
+  const val = filteredDiff(unit)
   let threshold = 0
 
   if (unit === 'm3') threshold = 0.01
@@ -135,16 +142,26 @@ const priceStats = () => {
         </div>
       </header>
 
+      <span class="field">
+        {{ filteredTotal('m3').toFixed(3) }}<small>m<sup>3</sup></small>
+      </span>
+
+      <span class="field">
+        {{ filteredTotal('m2').toFixed(2) }}<small>m<sup>2</sup></small>
+      </span>
+
+      <span class="field"> {{ filteredTotal('szt').toFixed(1) }}<small>szt</small> </span>
+
       <span class="field" :class="setFontColor('m3')">
-        {{ summaryDiff('m3').toFixed(3) }}<small>m<sup>3</sup></small>
+        {{ filteredDiff('m3').toFixed(3) }}<small>m<sup>3</sup></small>
       </span>
 
       <span class="field" :class="setFontColor('m2')">
-        {{ summaryDiff('m2').toFixed(2) }}<small>m<sup>2</sup></small>
+        {{ filteredDiff('m2').toFixed(2) }}<small>m<sup>2</sup></small>
       </span>
 
       <span class="field" :class="setFontColor('szt')">
-        {{ summaryDiff('szt').toFixed(1) }}<small>szt</small>
+        {{ filteredDiff('szt').toFixed(1) }}<small>szt</small>
       </span>
     </div>
   </section>
