@@ -89,15 +89,15 @@ const priceStats = () => {
 
   const L = priceArray.length - 1
   const result = {
-    // min: priceArray[0],
+    min: priceArray[0],
     // P05: priceArray[Math.round(L * 0.05)],
-    P10: priceArray[Math.round(L * 0.1)],
+    // P10: priceArray[Math.round(L * 0.1)],
     // P25: priceArray[Math.round(L * 0.25)],
     P50: priceArray[Math.round(L * 0.5)],
     // P75: priceArray[Math.round(L * 0.75)],
-    P90: priceArray[Math.round(L * 0.9)]
-    // P95: priceArray[Math.round(L * 0.95)]
-    // max: priceArray[L]
+    // P90: priceArray[Math.round(L * 0.9)],
+    // P95: priceArray[Math.round(L * 0.95)],
+    max: priceArray[L]
   }
 
   // console.log(L, result)
