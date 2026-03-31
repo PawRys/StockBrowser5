@@ -143,14 +143,13 @@ function insertCharacter(key: string) {
   place-self: end center;
   top: 5rem;
 
-  margin-top: 1rem;
+  padding-block: 1rem;
   /* margin-inline: 3rem; */
   border-radius: 1ch;
   /* padding: 1ch; */
   width: min(100svw - 2ch, 25rem);
 
-  /* background-color: var(--bg-color); */
-  font-size: 1.7em;
+  font-size: 1.6em;
 
   z-index: 1;
   /* outline-color: plum;
@@ -159,9 +158,9 @@ function insertCharacter(key: string) {
 
 #keyboard .button {
   width: auto;
-  height: 65px;
+  height: 55px;
   line-height: 1;
-  /* border-radius: 50%; */
+  background-color: var(--bg-color);
 }
 
 #keyboard .span-2 {
@@ -174,11 +173,11 @@ function insertCharacter(key: string) {
   justify-self: end;
 }
 
-#keyboard button.clicked {
+#keyboard .button.clicked {
   z-index: 999;
 }
 
-#keyboard button::after {
+#keyboard .button::after {
   content: '';
   position: absolute;
   z-index: 999;
@@ -186,7 +185,7 @@ function insertCharacter(key: string) {
   border-radius: 1ch;
 }
 
-#keyboard button.clicked::after {
+#keyboard .button.clicked::after {
   animation-name: noticable-click;
   animation-duration: 150ms;
 }
