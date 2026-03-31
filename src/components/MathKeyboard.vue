@@ -19,14 +19,17 @@ const buttons = [
   { value: '3', html: '3' },
   { value: '-', html: '-' },
 
-  { value: '0', html: '0' },
-  { value: '.', html: '.', cls: 'span-2' },
+  { value: '0', html: '0', cls: 'span-2' },
+  { value: '.', html: '.' },
   { value: '+', html: '+' },
 
   { value: '(', html: '(' },
   { value: ')', html: ')' },
-  { value: 'ArrowLeft', html: '<i class="bi bi-arrow-left-short"></i>' },
-  { value: 'ArrowRight', html: '<i class="bi bi-arrow-right-short"></i>' }
+
+  { value: 'ArrowLeft', html: '←' },
+  { value: 'ArrowRight', html: '→' }
+  // { value: 'ArrowLeft', html: '<i class="bi bi-arrow-left-short"></i>' },
+  // { value: 'ArrowRight', html: '<i class="bi bi-arrow-right-short"></i>' }
 ]
 
 function addAnimation(event: Event) {
@@ -147,9 +150,9 @@ function insertCharacter(key: string) {
   width: min(100svw - 2ch, 25rem);
 
   /* background-color: var(--bg-color); */
-  font-size: 1.8em;
+  font-size: 1.7em;
 
-  /* z-index: 1; */
+  z-index: 1;
   /* outline-color: plum;
   outline-style: auto; */
 }
@@ -163,6 +166,7 @@ function insertCharacter(key: string) {
 
 #keyboard .span-2 {
   grid-column: span 2;
+  /* justify-self: end; */
 }
 
 #keyboard .backspace {
