@@ -108,7 +108,7 @@ function scrollToParent(event: Event) {
     .marginTop.replace(/[^0-9,.]/g, '')
     .replace(',', '.')
 
-  const offset = -1 * (floatingToolbar?.clientHeight || 0) * 0 - Number(targetsParentMarginTop)
+  const offset = -1 * (floatingToolbar?.clientHeight || 0) - Number(targetsParentMarginTop)
   scrollTo(`#${targetsParent?.id}`, offset)
 }
 </script>
