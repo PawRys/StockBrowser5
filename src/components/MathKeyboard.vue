@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 
 const buttons = [
+  { value: 'Clear', html: 'C', cls: 'clear' },
   { value: 'Backspace', html: '<i class="bi bi-backspace"></i>', cls: 'backspace' },
 
   { value: '7', html: '7' },
@@ -88,6 +89,9 @@ function insertCharacter(key: string) {
       const pos = caretStart < text.length ? caretStart + 1 : 0
       el.setSelectionRange(pos, pos)
     }
+    if (key === 'Clear') {
+      el.value = ''
+    }
     if (key === 'Backspace') {
       let removeStart = caretStart
       let removeEnd = caretEnd
@@ -168,9 +172,10 @@ function insertCharacter(key: string) {
   /* justify-self: end; */
 }
 
-#keyboard .backspace {
-  grid-column: span 4;
+#keyboard .clear {
+  grid-column: span 3;
   justify-self: end;
+  margin-bottom: 1em;
 }
 
 #keyboard .button.clicked {
