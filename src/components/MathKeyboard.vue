@@ -2,28 +2,30 @@
 import { ref } from 'vue'
 
 const buttons = [
+  { value: 'Backspace', html: '<i class="bi bi-backspace"></i>', cls: 'backspace' },
+
   { value: '7', html: '7' },
   { value: '8', html: '8' },
   { value: '9', html: '9' },
   { value: '/', html: '/' },
-  { value: 'Backspace', html: '<i class="bi bi-backspace"></i>' },
 
   { value: '4', html: '4' },
   { value: '5', html: '5' },
   { value: '6', html: '6' },
   { value: '*', html: '*' },
-  { value: '(', html: '(' },
 
   { value: '1', html: '1' },
   { value: '2', html: '2' },
   { value: '3', html: '3' },
   { value: '-', html: '-' },
-  { value: ')', html: ')' },
 
   { value: '0', html: '0' },
-  { value: '.', html: '.' },
-  { value: 'ArrowLeft', html: '<i class="bi bi-arrow-left-short"></i>' },
+  { value: '.', html: '.', cls: 'span-2' },
   { value: '+', html: '+' },
+
+  { value: '(', html: '(' },
+  { value: ')', html: ')' },
+  { value: 'ArrowLeft', html: '<i class="bi bi-arrow-left-short"></i>' },
   { value: 'ArrowRight', html: '<i class="bi bi-arrow-right-short"></i>' }
 ]
 
@@ -110,10 +112,10 @@ function insertCharacter(key: string) {
 </script>
 
 <template>
-  <section id="keyboard">
+  <div id="keyboard">
     <template v-for="button in buttons" :key="`button-${button.value}`">
       <span
-        class="button"
+        :class="['button', button.cls]"
         @animationend="removeAnimation"
         @touchstart.prevent="handleTouchStart"
         @touchmove.prevent="handleTouchMove"
@@ -122,14 +124,14 @@ function insertCharacter(key: string) {
         v-html="button.html"
       ></span>
     </template>
-  </section>
+  </div>
 </template>
 
 <style scoped>
 #keyboard {
   grid-column: 1/4;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 0.5ch;
 
   position: absolute;
@@ -143,15 +145,30 @@ function insertCharacter(key: string) {
   /* width: 100%; */
 
   background-color: var(--bg-color);
-  font-size: 1.1em;
+  font-size: 1.8em;
+
+  z-index: 1;
+  outline-color: plum;
+  outline-style: auto;
 }
 
 /* #keyboard button:nth-child(5n + 1) {
   grid-column: 2/3;
 } */
 
-#keyboard button {
-  width: 100%;
+#keyboard .button {
+  width: 65px;
+  aspect-ratio: 1;
+  border-radius: 100%;
+}
+
+#keyboard .span-2 {
+  grid-column: span 2;
+}
+
+#keyboard .backspace {
+  grid-column: span 4;
+  justify-self: end;
 }
 
 #keyboard button.clicked {
