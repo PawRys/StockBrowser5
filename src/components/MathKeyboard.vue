@@ -132,34 +132,33 @@ function insertCharacter(key: string) {
   grid-column: 1/4;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  align-items: stretch;
+  justify-items: stretch;
   gap: 0.5ch;
 
   position: absolute;
   place-self: end center;
-  top: 8rem;
+  top: 5rem;
 
   margin-top: 1rem;
   /* margin-inline: 3rem; */
   border-radius: 1ch;
-  padding: 2ch;
-  /* width: 100%; */
+  /* padding: 1ch; */
+  width: min(100svw - 2ch, 25rem);
 
-  background-color: var(--bg-color);
+  /* background-color: var(--bg-color); */
   font-size: 1.8em;
 
-  z-index: 1;
-  outline-color: plum;
-  outline-style: auto;
+  /* z-index: 1; */
+  /* outline-color: plum;
+  outline-style: auto; */
 }
 
-/* #keyboard button:nth-child(5n + 1) {
-  grid-column: 2/3;
-} */
-
 #keyboard .button {
-  width: 65px;
-  aspect-ratio: 1;
-  border-radius: 100%;
+  width: auto;
+  height: 65px;
+  line-height: 1;
+  /* border-radius: 50%; */
 }
 
 #keyboard .span-2 {
