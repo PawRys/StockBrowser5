@@ -4,6 +4,7 @@ import { ref } from 'vue'
 const buttons = [
   { value: 'Clear', html: 'C', cls: 'clear' },
   { value: 'Backspace', html: '<i class="bi bi-backspace"></i>', cls: 'backspace' },
+  { value: 'Exit', html: 'Exit', cls: 'exit' },
 
   { value: '7', html: '7' },
   { value: '8', html: '8' },
@@ -85,13 +86,20 @@ function insertCharacter(key: string) {
     if (key === 'ArrowLeft') {
       el.setSelectionRange(caretStart - 1, caretEnd - 1)
     }
+
     if (key === 'ArrowRight') {
       const pos = caretStart < text.length ? caretStart + 1 : 0
       el.setSelectionRange(pos, pos)
     }
+
     if (key === 'Clear') {
       el.value = ''
     }
+
+    if (key === 'Exit') {
+      el.blur()
+    }
+
     if (key === 'Backspace') {
       let removeStart = caretStart
       let removeEnd = caretEnd
@@ -105,6 +113,7 @@ function insertCharacter(key: string) {
       el.setSelectionRange(removeStart, removeEnd)
       dispatchInputType = 'deleteContentBackward'
     }
+
     if (key.match(/[-+*/,.0-9()]/)) {
       const textBeforeSelection = text.substring(0, caretStart)
       const textAfterSelection = text.substring(caretEnd)
@@ -172,9 +181,9 @@ function insertCharacter(key: string) {
   /* justify-self: end; */
 }
 
-#keyboard .clear {
-  grid-column: span 3;
-  justify-self: end;
+#keyboard .exit {
+  grid-column: span 2;
+  /* justify-self: end; */
   margin-bottom: 1em;
 }
 
