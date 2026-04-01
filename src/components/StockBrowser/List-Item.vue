@@ -135,24 +135,28 @@ function applyFocus(el: HTMLElement) {
 }
 
 .list-item:focus-within::after {
-  font-family: bootstrap-icons !important;
+  /* font-family: bootstrap-icons !important; */
   font-style: normal;
-  font-weight: 400 !important;
+  /* font-weight: 400 !important; */
   font-variant: normal;
+  font-size: 1.5em;
   text-transform: none;
   line-height: 1;
   vertical-align: -0.125em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   content: '\f628';
+  content: 'Zamknij';
   background-color: var(--accent-lighter);
   border-radius: 5px;
+  cursor: pointer;
 
   position: absolute;
   top: 0;
   right: 0;
   z-index: 9;
   padding: 9px;
+  translate: 0 calc(-100% - 0.5ch);
 }
 
 .item-heading-1 {

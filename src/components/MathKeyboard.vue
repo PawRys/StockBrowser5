@@ -6,32 +6,30 @@ const buttons = [
   { value: 'Backspace', html: '<i class="bi bi-backspace"></i>', cls: 'backspace' },
   { value: 'Exit', html: 'Exit', cls: 'exit' },
 
-  { value: '7', html: '7' },
-  { value: '8', html: '8' },
-  { value: '9', html: '9' },
-  { value: '/', html: '/' },
+  { value: '7', html: '7', cls: 'digit' },
+  { value: '8', html: '8', cls: 'digit' },
+  { value: '9', html: '9', cls: 'digit' },
+  { value: '/', html: '/', cls: 'action' },
 
-  { value: '4', html: '4' },
-  { value: '5', html: '5' },
-  { value: '6', html: '6' },
-  { value: '*', html: '*' },
+  { value: '4', html: '4', cls: 'digit' },
+  { value: '5', html: '5', cls: 'digit' },
+  { value: '6', html: '6', cls: 'digit' },
+  { value: '*', html: '*', cls: 'action' },
 
-  { value: '1', html: '1' },
-  { value: '2', html: '2' },
-  { value: '3', html: '3' },
-  { value: '-', html: '-' },
+  { value: '1', html: '1', cls: 'digit' },
+  { value: '2', html: '2', cls: 'digit' },
+  { value: '3', html: '3', cls: 'digit' },
+  { value: '-', html: '-', cls: 'action' },
 
-  { value: '0', html: '0', cls: 'span-2' },
+  { value: '0', html: '0', cls: 'digit zero' },
   { value: '.', html: '.' },
-  { value: '+', html: '+' },
+  { value: '+', html: '+', cls: 'action' },
 
   { value: '(', html: '(' },
   { value: ')', html: ')' },
 
   { value: 'ArrowLeft', html: '←' },
   { value: 'ArrowRight', html: '→' }
-  // { value: 'ArrowLeft', html: '<i class="bi bi-arrow-left-short"></i>' },
-  // { value: 'ArrowRight', html: '<i class="bi bi-arrow-right-short"></i>' }
 ]
 
 function addAnimation(event: Event) {
@@ -155,36 +153,42 @@ function insertCharacter(key: string) {
   position: absolute;
   place-self: end center;
   top: 5rem;
+  /* translate: 0 calc(100% + 2rem); */
 
   padding-block: 1rem;
-  /* margin-inline: 3rem; */
   border-radius: 1ch;
-  /* padding: 1ch; */
   width: min(100svw - 2ch, 25rem);
 
   font-size: 1.6em;
 
   z-index: 1;
-  /* outline-color: plum;
-  outline-style: auto; */
 }
 
 #keyboard .button {
   width: auto;
   height: 55px;
   line-height: 1;
-  background-color: var(--bg-color);
+  background-color: var(--accent-lighter);
 }
 
-#keyboard .span-2 {
+#keyboard .digit {
+  background-color: var(--cta-color);
+}
+
+#keyboard .action {
+  background-color: var(--accent-light);
+}
+
+#keyboard .zero {
   grid-column: span 2;
-  /* justify-self: end; */
+}
+
+#keyboard .clear {
+  margin-bottom: 1ch;
 }
 
 #keyboard .exit {
   grid-column: span 2;
-  /* justify-self: end; */
-  margin-bottom: 1em;
 }
 
 #keyboard .button.clicked {
