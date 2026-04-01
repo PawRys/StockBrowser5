@@ -3,8 +3,9 @@ import { ref } from 'vue'
 
 const buttons = [
   { value: 'Clear', html: 'C', cls: 'clear' },
+  { value: '', html: '', cls: 'empty' },
+  { value: '', html: '', cls: 'empty' },
   { value: 'Backspace', html: '<i class="bi bi-backspace"></i>', cls: 'backspace' },
-  { value: 'Exit', html: 'Exit', cls: 'exit' },
 
   { value: '7', html: '7', cls: 'digit' },
   { value: '8', html: '8', cls: 'digit' },
@@ -21,7 +22,8 @@ const buttons = [
   { value: '3', html: '3', cls: 'digit' },
   { value: '-', html: '-', cls: 'action' },
 
-  { value: '0', html: '0', cls: 'digit zero' },
+  { value: '', html: '', cls: 'empty' },
+  { value: '0', html: '0', cls: 'digit' },
   { value: '.', html: '.' },
   { value: '+', html: '+', cls: 'action' },
 
@@ -189,6 +191,9 @@ function insertCharacter(key: string) {
 
 #keyboard .exit {
   grid-column: span 2;
+}
+#keyboard .empty {
+  visibility: hidden;
 }
 
 #keyboard .button.clicked {
