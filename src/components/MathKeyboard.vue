@@ -161,14 +161,13 @@ function insertCharacter(key: string) {
   border-radius: 1ch;
   width: min(100svw - 2ch, 25rem);
 
-  font-size: 1.6em;
-
   z-index: 1;
 }
 
 #keyboard .button {
   width: auto;
   height: 50px;
+  font-size: 1.5em;
   line-height: 1;
   background-color: var(--accent-lighter);
 }
