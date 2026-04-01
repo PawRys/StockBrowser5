@@ -168,7 +168,7 @@ function insertCharacter(key: string) {
 
 #keyboard .button {
   width: auto;
-  height: 55px;
+  height: 50px;
   line-height: 1;
   background-color: var(--accent-lighter);
 }
