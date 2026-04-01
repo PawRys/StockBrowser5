@@ -2,9 +2,9 @@
 import { ref } from 'vue'
 
 const buttons = [
+  { value: '', html: '', cls: 'empty' },
+  { value: '', html: '', cls: 'empty' },
   { value: 'Clear', html: 'C', cls: 'clear' },
-  { value: '', html: '', cls: 'empty' },
-  { value: '', html: '', cls: 'empty' },
   { value: 'Backspace', html: '<i class="bi bi-backspace"></i>', cls: 'backspace' },
 
   { value: '7', html: '7', cls: 'digit' },
