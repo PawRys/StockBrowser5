@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+const history = ref<Record<string, string[]>>({})
+const historyIndex = ref<Record<string, number>>({})
+
 const buttons = [
-  { value: '', html: '', cls: 'empty' },
-  { value: '', html: '', cls: 'empty' },
+  { value: 'Prev', html: '↶', cls: 'empty' },
+  { value: 'Next', html: '↷', cls: 'empty' },
   { value: 'Clear', html: 'C', cls: 'clear' },
   { value: 'Backspace', html: '<i class="bi bi-backspace"></i>', cls: 'backspace' },
 
@@ -77,6 +80,20 @@ function handleTouchEnd(event: Event, buttonValue: string) {
 
 function insertCharacter(key: string) {
   const el = document.querySelector(':focus') as HTMLInputElement | HTMLTextAreaElement | null
+
+  const saveToHistory = (id: string, value: string) => {
+    if (!value) return
+
+    if (!history.value[id]) {
+      history.value[id] = []
+    }
+
+    history.value[id].push(value)
+
+    // ustaw indeks na koniec
+    historyIndex.value[id] = history.value[id].length
+  }
+
   if (el && 'value' in el) {
     const text = el.value
     const caretStart = el.selectionStart || 0
@@ -120,9 +137,12 @@ function insertCharacter(key: string) {
       el.value = textBeforeSelection + key + textAfterSelection
       el.setSelectionRange(caretStart + key.length, caretEnd + key.length)
     }
+
     el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: dispatchInputType }))
     el.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, key: key }))
     el.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: key }))
+    saveToHistory(el.id, el.value)
+    console.log(history.value)
   }
 }
 </script>
@@ -154,7 +174,7 @@ function insertCharacter(key: string) {
 
   position: absolute;
   place-self: end center;
-  top: 5rem;
+  top: 6rem;
   /* translate: 0 calc(100% + 2rem); */
 
   padding-block: 1rem;
