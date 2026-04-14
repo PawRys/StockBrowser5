@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { ref, computed, watch, toRefs } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
 import { setInventoryStatus, setQuantityStatus } from '@/exports/stockUpdateExports'
-import { evalMath, calcQuant, scrollTo } from '@/exports/common_functions'
+import { evalMath, calcQuant, scrollTo, escapeNonword } from '@/exports/common_functions'
 
 import MathKeyboard from '@/components/MathKeyboard.vue'
 
@@ -126,6 +126,7 @@ function scrollToParent(event: Event) {
 
   <div class="inventory-input" style="grid-column: 1 / -1" v-else>
     <textarea
+      :id="`id-${escapeNonword(String(item.id))}-${unit}`"
       rows="1"
       inputmode="none"
       class="user-input"
@@ -143,6 +144,7 @@ function scrollToParent(event: Event) {
       {{ evalMath(userInput as string).toFixed(zeroFix) }}
       <small v-html="unitLabel"></small>
     </span>
+
     <MathKeyboard v-if="isEdited" />
   </div>
 </template>
@@ -187,7 +189,8 @@ function scrollToParent(event: Event) {
   width: 100%;
   min-height: fit-content;
   text-align: right;
-  max-height: 6rem;
+  max-height: calc(2em * 1.5 + 0.5em);
+  line-height: 1.5;
   overflow: auto;
 
   white-space: pre-wrap; /* Keep spacing and allow wrapping */
