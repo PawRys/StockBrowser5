@@ -100,7 +100,7 @@
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--accent-light) var(--bg-color);
+  scrollbar-color: var(--cta-color) var(--accent-lightest);
 }
 
 a {
