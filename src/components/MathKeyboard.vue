@@ -30,11 +30,11 @@ const buttons = [
   { value: '.', html: '.' },
   { value: '+', html: '+', cls: 'action' },
 
-  { value: '(', html: '(' },
-  { value: ')', html: ')' },
+  { value: '(', html: '(', cls: 'bottom-row' },
+  { value: ')', html: ')', cls: 'bottom-row' },
 
-  { value: 'ArrowLeft', html: '←' },
-  { value: 'ArrowRight', html: '→' }
+  { value: 'ArrowLeft', html: '←', cls: 'bottom-row' },
+  { value: 'ArrowRight', html: '→', cls: 'bottom-row' }
 ]
 
 function addAnimation(event: Event) {
@@ -52,7 +52,7 @@ function removeAnimation(event: Event) {
 const touchStartX = ref(0)
 const touchStartY = ref(0)
 const isSwipe = ref(false)
-const SWIPE_THRESHOLD = 10
+const SWIPE_THRESHOLD = 15
 
 function handleTouchStart(event: TouchEvent) {
   const touch = event.touches[0]
@@ -211,8 +211,13 @@ function insertCharacter(key: string) {
 #keyboard .exit {
   grid-column: span 2;
 }
+
 #keyboard .empty {
   visibility: hidden;
+}
+
+#keyboard .bottom-row {
+  margin-top: 1ch;
 }
 
 #keyboard .button.clicked {
