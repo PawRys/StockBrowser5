@@ -206,6 +206,7 @@ function insertCharacter(key: string) {
 
 #keyboard .clear {
   margin-bottom: 1ch;
+  background-color: var(--red-color);
 }
 
 #keyboard .exit {
