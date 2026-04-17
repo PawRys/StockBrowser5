@@ -67,24 +67,18 @@ async function reduceUserInput(event: Event) {
   )
     ? true
     : false
+
   const target = event.target as HTMLInputElement
   const normalExpr = target.value
   const resultExpr = removeChar
     ? target.value
     : target.value
         .replace(/ {1,}/gi, '')
-        .replace(/([-+][0-9])/gi, ' $1')
+        .replace(/(^|\D)([,.][0-9])/gi, '$10$2')
+        .replace(/([-+]+[0-9])/gi, ' $1')
         .replace(/([0-9])([(])/gi, '$1*$2')
         .replace(/([)])([0-9])/gi, '$1*$2')
         .replace(/([)])([(])/gi, '$1*$2')
-
-  // const resultExpr = isBacksapce
-  //   ? target.value
-  //   : prettierExpression(target.value)
-  //       .replace(/ {1,}/gi, '')
-  //       .replace(/([-+]+[0-9])/gi, ' $1')
-
-  // const resultExpr = normalExpr
 
   const offset = normalExpr.length - resultExpr.length
   const caretPosition = (target.selectionStart || 0) - offset
@@ -189,7 +183,7 @@ function scrollToParent(event: Event) {
   width: 100%;
   min-height: fit-content;
   text-align: right;
-  max-height: calc(2em * 1.5 + 0.5em);
+  max-height: calc(2em * 1.4);
   line-height: 1.5;
   overflow: auto;
 
