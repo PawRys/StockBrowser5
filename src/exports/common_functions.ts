@@ -81,11 +81,12 @@ export function prettierExpression(expr: string): string {
     expr = expr.replace(/--|\+\+/, '+')
     expr = expr.replace(/[/*]([/*])/, '$1')
   }
-  expr = expr.replace(/\B(\.)/gi, '0$1')
+  expr = expr.replace(/(^|\D)([.][0-9])/gi, '$10$2')
   expr = expr.replace(/([0-9])([(])/gi, '$1*$2')
   expr = expr.replace(/([)])([0-9])/gi, '$1*$2')
   expr = expr.replace(/([)])([(])/gi, '$1*$2')
-  expr = expr.replace(/([0-9]) ([0-9])/gi, '$1$2')
+  expr = expr.replace(/([0-9])[ ]+([0-9])/gi, '$1$2')
+  expr = expr.replace(/[(]$/gi, '(1')
   return expr
 }
 
