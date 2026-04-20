@@ -77,7 +77,7 @@ export function prettierExpression(expr: string): string {
   expr = expr.replace(/,/gi, '.')
   expr = expr.replace(/ {1,}/gi, '')
   expr = expr.replace(/[^-+*/.0-9()@#$%&= ]/gi, '')
-  while (/[-+][-+]]|[/*][/*]/.test(expr)) {
+  while (/[-+][-+]|[/*][/*]/.test(expr)) {
     expr = expr.replace(/\+-/, '-')
     expr = expr.replace(/-\+|--|\+\+/, '+')
     expr = expr.replace(/\/\*|\*\*/, '*')
