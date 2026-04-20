@@ -3,7 +3,13 @@ import _ from 'lodash'
 import { ref, computed, watch, toRefs } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
 import { setInventoryStatus, setQuantityStatus } from '@/exports/stockUpdateExports'
-import { evalMath, calcQuant, scrollTo, escapeNonword } from '@/exports/common_functions'
+import {
+  evalMath,
+  prettierExpression,
+  calcQuant,
+  scrollTo,
+  escapeNonword
+} from '@/exports/common_functions'
 
 import MathKeyboard from '@/components/MathKeyboard.vue'
 
@@ -70,16 +76,7 @@ async function reduceUserInput(event: Event) {
 
   const target = event.target as HTMLInputElement
   const normalExpr = target.value
-  const resultExpr = removeChar
-    ? target.value
-    : target.value
-        .replace(/ {1,}/gi, '')
-        .replace(/(^|\D)([,.][0-9])/gi, '$10$2')
-        // .replace(/\.(?=.*\.)/g, '')
-        .replace(/([-+]+[0-9])/gi, ' $1')
-        .replace(/([0-9])([(])/gi, '$1*$2')
-        .replace(/([)])([0-9])/gi, '$1*$2')
-        .replace(/([)])([(])/gi, '$1*$2')
+  const resultExpr = removeChar ? target.value : prettierExpression(target.value)
 
   const offset = normalExpr.length - resultExpr.length
   const caretPosition = (target.selectionStart || 0) - offset
