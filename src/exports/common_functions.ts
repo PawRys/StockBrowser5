@@ -86,7 +86,7 @@ export function prettierExpression(expr: string): string {
   expr = expr.replace(/([)])([0-9])/gi, '$1*$2')
   expr = expr.replace(/([)])([(])/gi, '$1*$2')
   expr = expr.replace(/([0-9])[ ]+([0-9])/gi, '$1$2')
-  expr = expr.replace(/[(]$/gi, '(1')
+  expr = expr.replace(/[(] *\D?$/gi, '(1')
   return expr
 }
 
