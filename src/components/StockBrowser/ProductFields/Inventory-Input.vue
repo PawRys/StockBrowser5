@@ -75,6 +75,7 @@ async function reduceUserInput(event: Event) {
     : target.value
         .replace(/ {1,}/gi, '')
         .replace(/(^|\D)([,.][0-9])/gi, '$10$2')
+        // .replace(/\.(?=.*\.)/g, '')
         .replace(/([-+]+[0-9])/gi, ' $1')
         .replace(/([0-9])([(])/gi, '$1*$2')
         .replace(/([)])([0-9])/gi, '$1*$2')
