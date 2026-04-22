@@ -73,6 +73,48 @@ if ($POST_data['action'] == 'provide') {
 	echo json_encode($response);
 }
 
+if ($POST_data['action'] == 'provide_2') {
+
+  $maxAttempts = 50; // maksymalna liczba prób
+  $attempt = 0;
+  $fileToSaveTo = false;
+  $response = [];
+
+  do {
+    $randomNumber = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
+    $filePath = "$VAULT/$randomNumber.txt";
+    $fileToSaveTo = @fopen($filePath, 'x'); // utworzy tylko jeśli plik nie istnieje
+    $attempt++;
+
+  } while ($fileToSaveTo === false && $attempt < $maxAttempts);
+
+  if ($fileToSaveTo === false) {
+    $response['message'] = 'code_pool_exceeded';
+    exit;
+  }
+
+  
+  $response['pincode'] = $randomNumber;
+  $stockData = $POST_data['stockData'];
+  // echo password_hash($_POST['password'], PASSWORD_BCRYPT);
+  $hash = '$2y$10$NVT.pWG0PQWtV9KrsSfEHOHb0j3K.JoroXFGsq3n4B5p1ajMxWtLu';
+
+  if (password_verify($POST_data['password'], $hash)) {
+    $response['password_verify'] = true;
+  } else {
+    $response['password_verify'] = false;
+    foreach ($stockData['stockList'] as $k => $v) {
+      $stockData['stockList'][$k]["price"] = 0;
+      $stockData['stockList'][$k]["purchase"] = 0;
+    }
+  }
+
+  fwrite($fileToSaveTo, json_encode($stockData, JSON_UNESCAPED_UNICODE));
+  fclose($fileToSaveTo);
+  echo json_encode($response);
+}
+
+
 if ($POST_data['action'] == 'request') {
   $response = [];
 
