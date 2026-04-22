@@ -75,17 +75,24 @@ export function scrollTo(element: string, pxOffset: number) {
 
 export function prettierExpression(expr: string): string {
   expr = expr.replace(/,/gi, '.')
+  expr = expr.replace(/ {1,}/gi, '')
   expr = expr.replace(/[^-+*/.0-9()@#$%&= ]/gi, '')
-  while (/(--|\+\+|-\+|\+-|[/*]([/*]))/.test(expr)) {
-    expr = expr.replace(/-\+|\+-/, '-')
-    expr = expr.replace(/--|\+\+/, '+')
-    expr = expr.replace(/[/*]([/*])/, '$1')
+  while (/[-+][-+]|[/*][/*]/.test(expr)) {
+    expr = expr.replace(/\+-/, '-')
+    expr = expr.replace(/-\+|--|\+\+/, '+')
+    expr = expr.replace(/\/\*|\*\*/, '*')
+    expr = expr.replace(/\*\/|\/\//, '/')
+    //   expr = expr.replace(/[-+] ?([/*])/, '$1')
+    //   expr = expr.replace(/[/*] ?([-+])/, '$1')
   }
-  expr = expr.replace(/\B(\.)/gi, '0$1')
+  expr = expr.replace(/(^|\D)([.][0-9])/gi, '$10$2')
   expr = expr.replace(/([0-9])([(])/gi, '$1*$2')
   expr = expr.replace(/([)])([0-9])/gi, '$1*$2')
   expr = expr.replace(/([)])([(])/gi, '$1*$2')
-  expr = expr.replace(/([0-9]) ([0-9])/gi, '$1$2')
+  expr = expr.replace(/([0-9])[ ]+([0-9])/gi, '$1$2')
+  // expr = expr.replace(/([-+/*]) {0,}[-+/*]{1,}/, '$1')
+  // expr = expr.replace(/[-+/*]{1,} {0,}([-+/*])/, '$1')
+  expr = expr.replace(/([-+][0-9])/gi, ' $1')
   return expr
 }
 
@@ -97,12 +104,14 @@ export function evalMath(expr: string): number {
     return /\*/.test(exp) ? a * b : a / b
   }
 
+  console.log(expr)
   expr = expr ? expr : ''
   expr = expr.replace(/\(\)|[@#$%&= ]|\u200B/gi, '') // remove unwanted chars
   expr = expr.replace(/\B\.\B/gi, '0')
   expr = prettierExpression(expr)
+  expr = expr.replace(/[(] *\D?$/gi, '(1')
   const regexpParenthesis = /\(([^()]+)\)/i
-  const regexpMultiply = /\d+(\.\d+)?[*/][+-]?\d+(\.\d+)?/i
+  const regexpMultiply = /\d+(\.\d+)?[*/] {0,}[+-]?\d+(\.\d+)?/i
   const regexpAddition = /[+-]?\d+(\.\d+)?/gi
   const isParenthesis = expr.match(regexpParenthesis)
   const isMultiply = expr.match(regexpMultiply)

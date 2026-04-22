@@ -100,7 +100,7 @@
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--accent-light) var(--bg-color);
+  scrollbar-color: var(--cta-color) var(--accent-lightest);
 }
 
 a {
@@ -203,7 +203,8 @@ hr {
   :is(button, .button, select):hover:not(:disabled) {
     background-color: var(--accent-light);
     color: var(--font-color);
-    filter: hue-rotate(180deg);
+    /* filter: hue-rotate(180deg); */
+    filter: saturate(1.4) contrast(1.4);
   }
 }
 

@@ -39,16 +39,15 @@ function applyFocus(el: HTMLElement) {
     <span class="item-heading-1" :title="`${item.name}`">
       <span class="grey-font">{{ index }}.</span>
       <span class="grey-font item-id">{{ item.id }}</span>
-      <span class="item-purchase" v-html="`${itemPurchase}`" v-if="listView === 'inventory'">
-      </span>
+      <span class="item-purchase" v-html="`${itemPurchase}`"> </span>
     </span>
 
     <span class="item-heading-2">
+      <span>{{ item.attr.footSize }}</span>
       <span>{{ item.attr.glueType }}</span>
       <b>{{ item.size }}</b>
       <span>{{ item.attr.faceType }}</span>
       <span>{{ item.attr.color }}</span>
-      <b>{{ item.attr.footSize }}</b>
     </span>
 
     <span class="item-heading-3 grey-font item-name">{{ item.name }}</span>
@@ -65,12 +64,12 @@ function applyFocus(el: HTMLElement) {
     <Price class="price-m3" :item="item" :unit="'m3'" v-if="listView === 'prices'" />
     <Price class="price-m2" :item="item" :unit="'m2'" v-if="listView === 'prices'" />
     <Price class="price-szt" :item="item" :unit="'szt'" v-if="listView === 'prices'" />
-    <!-- <Price class="price-purchase" :item="item" :unit="'purchase'" v-if="listView === 'prices'" /> -->
-    <span
+    <Price class="price-purchase" :item="item" :unit="'purchase'" v-if="listView === 'prices'" />
+    <!-- <span
       class="price-purchase field"
       v-html="`${itemPurchase}`"
       v-if="listView === 'prices'"
-    ></span>
+    ></span> -->
     <Price class="price-marg" :item="item" :unit="'marg'" v-if="listView === 'prices'" />
     <Price class="price-perc" :item="item" :unit="'perc'" v-if="listView === 'prices'" />
 
@@ -136,24 +135,28 @@ function applyFocus(el: HTMLElement) {
 }
 
 .list-item:focus-within::after {
-  font-family: bootstrap-icons !important;
+  /* font-family: bootstrap-icons !important; */
   font-style: normal;
-  font-weight: 400 !important;
+  /* font-weight: 400 !important; */
   font-variant: normal;
+  font-size: 1.5em;
   text-transform: none;
   line-height: 1;
   vertical-align: -0.125em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   content: '\f628';
+  content: 'Zamknij';
   background-color: var(--accent-lighter);
   border-radius: 5px;
+  cursor: pointer;
 
   position: absolute;
   top: 0;
   right: 0;
   z-index: 9;
   padding: 9px;
+  translate: 0 calc(-100% - 0.5ch);
 }
 
 .item-heading-1 {

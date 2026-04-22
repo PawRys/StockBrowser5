@@ -1,30 +1,40 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+const history = ref<Record<string, string[]>>({})
+const historyIndex = ref<Record<string, number>>({})
+
 const buttons = [
-  { value: '7', html: '7' },
-  { value: '8', html: '8' },
-  { value: '9', html: '9' },
-  { value: '/', html: '/' },
-  { value: 'Backspace', html: '<i class="bi bi-backspace"></i>' },
+  { value: 'Prev', html: '↶', cls: 'empty' },
+  { value: 'Next', html: '↷', cls: 'empty' },
+  { value: 'Clear', html: 'C', cls: 'clear' },
+  { value: 'Backspace', html: '<i class="bi bi-backspace"></i>', cls: 'backspace' },
 
-  { value: '4', html: '4' },
-  { value: '5', html: '5' },
-  { value: '6', html: '6' },
-  { value: '*', html: '*' },
-  { value: '(', html: '(' },
+  { value: '7', html: '7', cls: 'digit' },
+  { value: '8', html: '8', cls: 'digit' },
+  { value: '9', html: '9', cls: 'digit' },
+  { value: '/', html: '/', cls: 'action' },
 
-  { value: '1', html: '1' },
-  { value: '2', html: '2' },
-  { value: '3', html: '3' },
-  { value: '-', html: '-' },
-  { value: ')', html: ')' },
+  { value: '4', html: '4', cls: 'digit' },
+  { value: '5', html: '5', cls: 'digit' },
+  { value: '6', html: '6', cls: 'digit' },
+  { value: '*', html: '*', cls: 'action' },
 
-  { value: '0', html: '0' },
+  { value: '1', html: '1', cls: 'digit' },
+  { value: '2', html: '2', cls: 'digit' },
+  { value: '3', html: '3', cls: 'digit' },
+  { value: '-', html: '-', cls: 'action' },
+
+  { value: '', html: '', cls: 'empty' },
+  { value: '0', html: '0', cls: 'digit' },
   { value: '.', html: '.' },
-  { value: 'ArrowLeft', html: '<i class="bi bi-arrow-left-short"></i>' },
-  { value: '+', html: '+' },
-  { value: 'ArrowRight', html: '<i class="bi bi-arrow-right-short"></i>' }
+  { value: '+', html: '+', cls: 'action' },
+
+  { value: '(', html: '(', cls: 'bottom-row' },
+  { value: ')', html: ')', cls: 'bottom-row' },
+
+  { value: 'ArrowLeft', html: '←', cls: 'bottom-row' },
+  { value: 'ArrowRight', html: '→', cls: 'bottom-row' }
 ]
 
 function addAnimation(event: Event) {
@@ -42,7 +52,7 @@ function removeAnimation(event: Event) {
 const touchStartX = ref(0)
 const touchStartY = ref(0)
 const isSwipe = ref(false)
-const SWIPE_THRESHOLD = 10
+const SWIPE_THRESHOLD = 15
 
 function handleTouchStart(event: TouchEvent) {
   const touch = event.touches[0]
@@ -70,6 +80,20 @@ function handleTouchEnd(event: Event, buttonValue: string) {
 
 function insertCharacter(key: string) {
   const el = document.querySelector(':focus') as HTMLInputElement | HTMLTextAreaElement | null
+
+  const saveToHistory = (id: string, value: string) => {
+    if (!value) return
+
+    if (!history.value[id]) {
+      history.value[id] = []
+    }
+
+    history.value[id].push(value)
+
+    // ustaw indeks na koniec
+    historyIndex.value[id] = history.value[id].length
+  }
+
   if (el && 'value' in el) {
     const text = el.value
     const caretStart = el.selectionStart || 0
@@ -79,10 +103,20 @@ function insertCharacter(key: string) {
     if (key === 'ArrowLeft') {
       el.setSelectionRange(caretStart - 1, caretEnd - 1)
     }
+
     if (key === 'ArrowRight') {
       const pos = caretStart < text.length ? caretStart + 1 : 0
       el.setSelectionRange(pos, pos)
     }
+
+    if (key === 'Clear') {
+      el.value = ''
+    }
+
+    if (key === 'Exit') {
+      el.blur()
+    }
+
     if (key === 'Backspace') {
       let removeStart = caretStart
       let removeEnd = caretEnd
@@ -96,24 +130,28 @@ function insertCharacter(key: string) {
       el.setSelectionRange(removeStart, removeEnd)
       dispatchInputType = 'deleteContentBackward'
     }
+
     if (key.match(/[-+*/,.0-9()]/)) {
       const textBeforeSelection = text.substring(0, caretStart)
       const textAfterSelection = text.substring(caretEnd)
       el.value = textBeforeSelection + key + textAfterSelection
       el.setSelectionRange(caretStart + key.length, caretEnd + key.length)
     }
+
     el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: dispatchInputType }))
     el.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, key: key }))
     el.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: key }))
+    saveToHistory(el.id, el.value)
+    console.log(history.value)
   }
 }
 </script>
 
 <template>
-  <section id="keyboard">
+  <div id="keyboard">
     <template v-for="button in buttons" :key="`button-${button.value}`">
       <span
-        class="button"
+        :class="['button', button.cls]"
         @animationend="removeAnimation"
         @touchstart.prevent="handleTouchStart"
         @touchmove.prevent="handleTouchMove"
@@ -122,43 +160,72 @@ function insertCharacter(key: string) {
         v-html="button.html"
       ></span>
     </template>
-  </section>
+  </div>
 </template>
 
 <style scoped>
 #keyboard {
   grid-column: 1/4;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+  align-items: stretch;
+  justify-items: stretch;
   gap: 0.5ch;
 
   position: absolute;
   place-self: end center;
-  top: 8rem;
+  top: 6rem;
+  /* translate: 0 calc(100% + 2rem); */
 
-  margin-top: 1rem;
-  /* margin-inline: 3rem; */
+  padding-block: 1rem;
   border-radius: 1ch;
-  padding: 2ch;
-  /* width: 100%; */
+  width: min(100svw - 2ch, 25rem);
 
-  background-color: var(--bg-color);
-  font-size: 1.1em;
+  z-index: 1;
 }
 
-/* #keyboard button:nth-child(5n + 1) {
-  grid-column: 2/3;
-} */
-
-#keyboard button {
-  width: 100%;
+#keyboard .button {
+  width: auto;
+  height: 50px;
+  font-size: 1.5em;
+  line-height: 1;
+  background-color: var(--accent-lighter);
 }
 
-#keyboard button.clicked {
+#keyboard .digit {
+  background-color: var(--cta-color);
+}
+
+#keyboard .action {
+  background-color: var(--accent-light);
+}
+
+#keyboard .zero {
+  grid-column: span 2;
+}
+
+#keyboard .clear {
+  margin-bottom: 1ch;
+  background-color: var(--red-color);
+}
+
+#keyboard .exit {
+  grid-column: span 2;
+}
+
+#keyboard .empty {
+  visibility: hidden;
+}
+
+#keyboard .bottom-row {
+  margin-top: 1ch;
+}
+
+#keyboard .button.clicked {
   z-index: 999;
 }
 
-#keyboard button::after {
+#keyboard .button::after {
   content: '';
   position: absolute;
   z-index: 999;
@@ -166,7 +233,7 @@ function insertCharacter(key: string) {
   border-radius: 1ch;
 }
 
-#keyboard button.clicked::after {
+#keyboard .button.clicked::after {
   animation-name: noticable-click;
   animation-duration: 150ms;
 }

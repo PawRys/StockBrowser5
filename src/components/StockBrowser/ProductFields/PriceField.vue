@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { ref, computed, defineProps, inject, toRefs } from 'vue'
+import { ref, computed, inject, toRefs } from 'vue'
 import { useVatStore } from '@/stores/vatStore'
 import { calcPrice } from '@/exports/common_functions'
 

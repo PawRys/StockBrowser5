@@ -18,7 +18,13 @@ const refreshMainComponent = inject<Ref<number>>('refreshMainComponent')!
 
 const { listView } = storeToRefs(usePreferencesStore())
 
-const summaryDiff = (unit: string) => {
+const filteredTotal = (unit: string) => {
+  return useStockStore().items.reduce((acc: number, item: Plywood) => {
+    const totalUnitQuantity = calcQuant(item.size, item.quantityCubicTotal, 'm3', unit)
+    return acc + totalUnitQuantity
+  }, 0)
+}
+const filteredDiff = (unit: string) => {
   return useStockStore().items.reduce((acc: number, item: Plywood) => {
     const totalUnitInventory = calcQuant(item.size, item.inventoryCubicSum, 'm3', unit)
     const totalUnitQuantity = calcQuant(item.size, item.quantityCubicTotal, 'm3', unit)
@@ -62,7 +68,7 @@ function filledInventoryCount() {
 }
 
 function setFontColor(unit: 'm3' | 'm2' | 'szt') {
-  const val = summaryDiff(unit)
+  const val = filteredDiff(unit)
   let threshold = 0
 
   if (unit === 'm3') threshold = 0.01
@@ -74,10 +80,49 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
   if (val <= threshold) return 'red-font'
   return ''
 }
+
+const priceStats = () => {
+  const priceArray = useStockStore()
+    .items.filter((item: Plywood) => item.quantityStatus > 0 && item.purchase)
+    .map((item: Plywood) => item.purchase!)
+    .sort((a: number, b: number) => a - b)
+
+  const L = priceArray.length - 1
+  const result = {
+    min: priceArray[0],
+    // P05: priceArray[Math.round(L * 0.05)],
+    // P10: priceArray[Math.round(L * 0.1)],
+    // P25: priceArray[Math.round(L * 0.25)],
+    P50: priceArray[Math.round(L * 0.5)],
+    // P75: priceArray[Math.round(L * 0.75)],
+    // P90: priceArray[Math.round(L * 0.9)],
+    // P95: priceArray[Math.round(L * 0.95)],
+    max: priceArray[L]
+  }
+
+  // console.log(L, result)
+  return result
+}
 </script>
 
 <template>
-  <section class="list-summary" v-if="listView === 'inventory'">
+  <section class="sticky price-stats" v-if="listView === 'prices'">
+    <!-- {{ priceStats() }} -->
+    <table id="price-stats-table">
+      <tr>
+        <th v-for="(price, label, index) of priceStats()" :key="`price-${index}`">
+          {{ `${price?.toFixed(0) || 0}zł` }}
+        </th>
+      </tr>
+      <tr>
+        <td v-for="(price, label, index) of priceStats()" :key="`label-${index}`">
+          {{ label.match(/[A-Z]+/i)?.[0] ?? '' }}<sub>{{ label.match(/\d+/)?.[0] ?? '' }}</sub>
+        </td>
+      </tr>
+    </table>
+  </section>
+
+  <section class="sticky list-summary" v-if="listView === 'inventory'">
     <!-- <hr /> -->
     <div class="inventory-summary">
       <header>
@@ -96,23 +141,33 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
         </div>
       </header>
 
+      <span class="field">
+        {{ filteredTotal('m3').toFixed(3) }}<small>m<sup>3</sup></small>
+      </span>
+
+      <span class="field">
+        {{ filteredTotal('m2').toFixed(2) }}<small>m<sup>2</sup></small>
+      </span>
+
+      <span class="field"> {{ filteredTotal('szt').toFixed(1) }}<small>szt</small> </span>
+
       <span class="field" :class="setFontColor('m3')">
-        {{ summaryDiff('m3').toFixed(3) }}<small>m<sup>3</sup></small>
+        {{ filteredDiff('m3').toFixed(3) }}<small>m<sup>3</sup></small>
       </span>
 
       <span class="field" :class="setFontColor('m2')">
-        {{ summaryDiff('m2').toFixed(2) }}<small>m<sup>2</sup></small>
+        {{ filteredDiff('m2').toFixed(2) }}<small>m<sup>2</sup></small>
       </span>
 
       <span class="field" :class="setFontColor('szt')">
-        {{ summaryDiff('szt').toFixed(1) }}<small>szt</small>
+        {{ filteredDiff('szt').toFixed(1) }}<small>szt</small>
       </span>
     </div>
   </section>
 </template>
 
 <style scoped>
-.list-summary {
+.sticky {
   background: var(--bg2-color);
   padding: 1ch;
   width: 100%;
@@ -165,5 +220,24 @@ function setFontColor(unit: 'm3' | 'm2' | 'szt') {
 
 .list-summary .green-font::before {
   content: '+';
+}
+
+#price-stats-table {
+  width: 100%;
+  /* border: solid 1px silver; */
+}
+
+#price-stats-table {
+  text-align: center;
+}
+
+th,
+td {
+  border-right: solid 1px var(--accent-light);
+}
+
+th:last-child,
+td:last-child {
+  border-right: none;
 }
 </style>

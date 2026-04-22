@@ -170,10 +170,13 @@ function saveToXLSX(data: any[]) {
   XLSX.utils.book_append_sheet(workbook, worksheet, 'Inwentaryzacja')
   XLSX.writeFile(workbook, `Inwentaryzacja-${new Date().toJSON().split('T')[0]}.xlsx`)
 }
+
+// import MathKeyboard from '@/components/MathKeyboard.vue'
 </script>
 
 <template>
   <section id="stock-manager">
+    <!-- <MathKeyboard /> -->
     <h2>Zarządzaj bazą danych</h2>
 
     <div class="button-container">

@@ -3,7 +3,13 @@ import _ from 'lodash'
 import { ref, computed, watch, toRefs } from 'vue'
 import { useStockStore } from '@/stores/stockStore'
 import { setInventoryStatus, setQuantityStatus } from '@/exports/stockUpdateExports'
-import { evalMath, calcQuant, scrollTo } from '@/exports/common_functions'
+import {
+  evalMath,
+  prettierExpression,
+  calcQuant,
+  scrollTo,
+  escapeNonword
+} from '@/exports/common_functions'
 
 import MathKeyboard from '@/components/MathKeyboard.vue'
 
@@ -67,24 +73,10 @@ async function reduceUserInput(event: Event) {
   )
     ? true
     : false
+
   const target = event.target as HTMLInputElement
   const normalExpr = target.value
-  const resultExpr = removeChar
-    ? target.value
-    : target.value
-        .replace(/ {1,}/gi, '')
-        .replace(/([-+][0-9])/gi, ' $1')
-        .replace(/([0-9])([(])/gi, '$1*$2')
-        .replace(/([)])([0-9])/gi, '$1*$2')
-        .replace(/([)])([(])/gi, '$1*$2')
-
-  // const resultExpr = isBacksapce
-  //   ? target.value
-  //   : prettierExpression(target.value)
-  //       .replace(/ {1,}/gi, '')
-  //       .replace(/([-+]+[0-9])/gi, ' $1')
-
-  // const resultExpr = normalExpr
+  const resultExpr = removeChar ? target.value : prettierExpression(target.value)
 
   const offset = normalExpr.length - resultExpr.length
   const caretPosition = (target.selectionStart || 0) - offset
@@ -126,6 +118,7 @@ function scrollToParent(event: Event) {
 
   <div class="inventory-input" style="grid-column: 1 / -1" v-else>
     <textarea
+      :id="`id-${escapeNonword(String(item.id))}-${unit}`"
       rows="1"
       inputmode="none"
       class="user-input"
@@ -143,6 +136,7 @@ function scrollToParent(event: Event) {
       {{ evalMath(userInput as string).toFixed(zeroFix) }}
       <small v-html="unitLabel"></small>
     </span>
+
     <MathKeyboard v-if="isEdited" />
   </div>
 </template>
@@ -187,7 +181,8 @@ function scrollToParent(event: Event) {
   width: 100%;
   min-height: fit-content;
   text-align: right;
-  max-height: 6rem;
+  max-height: calc(2em * 1.4);
+  line-height: 1.5;
   overflow: auto;
 
   white-space: pre-wrap; /* Keep spacing and allow wrapping */
