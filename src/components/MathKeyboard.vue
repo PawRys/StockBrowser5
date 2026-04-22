@@ -141,8 +141,8 @@ function insertCharacter(key: string) {
     el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: dispatchInputType }))
     el.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, key: key }))
     el.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: key }))
-    saveToHistory(el.id, el.value)
-    console.log(history.value)
+    // saveToHistory(el.id, el.value)
+    // console.log(history.value)
   }
 }
 </script>
