@@ -111,7 +111,7 @@ export function evalMath(expr: string): number {
   expr = prettierExpression(expr)
   expr = expr.replace(/[(] *\D?$/gi, '(1')
   const regexpParenthesis = /\(([^()]+)\)/i
-  const regexpMultiply = /\d+(\.\d+)?[*/] +[+-]?\d+(\.\d+)?/i
+  const regexpMultiply = /\d+(\.\d+)?[*/] {0,}[+-]?\d+(\.\d+)?/i
   const regexpAddition = /[+-]?\d+(\.\d+)?/gi
   const isParenthesis = expr.match(regexpParenthesis)
   const isMultiply = expr.match(regexpMultiply)
