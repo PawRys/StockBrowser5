@@ -75,50 +75,46 @@ export function scrollTo(element: string, pxOffset: number) {
 
 export function prettierExpression(expr: string): string {
   expr = expr.replace(/,/gi, '.')
-  expr = expr.replace(/ {1,}/gi, '')
-  expr = expr.replace(/[^-+*/.0-9()@#$%&= ]/gi, '')
+  expr = expr.replace(/[^0-9+\-*/().]/g, '')
   while (/[-+][-+]|[/*][/*]/.test(expr)) {
     expr = expr.replace(/\+-/, '-')
     expr = expr.replace(/-\+|--|\+\+/, '+')
     expr = expr.replace(/\/\*|\*\*/, '*')
     expr = expr.replace(/\*\/|\/\//, '/')
-    //   expr = expr.replace(/[-+] ?([/*])/, '$1')
-    //   expr = expr.replace(/[/*] ?([-+])/, '$1')
   }
   expr = expr.replace(/(^|\D)([.][0-9])/gi, '$10$2')
   expr = expr.replace(/([0-9])([(])/gi, '$1*$2')
   expr = expr.replace(/([)])([0-9])/gi, '$1*$2')
   expr = expr.replace(/([)])([(])/gi, '$1*$2')
   expr = expr.replace(/([0-9])[ ]+([0-9])/gi, '$1$2')
-  // expr = expr.replace(/([-+/*]) {0,}[-+/*]{1,}/, '$1')
-  // expr = expr.replace(/[-+/*]{1,} {0,}([-+/*])/, '$1')
   expr = expr.replace(/([-+][0-9])/gi, ' $1')
   return expr
 }
 
-export function evalMath(expr: string): number {
-  function calcMultiply(exp: string) {
+export function evalMath(expression: string): number {
+  function calcMultiplication(exp: string) {
     const [numA, numB] = exp.split(/[*/]/)
     const a: number = Number(numA)
     const b: number = Number(numB)
     return /\*/.test(exp) ? a * b : a / b
   }
 
-  console.log(expr)
-  expr = expr ? expr : ''
-  expr = expr.replace(/\(\)|[@#$%&= ]|\u200B/gi, '') // remove unwanted chars
-  expr = expr.replace(/\B\.\B/gi, '0')
+  let expr = expression ? expression : ''
   expr = prettierExpression(expr)
-  expr = expr.replace(/[(] *\D?$/gi, '(1')
-  const regexpParenthesis = /\(([^()]+)\)/i
-  const regexpMultiply = /\d+(\.\d+)?[*/] {0,}[+-]?\d+(\.\d+)?/i
-  const regexpAddition = /[+-]?\d+(\.\d+)?/gi
-  const isParenthesis = expr.match(regexpParenthesis)
-  const isMultiply = expr.match(regexpMultiply)
-  const isAddition: null | (string | number)[] = expr.match(regexpAddition)
+  expr = expr.replace(/[^0-9+\-*/().]/g, '') // remove unwanted chars
+  expr = expr.replace(/[/*]\( *\D?$/gi, '(1') // closure to prevent result to be zero when expression ends with parenthesis
+  expr = expr.replace(/([-+])$/gi, '$10') // closure to prevent result to be zero when expression ends with operator
+  console.log(expr)
+
+  const regexParenthesis = /\(([^()]+)\)/i
+  const regexMultiplication = /\d+(\.\d+)?[*/] {0,}[+-]?\d+(\.\d+)?/i
+  const regexAddition = /[+-]?\d+(\.\d+)?/gi
+  const isParenthesis = expr.match(regexParenthesis)
+  const isMultiplication = expr.match(regexMultiplication)
+  const isAddition: null | (string | number)[] = expr.match(regexAddition)
 
   if (isParenthesis) {
-    const evalParenthesis = expr.replace(regexpParenthesis, evalMath(isParenthesis[1]).toString())
+    const evalParenthesis = expr.replace(regexParenthesis, evalMath(isParenthesis[1]).toString())
     return evalMath(evalParenthesis)
   }
 
@@ -130,9 +126,12 @@ export function evalMath(expr: string): number {
     return evalMath(`(0+${expr}`)
   }
 
-  if (isMultiply) {
-    const evalMultiply = expr.replace(regexpMultiply, calcMultiply(isMultiply[0]).toString())
-    return evalMath(evalMultiply)
+  if (isMultiplication) {
+    const evalMultiplication = expr.replace(
+      regexMultiplication,
+      calcMultiplication(isMultiplication[0]).toString()
+    )
+    return evalMath(evalMultiplication)
   }
 
   const finalResult = isAddition ? isAddition.reduce((acc, curr) => Number(curr) + Number(acc)) : 0
