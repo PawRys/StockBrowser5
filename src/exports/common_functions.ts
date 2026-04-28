@@ -76,18 +76,12 @@ export function scrollTo(element: string, pxOffset: number) {
 export function prettierExpression(expr: string): string {
   expr = expr.replace(/,/gi, '.')
   expr = expr.replace(/[^0-9+\-*/().]/g, '')
-  while (/[-+][-+]|[/*][/*]/.test(expr)) {
-    expr = expr.replace(/\+-/, '-')
-    expr = expr.replace(/-\+|--|\+\+/, '+')
-    expr = expr.replace(/\/\*|\*\*/, '*')
-    expr = expr.replace(/\*\/|\/\//, '/')
-  }
   expr = expr.replace(/(^|\D)([.][0-9])/gi, '$10$2')
   expr = expr.replace(/([0-9])([(])/gi, '$1*$2')
   expr = expr.replace(/([)])([0-9])/gi, '$1*$2')
   expr = expr.replace(/([)])([(])/gi, '$1*$2')
   expr = expr.replace(/([0-9])[ ]+([0-9])/gi, '$1$2')
-  expr = expr.replace(/([-+][0-9])/gi, ' $1')
+  expr = expr.replace(/([-+]+[0-9])/gi, ' $1')
   return expr
 }
 
@@ -101,6 +95,12 @@ export function evalMath(expression: string): number {
 
   let expr = expression ? expression : ''
   expr = prettierExpression(expr)
+  while (/[-+][-+]|[/*][/*]/.test(expr)) {
+    expr = expr.replace(/-\+|\+-/, '-')
+    expr = expr.replace(/--|\+\+/, '+')
+    expr = expr.replace(/\/\*|\*\*/, '*')
+    expr = expr.replace(/\*\/|\/\//, '/')
+  }
   expr = expr.replace(/[^0-9+\-*/().]/g, '') // remove unwanted chars
   expr = expr.replace(/[/*]\( *\D?$/gi, '(1') // closure to prevent result to be zero when expression ends with parenthesis
   expr = expr.replace(/([-+])$/gi, '$10') // closure to prevent result to be zero when expression ends with operator
