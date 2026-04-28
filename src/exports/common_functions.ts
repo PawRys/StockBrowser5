@@ -106,7 +106,7 @@ export function evalMath(expression: string): number {
   expr = expr.replace(/([-+])$/gi, '$10') // closure to prevent result to be zero when expression ends with operator
   console.log(expr)
 
-  const regexParenthesis = /\(([^()]+)\)/i
+  const regexParenthesis = /\(([^()]+|())\)/i
   const regexMultiplication = /\d+(\.\d+)?[*/] {0,}[+-]?\d+(\.\d+)?/i
   const regexAddition = /[+-]?\d+(\.\d+)?/gi
   const isParenthesis = expr.match(regexParenthesis)
