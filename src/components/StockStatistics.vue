@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { escapeNonword } from '@/exports/common_functions'
 
 const stockList = JSON.parse(localStorage.getItem('SB5_stockList') || '[]')
@@ -239,6 +239,38 @@ const priceStats = {
   P95: prices[Math.round(L * 0.95)],
   max: prices[L - 1]
 }
+
+const sizeMap = ref<Record<string, string>>({})
+
+const sortKey = ref<'key' | 'value'>('key')
+const sortAsc = ref(true)
+
+onMounted(async () => {
+  const res = await fetch(
+    'https://raw.githubusercontent.com/PawRys/shared-assets/master/smetek-kody.json'
+  )
+  sizeMap.value = await res.json()
+})
+
+const sortedEntries = computed(() => {
+  return Object.entries(sizeMap.value).sort(([aKey, aVal], [bKey, bVal]) => {
+    const a = sortKey.value === 'key' ? aKey : aVal
+    const b = sortKey.value === 'key' ? bKey : bVal
+
+    return sortAsc.value
+      ? a.localeCompare(b, undefined, { numeric: true })
+      : b.localeCompare(a, undefined, { numeric: true })
+  })
+})
+
+function sortBy(key: 'key' | 'value') {
+  if (sortKey.value === key) {
+    sortAsc.value = !sortAsc.value // odwróć kierunek
+  } else {
+    sortKey.value = key
+    sortAsc.value = true
+  }
+}
 </script>
 
 <template>
@@ -292,6 +324,37 @@ const priceStats = {
         </th>
         <td>{{ `${price.toFixed(2)}zł` }}</td>
       </tr>
+    </table>
+  </section>
+
+  <section class="size-map">
+    <h2>Tabela kodów</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th @click="sortBy('key')" style="cursor: pointer">
+            Kod
+            <span v-if="sortKey === 'key'">
+              {{ sortAsc ? '▲' : '▼' }}
+            </span>
+          </th>
+
+          <th @click="sortBy('value')" style="cursor: pointer">
+            Wymiary
+            <span v-if="sortKey === 'value'">
+              {{ sortAsc ? '▲' : '▼' }}
+            </span>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr v-for="[key, value] in sortedEntries" :key="key">
+          <td>{{ key }}</td>
+          <td>{{ value }}</td>
+        </tr>
+      </tbody>
     </table>
   </section>
 </template>
@@ -356,5 +419,13 @@ td > div > :first-child {
 
 #price-table td {
   text-align: center;
+}
+
+.size-map tr {
+  font-family: monospace;
+}
+
+.size-map tr:hover {
+  background-color: var(--cta-color);
 }
 </style>
