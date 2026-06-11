@@ -451,6 +451,12 @@ td > div > :first-child {
   text-align: center;
 }
 
+#size-map thead {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+}
+
 #size-map td {
   font-family: monospace;
 }
@@ -461,12 +467,5 @@ td > div > :first-child {
 
 #size-map .same-prev {
   text-decoration: line-through;
-  /* text-decoration-thickness: 2px; */
-  /* text-decoration-color: var(--red-color); */
 }
-
-/* #size-map .same-prev ::after {
-  content: 'duplikat';
-  text-decoration: none;
-} */
 </style>
