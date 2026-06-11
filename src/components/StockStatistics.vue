@@ -2,6 +2,10 @@
 import { ref, computed, onMounted } from 'vue'
 import { escapeNonword } from '@/exports/common_functions'
 
+/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * STOCK STATS
+ */
+
 const stockList = JSON.parse(localStorage.getItem('SB5_stockList') || '[]')
 const collator = new Intl.Collator(undefined, {
   usage: 'sort',
@@ -223,6 +227,10 @@ function showHTML(rowFilter: Function, colFilter: Function) {
   return `${result}<small>m<sup>3</sup></small>`
 }
 
+/** PRICE STATS
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+
 const prices = stockList
   .filter((item: Plywood) => item.quantityStatus > 0 && item.purchase)
   .map((item: Plywood) => item.purchase!)
@@ -239,6 +247,10 @@ const priceStats = {
   P95: prices[Math.round(L * 0.95)],
   max: prices[L - 1]
 }
+
+/** SIZE MAP
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
 
 const sizeMap = ref<Record<string, string>>({})
 
@@ -270,6 +282,17 @@ function sortBy(key: 'key' | 'value') {
     sortKey.value = key
     sortAsc.value = true
   }
+}
+sortBy('value')
+
+const hasSameAsPrev = (index: number) => {
+  if (index === 0) return false
+  return sortedEntries.value[index][1] === sortedEntries.value[index - 1][1]
+}
+
+const hasSameAsNext = (index: number) => {
+  if (index === sortedEntries.value.length - 1) return false
+  return sortedEntries.value[index][1] === sortedEntries.value[index + 1][1]
 }
 </script>
 
@@ -327,8 +350,8 @@ function sortBy(key: 'key' | 'value') {
     </table>
   </section>
 
-  <section class="size-map">
-    <h2>Tabela kodów</h2>
+  <section id="size-map">
+    <h2>Tabela kodów {{ `(${sortedEntries.length})` }}</h2>
 
     <table>
       <thead>
@@ -350,7 +373,14 @@ function sortBy(key: 'key' | 'value') {
       </thead>
 
       <tbody>
-        <tr v-for="[key, value] in sortedEntries" :key="key">
+        <tr
+          v-for="([key, value], index) in sortedEntries"
+          :key="key"
+          :class="{
+            'same-prev': hasSameAsPrev(index),
+            'same-next': hasSameAsNext(index)
+          }"
+        >
           <td>{{ key }}</td>
           <td>{{ value }}</td>
         </tr>
@@ -421,11 +451,22 @@ td > div > :first-child {
   text-align: center;
 }
 
-.size-map tr {
+#size-map td {
   font-family: monospace;
 }
 
-.size-map tr:hover {
+#size-map tr:hover {
   background-color: var(--cta-color);
 }
+
+#size-map .same-prev {
+  text-decoration: line-through;
+  /* text-decoration-thickness: 2px; */
+  /* text-decoration-color: var(--red-color); */
+}
+
+/* #size-map .same-prev ::after {
+  content: 'duplikat';
+  text-decoration: none;
+} */
 </style>
