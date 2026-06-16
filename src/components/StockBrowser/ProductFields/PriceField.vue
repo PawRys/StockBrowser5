@@ -21,26 +21,60 @@ const isVatStoreKey = (key: string): key is VatStoreKeys =>
   ['m3', 'm2', 'szt', 'vatValue'].includes(key)
 
 const computedPrice = computed(() => {
-  const vat = isVatStoreKey(unit) && useVatStore()[unit] ? useVatStore().vatValue : 1
+  const vat_key = unit.match(/m3|m2|szt/)![0] as 'm3' | 'm2' | 'szt'
+  const vat = isVatStoreKey(vat_key) && useVatStore()[vat_key] ? useVatStore().vatValue : 1
   let result = 0
-  if (unit.match(/purchase/)) result = purchase
-  if (unit.match(/m3|m2|szt/))
+
+  if (unit.match(/purchase/)) {
+    result = purchase
+  }
+
+  if (unit.match(/m3|m2|szt/)) {
     result = calcPrice(item.value.size, basePrice.value, 'm3', unit) * vat
-  if (unit.match(/marg/)) result = basePrice.value - purchase
-  if (unit.match(/perc/)) result = ((basePrice.value - purchase) / purchase) * 100
-  if (isNaN(result) || !isFinite(result)) result = 0
+  }
+
+  if (unit.match(/marg_m3|marg_m2|marg_szt/)) {
+    const marg_unit = unit.match(/m3|m2|szt/)![0]
+    result = calcPrice(item.value.size, basePrice.value - purchase, 'm3', marg_unit) * vat
+  }
+
+  // if (unit.match(/marg/)) {
+  //   result = basePrice.value - purchase
+  // }
+
+  if (unit.match(/perc/)) {
+    result = ((basePrice.value - purchase) / purchase) * 100
+  }
+
+  if (isNaN(result) || !isFinite(result)) {
+    result = 0
+  }
   return result
 })
 
 function updateBasePrice(event: Event) {
-  const vat = isVatStoreKey(unit) && useVatStore()[unit] ? useVatStore().vatValue : 1
+  const vat_key = unit.match(/m3|m2|szt/)![0] as 'm3' | 'm2' | 'szt'
+  const vat = isVatStoreKey(vat_key) && useVatStore()[vat_key] ? useVatStore().vatValue : 1
   const target = event.target as HTMLInputElement
   const inputVal = target.value.replace(',', '.')
   userInput.value = inputVal
-  if (unit.match(/m3|m2|szt/))
+
+  if (unit.match(/m3|m2|szt/)) {
     basePrice.value = calcPrice(item.value.size, Number(inputVal), unit, 'm3') / vat
-  if (unit.match(/marg/)) basePrice.value = Number(inputVal) + purchase
-  if (unit.match(/perc/)) basePrice.value = (Number(inputVal) / 100 + 1) * purchase
+  }
+
+  if (unit.match(/marg_m3|marg_m2|marg_szt/)) {
+    const marg_unit = unit.match(/m3|m2|szt/)![0]
+    const calculation = calcPrice(item.value.size, Number(inputVal), marg_unit, 'm3')
+    basePrice.value = calculation / vat + purchase
+    console.log(vat)
+  }
+
+  // if (unit.match(/marg/)) basePrice.value = Number(inputVal) + purchase
+
+  if (unit.match(/perc/)) {
+    basePrice.value = (Number(inputVal) / 100 + 1) * purchase
+  }
 }
 
 const preFix = computed(() => {
@@ -71,14 +105,16 @@ function keyguard(event: KeyboardEvent): void {
 function fontColor(): string {
   const threshold = 1
   const priceDiff = basePrice.value - purchase
-  if (unit.match(/purchase/)) return ''
-  if (priceDiff >= threshold) return 'green-font'
-  if (priceDiff <= threshold * -1) return 'red-font'
+  if (unit.match(/marg/)) {
+    if (priceDiff >= threshold) return 'green-font'
+    if (priceDiff <= threshold * -1) return 'red-font'
+  }
   return ''
 }
 
 function vatApplied(): string {
-  return isVatStoreKey(unit) && useVatStore()[unit] ? 'vat-applied' : ''
+  const vat_key = unit.match(/m3|m2|szt/)![0] as 'm3' | 'm2' | 'szt'
+  return isVatStoreKey(vat_key) && useVatStore()[vat_key] ? 'vat-applied' : ''
 }
 </script>
 

@@ -40,6 +40,7 @@ function applyFocus(el: HTMLElement) {
       <span class="grey-font">{{ index }}.</span>
       <span class="grey-font item-id">{{ item.id }}</span>
       <span class="item-purchase" v-html="`${itemPurchase}`"> </span>
+      <!-- <Price class="price-perc-off" :item="item" :unit="'perc'" v-if="listView === 'prices'" /> -->
     </span>
 
     <span class="item-heading-2">
@@ -64,14 +65,9 @@ function applyFocus(el: HTMLElement) {
     <Price class="price-m3" :item="item" :unit="'m3'" v-if="listView === 'prices'" />
     <Price class="price-m2" :item="item" :unit="'m2'" v-if="listView === 'prices'" />
     <Price class="price-szt" :item="item" :unit="'szt'" v-if="listView === 'prices'" />
-    <Price class="price-purchase" :item="item" :unit="'purchase'" v-if="listView === 'prices'" />
-    <!-- <span
-      class="price-purchase field"
-      v-html="`${itemPurchase}`"
-      v-if="listView === 'prices'"
-    ></span> -->
-    <Price class="price-marg" :item="item" :unit="'marg'" v-if="listView === 'prices'" />
-    <Price class="price-perc" :item="item" :unit="'perc'" v-if="listView === 'prices'" />
+    <Price class="price-marg_m3" :item="item" :unit="'marg_m3'" v-if="listView === 'prices'" />
+    <Price class="price-marg_m2" :item="item" :unit="'marg_m2'" v-if="listView === 'prices'" />
+    <Price class="price-marg_szt" :item="item" :unit="'marg_szt'" v-if="listView === 'prices'" />
 
     <div class="item-warn" v-if="item.size === '(?)'">
       <span>
@@ -243,6 +239,15 @@ function applyFocus(el: HTMLElement) {
 }
 .price-marg {
   grid-area: B3;
+}
+.price-marg_m3 {
+  grid-area: A3;
+}
+.price-marg_m2 {
+  grid-area: B3;
+}
+.price-marg_szt {
+  grid-area: C3;
 }
 .price-perc {
   grid-area: C3;
