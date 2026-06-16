@@ -70,7 +70,7 @@ function updateBasePrice(event: Event) {
 }
 
 const preFix = computed(() => {
-  if (unit.match(/marg|perc/) && computedPrice.value > 0) return '+'
+  if (unit.match(/marg|perc/) && computedPrice.value >= 0) return '+'
   return ''
 })
 
@@ -112,8 +112,8 @@ function vatApplied(): string {
 <template>
   <div
     class="price-display field"
-    v-if="!isEdited || unit.match(/purchase/)"
-    :contenteditable="!unit.match(/purchase/)"
+    v-if="!isEdited || unit.match(/marg/)"
+    :contenteditable="!unit.match(/marg/)"
     :class="[fontColor(), vatApplied()]"
     @focus="isEdited = true"
   >
