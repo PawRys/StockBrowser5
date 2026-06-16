@@ -16,13 +16,13 @@ const basePrice = inject<Ref<number>>('basePrice')!
 const isEdited = ref(false)
 const userInput = ref()
 
-type VatStoreKeys = 'm3' | 'm2' | 'szt' | 'vatValue'
-const isVatStoreKey = (key: string): key is VatStoreKeys =>
-  ['m3', 'm2', 'szt', 'vatValue'].includes(key)
+const vatStore = useVatStore()
+type VatKey = 'm3' | 'm2' | 'szt'
+
+const vat_key = (unit.match(/m3|m2|szt/)?.[0] || 'm3') as VatKey
+const vat = vatStore[vat_key] ? vatStore.vatValue : 1
 
 const computedPrice = computed(() => {
-  const vat_key = unit.match(/m3|m2|szt/)![0] as 'm3' | 'm2' | 'szt'
-  const vat = isVatStoreKey(vat_key) && useVatStore()[vat_key] ? useVatStore().vatValue : 1
   let result = 0
 
   if (unit.match(/purchase/)) {
@@ -38,10 +38,6 @@ const computedPrice = computed(() => {
     result = calcPrice(item.value.size, basePrice.value - purchase, 'm3', marg_unit) * vat
   }
 
-  // if (unit.match(/marg/)) {
-  //   result = basePrice.value - purchase
-  // }
-
   if (unit.match(/perc/)) {
     result = ((basePrice.value - purchase) / purchase) * 100
   }
@@ -53,8 +49,6 @@ const computedPrice = computed(() => {
 })
 
 function updateBasePrice(event: Event) {
-  const vat_key = unit.match(/m3|m2|szt/)![0] as 'm3' | 'm2' | 'szt'
-  const vat = isVatStoreKey(vat_key) && useVatStore()[vat_key] ? useVatStore().vatValue : 1
   const target = event.target as HTMLInputElement
   const inputVal = target.value.replace(',', '.')
   userInput.value = inputVal
@@ -69,8 +63,6 @@ function updateBasePrice(event: Event) {
     basePrice.value = calculation / vat + purchase
     console.log(vat)
   }
-
-  // if (unit.match(/marg/)) basePrice.value = Number(inputVal) + purchase
 
   if (unit.match(/perc/)) {
     basePrice.value = (Number(inputVal) / 100 + 1) * purchase
@@ -105,16 +97,15 @@ function keyguard(event: KeyboardEvent): void {
 function fontColor(): string {
   const threshold = 1
   const priceDiff = basePrice.value - purchase
-  if (unit.match(/marg/)) {
-    if (priceDiff >= threshold) return 'green-font'
-    if (priceDiff <= threshold * -1) return 'red-font'
-  }
+  // if (unit.match(/marg|perc/)) {
+  if (priceDiff >= threshold) return 'green-font'
+  if (priceDiff <= threshold * -1) return 'red-font'
+  // }
   return ''
 }
 
 function vatApplied(): string {
-  const vat_key = unit.match(/m3|m2|szt/)![0] as 'm3' | 'm2' | 'szt'
-  return isVatStoreKey(vat_key) && useVatStore()[vat_key] ? 'vat-applied' : ''
+  return vatStore[vat_key] ? 'vat-applied' : ''
 }
 </script>
 

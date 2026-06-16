@@ -40,7 +40,7 @@ function applyFocus(el: HTMLElement) {
       <span class="grey-font">{{ index }}.</span>
       <span class="grey-font item-id">{{ item.id }}</span>
       <span class="item-purchase" v-html="`${itemPurchase}`"> </span>
-      <!-- <Price class="price-perc-off" :item="item" :unit="'perc'" v-if="listView === 'prices'" /> -->
+      <Price class="price-perc-off" :item="item" :unit="'perc'" v-if="listView === 'prices'" />
     </span>
 
     <span class="item-heading-2">
