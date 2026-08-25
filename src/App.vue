@@ -11,6 +11,8 @@ import StockUpdate from '@/components/StockUpdate.vue'
 import StockShare from '@/components/StockShare.vue'
 import StockManager from '@/components/StockManager.vue'
 import DataStats from '@/components/StockBrowser/DataStats.vue'
+import MyApps from '@/components/MyApps.vue'
+
 
 const refreshMainComponent = ref(0)
 provide('refreshMainComponent', refreshMainComponent)
@@ -47,13 +49,7 @@ const fill = (id: string) => (usePreferencesStore().activeWindow === id ? '-fill
 
 <template>
   <header>
-    <p class="other-sites">
-      <a href="https://pawrys.github.io/StockBrowser5/">Stany</a>
-      <span> / </span>
-      <a href="https://pawrys.github.io/LabelGenerator/">Etykiety</a>
-      <span> / </span>
-      <a href="https://pawrys.github.io/PurchaseComparator/">Tester</a>
-    </p>
+    <p class="other-sites"><MyApps /></p>
 
     <div class="menu-bar">
       <button
