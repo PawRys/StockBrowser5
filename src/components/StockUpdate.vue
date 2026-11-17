@@ -89,6 +89,8 @@ async function submit(e: Event): Promise<void> {
 <template>
   <section id="stock-update" class="stock-update--backdrop">
     <h2>Wczytywanie danych</h2>
+    <p>Wklej stany z Symfonii lub kod udostępniania.</p>
+
     <form id="myform" @submit.prevent="submit">
       <textarea
         id="text-box"
